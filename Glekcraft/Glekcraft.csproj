@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <RootNamespace>Glekcraft</RootNamespace>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
