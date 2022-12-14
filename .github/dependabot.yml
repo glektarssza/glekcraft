@@ -1,6 +1,8 @@
 version: 2
 updates:
   - directory: /
-    packageEcosystem: nuget
+    package-ecosystem: nuget
+    labels:
+      - 'Type: Dependency'
     schedule:
       interval: daily
