@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://github.com/dotnet/msbuild/raw/main/src/MSBuild/MSBuild/Microsoft.Build.Core.xsd" type="application/xml" schematypens="http://schemas.microsoft.com/developer/msbuild/2003"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
