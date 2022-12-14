@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",
+        "formulahendry.dotnet-test-explorer",
+        "josephwoodward.vscodeilviewer",
+        "k--kato.docomment",
+        "ms-vscode.mono-debug",
+        "tintoy.msbuild-project-tools"
+    ]
+}
