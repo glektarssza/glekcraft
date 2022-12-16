@@ -50,7 +50,8 @@ public sealed class Program {
             window.SwapBuffers();
         };
         window.Closing += () => {
-            // TODO: Tear down OpenGL
+            gl?.Dispose();
+            gl = null;
         };
         window.Run();
     }
