@@ -1,11 +1,5 @@
 namespace Glekcraft;
 
-using System.Drawing;
-
-using Silk.NET.Input;
-using Silk.NET.OpenGL;
-using Silk.NET.Windowing;
-
 /// <summary>
 /// The class containing the program entry point.
 /// </summary>
