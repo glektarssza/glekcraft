@@ -19,9 +19,9 @@ public sealed class Game : IDisposable {
     }
 
     /// <summary>
-    /// The OpenGL context.
+    /// The renderer.
     /// </summary>
-    public GL? GL {
+    public Renderer? Renderer {
         get;
         private set;
     }
@@ -83,7 +83,7 @@ public sealed class Game : IDisposable {
             Window.Center();
             Window.IsVisible = true;
             Input = Window.CreateInput();
-            GL = GL.GetApi(Window);
+            Renderer = new(GL.GetApi(Window));
         };
         Window.Update += (deltaTime) => {
             for (var i = 0; i < (Input?.Keyboards.Count ?? 0); i++) {
@@ -94,16 +94,16 @@ public sealed class Game : IDisposable {
             }
         };
         Window.Render += (deltaTime) => {
-            GL?.Viewport(0, 0, (uint)Window.Size.X, (uint)Window.Size.Y);
-            GL?.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            Renderer?.GL.Viewport(0, 0, (uint)Window.Size.X, (uint)Window.Size.Y);
+            Renderer?.GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             // TODO
             Window.SwapBuffers();
         };
         Window.Closing += () => {
             Input?.Dispose();
             Input = null;
-            GL?.Dispose();
-            GL = null;
+            Renderer?.Dispose();
+            Renderer = null;
         };
     }
 
