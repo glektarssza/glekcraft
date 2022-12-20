@@ -83,7 +83,7 @@ public sealed class Game : IDisposable {
             Window.Center();
             Window.IsVisible = true;
             Input = Window.CreateInput();
-            Renderer = new(GL.GetApi(Window));
+            Renderer = new(this, GL.GetApi(Window));
         };
         Window.Update += (deltaTime) => {
             for (var i = 0; i < (Input?.Keyboards.Count ?? 0); i++) {
@@ -137,6 +137,8 @@ public sealed class Game : IDisposable {
             return;
         }
         if (managed) {
+            Renderer?.Dispose();
+            Renderer = null;
             Window?.Dispose();
             Window = null;
         }

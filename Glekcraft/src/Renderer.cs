@@ -1,6 +1,7 @@
 namespace Glekcraft;
 
 using Silk.NET.OpenGL;
+using Silk.NET.Windowing;
 
 public class Renderer : IDisposable {
     #region Public Properties
@@ -21,6 +22,14 @@ public class Renderer : IDisposable {
         private set;
     }
 
+    /// <summary>
+    /// The game this renderer belongs to.
+    /// </summary>
+    public Game Game {
+        get;
+        private set;
+    }
+
     #endregion
 
     #region Constructors/Finalizer
@@ -28,11 +37,16 @@ public class Renderer : IDisposable {
     /// <summary>
     /// Create a new instance.
     /// </summary>
+    /// <param name="game">
+    /// The game this renderer belongs to.
+    /// </param>
     /// <param name="gl">
     /// The OpenGL context.
     /// </param>
-    public Renderer(GL gl) =>
+    public Renderer(Game game, GL gl) {
         GL = gl;
+        Game = game;
+    }
 
     /// <summary>
     /// The finalizer.
@@ -43,6 +57,16 @@ public class Renderer : IDisposable {
     #endregion
 
     #region Public Methods
+
+    /// <summary>
+    /// Render the game.
+    /// </summary>
+    public void Render() {
+        GL.Viewport(0, 0, (uint)(Game.Window?.Size.X ?? 0), (uint)(Game.Window?.Size.Y ?? 0));
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        // TODO: Render scene
+        Game.Window?.SwapBuffers();
+    }
 
     /// <summary>
     /// Dispose of this instance.
