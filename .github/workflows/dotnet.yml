@@ -1,0 +1,56 @@
+name: dotnet
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build
+    runs-on: ${{matrix.os}}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: true
+      matrix:
+        configuration:
+          - Release
+          - Debug
+        os:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v3
+      - id: setup-dotnet
+        name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.x
+      - id: cache-dotnet
+        name: Cache .NET
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{runner.os}}-nuget-${{hashFiles('**/packages.lock.json')}}
+          restore-keys: |
+            ${{runner.os}}-nuget-
+      - id: restore
+        name: Restore
+        run: dotnet restore
+      - id: build
+        name: Build
+        run: dotnet build --configuration ${{matrix.configuration}} --no-restore
+      - id: stage-artifacts
+        name: Stage Artifacts
+        run: dotnet publish --output ${{github.workspace}}/artifacts --configuration ${{matrix.configuration}} --no-build
+      - id: publish-artifacts
+        name: Publish Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{matrix.configuration}}-${{matrix.os}}
+          path: ${{github.workspace}}/artifacts
