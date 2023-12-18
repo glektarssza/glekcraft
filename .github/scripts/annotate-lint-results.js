@@ -1,6 +1,6 @@
 const fsp = require('node:fs/promises');
 
-module.exports = async ({ github, context, glob, result }) => {
+module.exports = async ({ github, context, glob, core, result }) => {
     const g = await glob.create('**/format-report.json');
     const paths = await g.glob();
     const fileData = [];
@@ -46,4 +46,7 @@ module.exports = async ({ github, context, glob, result }) => {
             annotations
         }
     });
+    if (result !== 'success') {
+        core.setFailed('Lint step found and would have fixed some issues');
+    }
 };
