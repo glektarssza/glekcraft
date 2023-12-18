@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net8.0": {
+      "Ultz.Native.GLFW": {
+        "type": "Direct",
+        "requested": "[3.3.9.2, )",
+        "resolved": "3.3.9.2",
+        "contentHash": "4b7gJEfMZcw207CZkFV3VUBagmHlX9jYVkk1mrzacnAOgr90JoZSILTEFPc5lz5LT7yFKxQnsnqqIsFnVO7k/Q=="
+      }
+    }
+  }
+}

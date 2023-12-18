@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - directory: /
+    package-ecosystem: nuget
+    allow:
+      - dependency-type: direct
+    schedule:
+      interval: weekly
+      day: wednesday
+      time: "12:00"
+      timezone: Canada/Mountain
