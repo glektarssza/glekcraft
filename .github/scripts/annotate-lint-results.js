@@ -9,8 +9,9 @@ module.exports = async ({ github, context, glob, result }) => {
         const d = await fsp.readFile(p, 'utf-8');
         fileData.push(...JSON.parse(d));
     }
-    const annotations = fileData.map((file) => {
-        return file.FileChanges.map((change) => {
+    const annotations = [];
+    fileData.map((file) => {
+        annotations.push(...file.FileChanges.map((change) => {
             let annotation_level;
             if (change.FormatDescription.startsWith('warning')) {
                 annotation_level = 'warning';
@@ -28,7 +29,7 @@ module.exports = async ({ github, context, glob, result }) => {
                 annotation_level,
                 message: change.FormatDescription
             };
-        });
+        }));
     });
     await github.rest.checks.create({
         owner: context.repo.owner,
