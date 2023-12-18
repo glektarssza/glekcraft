@@ -4,21 +4,11 @@ on:
     branches:
       - main
 jobs:
-  build:
-    name: Build
-    runs-on: ${{matrix.build-os}}
+  lint:
+    name: Test
+    runs-on: ubuntu-latest
     permissions:
       contents: read
-    strategy:
-      fail-fast: true
-      matrix:
-        build-os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-        build-config:
-          - Debug
-          - Release
     steps:
       - id: checkout-repository
         name: Checkout repository
@@ -33,9 +23,10 @@ jobs:
       - id: restore-dotnet-dependencies
         name: Restore .NET dependencies
         run: dotnet restore
-      - id: build-dotnet-projects
-        name: Build .NET projects
-        run: dotnet build --no-restore --configuration ${{matrix.build-config}}
+      - id: lint-dotnet-projects
+        name: Lint .NET projects
+        run: dotnet format --no-restore --verify-no-changes
+      # TODO: At some point we need to parse the report JSON and annotate
   test:
     name: Test
     runs-on: ${{matrix.build-os}}
