@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   lint:
-    name: Test
+    name: Lint
     runs-on: ubuntu-latest
     permissions:
       contents: read
