@@ -24,6 +24,7 @@ module.exports = async ({ github, context, glob, result }) => {
             }
             return {
                 start_line: change.LineNumber,
+                end_line: change.LineNumber,
                 start_column: change.CharNumber,
                 path: file.FilePath,
                 annotation_level,
