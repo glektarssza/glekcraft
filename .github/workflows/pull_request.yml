@@ -8,6 +8,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     permissions:
+      checks: write
       contents: read
     steps:
       - id: checkout-repository
