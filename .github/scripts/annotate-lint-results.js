@@ -10,26 +10,24 @@ module.exports = async ({ github, context, glob, result }) => {
         fileData.push(...JSON.parse(d));
     }
     const annotations = fileData.map((data) => {
-        return data.map((file) => {
-            return file.FileChanges.map((change) => {
-                let annotation_level;
-                if (change.FormatDescription.startsWith('warning')) {
-                    annotation_level = 'warning';
-                } else if (change.FormatDescription.startsWith('error')) {
-                    annotation_level = 'failure';
-                } else if (change.FormatDescription.startsWith('info')) {
-                    annotation_level = 'notice';
-                } else {
-                    annotation_level = 'notice';
-                }
-                return {
-                    start_line: change.LineNumber,
-                    start_column: change.CharNumber,
-                    path: file.FilePath,
-                    annotation_level,
-                    message: change.FormatDescription
-                };
-            });
+        return file.FileChanges.map((change) => {
+            let annotation_level;
+            if (change.FormatDescription.startsWith('warning')) {
+                annotation_level = 'warning';
+            } else if (change.FormatDescription.startsWith('error')) {
+                annotation_level = 'failure';
+            } else if (change.FormatDescription.startsWith('info')) {
+                annotation_level = 'notice';
+            } else {
+                annotation_level = 'notice';
+            }
+            return {
+                start_line: change.LineNumber,
+                start_column: change.CharNumber,
+                path: file.FilePath,
+                annotation_level,
+                message: change.FormatDescription
+            };
         });
     });
     await github.rest.checks.create({
