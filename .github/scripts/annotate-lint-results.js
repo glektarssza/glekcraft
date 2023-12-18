@@ -9,7 +9,7 @@ module.exports = async ({ github, context, glob, result }) => {
         const d = await fsp.readFile(p, 'utf-8');
         fileData.push(...JSON.parse(d));
     }
-    const annotations = fileData.map((data) => {
+    const annotations = fileData.map((file) => {
         return file.FileChanges.map((change) => {
             let annotation_level;
             if (change.FormatDescription.startsWith('warning')) {
