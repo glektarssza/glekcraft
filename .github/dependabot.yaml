@@ -5,6 +5,9 @@ updates:
     package-ecosystem: nuget
     allow:
       - dependency-type: direct
+    labels:
+      - Dependency
+      - Chore
     schedule:
       interval: weekly
       day: wednesday
