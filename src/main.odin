@@ -1,7 +1,7 @@
 package glekcraft
 
 //-- Odin Standard Library
-using "core:fmt"
+import "core:fmt"
 
 main :: proc() {
 	fmt.println("Hello world!")
