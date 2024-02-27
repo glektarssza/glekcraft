@@ -38,4 +38,4 @@ tags
 ## .NET ##
 bin/
 obj/
-format-report.json
+TestResults/
