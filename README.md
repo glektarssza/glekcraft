@@ -1,6 +1,6 @@
 # Glekcraft #
 
-A simple Minecraft clone written in C# using OpenGL.
+A simple Minecraft clone written in Odin using OpenGL.
 
 ## Table of Contents ##
 
