@@ -33,3 +33,6 @@ tags
 
 # Logs #
 *.log*
+
+# Odin Language Service #
+ols.json
