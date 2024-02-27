@@ -36,3 +36,7 @@ tags
 
 # Odin Language Service #
 ols.json
+
+# Artifacts #
+## Odin ##
+build/
