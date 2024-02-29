@@ -38,7 +38,8 @@ TESTS_DIR := $(abspath $(TESTS_DIR))
 BUILD_DIR := $(abspath $(BUILD_DIR))
 
 #-- Source File Detection
-SOURCE_FILES := $(wildcard $(SOURCE_DIR)/*.odin)
+SOURCE_FILES := $(wildcard $(SOURCE_DIR)/*.odin)								\
+				$(wildcard $(SOURCE_DIR)/**/*.odin)
 
 #-- Output Goals
 $(BUILD_DIR)/$(EXE_NAME): $(SOURCE_FILES) | $(BUILD_DIR)
@@ -95,6 +96,9 @@ pre-default:
 .PHONY: default
 default: pre-default build
 	@echo "Built default goal"
+
+.PHONY: debug
+debug: build-debug
 
 .PHONY: all
 all: build-all
