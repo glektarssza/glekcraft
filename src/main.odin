@@ -10,5 +10,5 @@ import "./logging"
 The program entry point.
 */
 main :: proc() {
-    fmt.println(logging.get_message())
+    fmt.println("Hello world!")
 }
