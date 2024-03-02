@@ -87,7 +87,7 @@ print-sources:
 	@echo "$(subst $(SPACE),\n,$(SOURCE_FILES))"
 
 #-- Aliased Goals
-.DEFAULT_GOAL: default
+.DEFAULT_GOAL := default
 
 .PHONY: pre-default
 pre-default:
