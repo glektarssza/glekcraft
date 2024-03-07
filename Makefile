@@ -16,10 +16,11 @@ ODIN_COMPILER ?= odin
 ODIN_BUILD_FLAGS ?= -build-mode:exe
 ODIN_BUILD_RELEASE_FLAGS ?= -o:minimal
 ODIN_BUILD_DEBUG_FLAGS ?= -o:none -debug
+ODIN_BUILD_TESTS_FLAGS ?= -o:none -debug -collection:app=$(SOURCE_DIR)
 ODIN_CHECK_FLAGS ?= -strict-style -vet-unused -vet-shadowing -vet-using-stmt	\
 					-vet-using-param -vet-style -vet-semicolon -disallow-do		\
 					-warnings-as-errors -thread-count:4
-ODIN_TEST_FLAGS ?= -o:none -debug -collection:app=$(SOURCE_DIR) --all-packages
+ODIN_TEST_FLAGS ?=
 ODIN_DEFINES += -define:PROJECT_NAME="$(PROJECT_NAME)"							\
 				-define:PROJECT_VERSION="$(PROJECT_VERSION)"					\
 				-define:PROJECT_DESCRIPTION="$(PROJECT_DESCRIPTION)"
@@ -40,6 +41,8 @@ BUILD_DIR := $(abspath $(BUILD_DIR))
 #-- Source File Detection
 SOURCE_FILES := $(wildcard $(SOURCE_DIR)/*.odin)								\
 				$(wildcard $(SOURCE_DIR)/**/*.odin)
+TESTS_FILES := $(wildcard $(TESTS_DIR)/*.odin)									\
+			$(wildcard $(TESTS_DIR)/**/*.odin)
 
 #-- Output Goals
 $(BUILD_DIR)/$(EXE_NAME): $(SOURCE_FILES) | $(BUILD_DIR)
@@ -51,6 +54,11 @@ $(BUILD_DIR)/$(EXE_NAME_DEBUG): $(SOURCE_FILES) | $(BUILD_DIR)
 	@echo "Building $@"
 	$(ODIN_COMPILER) build $(SOURCE_DIR) -out:$@ $(ODIN_BASE_FLAGS)				\
 		$(ODIN_BUILD_FLAGS) $(ODIN_BUILD_DEBUG_FLAGS) $(ODIN_DEFINES)
+
+$(BUILD_DIR)/$(EXE_NAME_TESTS): $(SOURCE_FILES) $(TESTS_FILES) | $(BUILD_DIR)
+	@echo "Building $@"
+	$(ODIN_COMPILER) test $(TESTS_DIR) -out:$@ $(ODIN_BASE_FLAGS)				\
+		$(ODIN_TEST_FLAGS) $(ODIN_BUILD_TESTS_FLAGS) $(ODIN_DEFINES)
 
 #-- Directory Creation Goals
 $(BUILD_DIR):
@@ -162,10 +170,14 @@ pre-test:
 	@echo "Running project tests..."
 
 .PHONY: test
-test: pre-test clean | $(BUILD_DIR)
-	$(ODIN_COMPILER) test $(TESTS_DIR) -out:$(BUILD_DIR)/$(EXE_NAME_TESTS)		\
-		$(ODIN_TEST_FLAGS) $(ODIN_DEFINES)
+ifeq ($(wildcard $(BUILD_DIR)/$(EXE_NAME_TESTS)),)
+test: pre-test $(BUILD_DIR)/$(EXE_NAME_TESTS) | $(BUILD_DIR)
 	@echo "Ran project tests"
+else
+test: pre-test | $(BUILD_DIR)
+	@$(BUILD_DIR)/$(EXE_NAME_TESTS)
+	@echo "Ran project tests"
+endif
 
 .PHONY: pre-run
 pre-run:
