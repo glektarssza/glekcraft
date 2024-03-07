@@ -162,7 +162,7 @@ pre-test:
 	@echo "Running project tests..."
 
 .PHONY: test
-test: pre-test clean | $(BUILD_DIR)
+test: pre-test | $(BUILD_DIR)
 	$(ODIN_COMPILER) test $(TESTS_DIR) -out:$(BUILD_DIR)/$(EXE_NAME_TESTS)		\
 		$(ODIN_TEST_FLAGS) $(ODIN_DEFINES)
 	@echo "Ran project tests"
