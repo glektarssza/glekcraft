@@ -19,3 +19,16 @@ test_namespace_from_string :: proc(t: ^testing.T) {
     testing.expect_value(t, err, nil)
     testing.expect(t, slice.equal(res, ([]string){"a", "random", "namespace"}))
 }
+
+@(test)
+test_namespace_to_string :: proc(t: ^testing.T) {
+    //-- Given
+    ns := ([]string){"a", "random", "namespace"}
+
+    //-- When
+    res, err := logging.namespace_to_string(ns)
+
+    //-- Then
+    testing.expect_value(t, err, nil)
+    testing.expect_value(t, res, "a:random:namespace")
+}
