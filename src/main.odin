@@ -8,10 +8,20 @@ import "core:os"
 import "vendor:OpenGL"
 import "vendor:glfw"
 
+//-- Project Code
+import "logging"
+
+test_logger :: proc() {
+    logger, _ := logging.create_console_logger("root")
+    logging.log_fatal(logger, "Test")
+}
+
 /*
 The program entry point.
 */
 main :: proc() {
+    test_logger()
+
     glfw.InitHint(glfw.JOYSTICK_HAT_BUTTONS, 0)
     glfw.InitHint(glfw.COCOA_CHDIR_RESOURCES, 1)
     glfw.InitHint(glfw.COCOA_MENUBAR, 1)
