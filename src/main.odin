@@ -9,19 +9,12 @@ import "vendor:OpenGL"
 import "vendor:glfw"
 
 //-- Project Code
-import "logging"
-
-test_logger :: proc() {
-    logger, _ := logging.create_console_logger("root")
-    logging.log_fatal(logger, "Test")
-}
+// TODO
 
 /*
-The program entry point.
+The program main procedure.
 */
-main :: proc() {
-    test_logger()
-
+app_main :: proc() -> int {
     glfw.InitHint(glfw.JOYSTICK_HAT_BUTTONS, 0)
     glfw.InitHint(glfw.COCOA_CHDIR_RESOURCES, 1)
     glfw.InitHint(glfw.COCOA_MENUBAR, 1)
@@ -33,7 +26,7 @@ main :: proc() {
     if !glfw_initialized {
         err_msg, err_code := glfw.GetError()
         fmt.eprintln("Failed to initialize GLFW:", err_msg)
-        os.exit(1)
+        return 1
     }
     glfw.DefaultWindowHints()
     glfw.WindowHint(glfw.CONTEXT_VERSION_MAJOR, 4)
@@ -48,7 +41,7 @@ main :: proc() {
     if window == nil {
         err_msg, err_code := glfw.GetError()
         fmt.eprintln("Failed to create game window:", err_msg)
-        os.exit(1)
+        return 1
     }
     glfw.MakeContextCurrent(window)
     glfw.SwapInterval(1)
@@ -73,4 +66,13 @@ main :: proc() {
         // TODO
         glfw.SwapBuffers(window)
     }
+    return 0
+}
+
+/*
+The program entry point.
+*/
+main :: proc() {
+    status := app_main()
+    os.exit(status)
 }
