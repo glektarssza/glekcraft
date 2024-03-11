@@ -65,7 +65,7 @@ public interface INativeAPIProvider {
     /// <returns>
     /// The version of the native library being used.
     /// </returns>
-    public Version GetVersion();
+    public Version? GetVersion();
 
     /// <summary>
     /// Get the version string of the native library being used.
@@ -73,7 +73,7 @@ public interface INativeAPIProvider {
     /// <returns>
     /// The version string of the native library being used.
     /// </returns>
-    public string GetVersionString();
+    public string? GetVersionString();
 
     /// <summary>
     /// Get the last error that the native library encountered.
