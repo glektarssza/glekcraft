@@ -90,6 +90,29 @@ Log_Level :: enum {
 }
 
 /*
+Convert a logging level to a string.
+*/
+log_level_to_string :: proc(level: Log_Level) -> string {
+    #partial switch level {
+        case Log_Level.Fatal:
+            return "FATAL"
+        case Log_Level.Error:
+            return "ERROR"
+        case Log_Level.Warning:
+            return "WARN"
+        case Log_Level.Info:
+            return "INFO"
+        case Log_Level.Verbose:
+            return "VERBOSE"
+        case Log_Level.Debug:
+            return "DEBUG"
+        case Log_Level.Trace:
+            return "TRACE"
+    }
+    return "UNKNOWN"
+}
+
+/*
 A record of a request to log some output.
 */
 Log_Record :: struct {
@@ -172,8 +195,8 @@ log :: proc(logger: Logger, level: Log_Level, message: string) {
         timestamp = time.now(),
         message   = message,
     }
-    formatted := logger.format(record) or_else nil
-    if formatted == nil {
+    formatted := logger.format(record) or_else ""
+    if formatted == "" {
         return
     }
     logger.output(formatted)
