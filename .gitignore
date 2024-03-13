@@ -33,3 +33,7 @@ tags
 
 # Logs #
 *.log*
+
+# Cache #
+## Deno ##
+.cache/
