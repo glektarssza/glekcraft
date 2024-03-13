@@ -1,0 +1,80 @@
+{
+    "bench": {
+        "include": [
+            "./bench/*.spec.ts",
+            "./bench/**/*.spec.ts"
+        ]
+    },
+    "compilerOptions": {
+        "allowJs": false,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "checkJs": false,
+        "exactOptionalPropertyTypes": true,
+        "experimentalDecorators": true,
+        "keyofStringsOnly": false,
+        "noErrorTruncation": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noImplicitUseStrict": true,
+        "noStrictGenericChecks": false,
+        "noUncheckedIndexedAccess": false,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "suppressExcessPropertyErrors": false,
+        "suppressImplicitAnyIndexErrors": false
+    },
+    "fmt": {
+        "include": [
+            "./src/*.ts",
+            "./src/**/*.ts",
+            "./tests/*.spec.ts",
+            "./tests/**/*.spec.ts",
+            "./bench/*.ts",
+            "./bench/**/*.ts"
+        ],
+        "indentWidth": 4,
+        "lineWidth": 80,
+        "proseWrap": "always",
+        "semiColons": true,
+        "singleQuote": true,
+        "useTabs": false
+    },
+    "lint": {
+        "include": [
+            "./src/*.ts",
+            "./src/**/*.ts",
+            "./tests/*.spec.ts",
+            "./tests/**/*.spec.ts",
+            "./bench/*.ts",
+            "./bench/**/*.ts"
+        ],
+        "report": "pretty",
+        "rules": {}
+    },
+    "publish": {
+        "include": [
+            "./src/*.ts",
+            "./src/**/*.ts"
+        ]
+    },
+    "tasks": {},
+    "test": {
+        "include": [
+            "./tests/*.spec.ts",
+            "./tests/**/*.spec.ts"
+        ]
+    },
+    "unstable": [
+        "ffi",
+        "fs"
+    ]
+}
