@@ -37,3 +37,7 @@ tags
 # Cache #
 ## Deno ##
 .cache/
+
+# Packages #
+## NPM ##
+node_modules/
