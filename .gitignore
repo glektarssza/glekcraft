@@ -33,9 +33,3 @@ tags
 
 # Logs #
 *.log*
-
-# Artifacts #
-## .NET ##
-bin/
-obj/
-format-report.json
