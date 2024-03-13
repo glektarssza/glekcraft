@@ -4,6 +4,7 @@
         "ms-dotnettools.csdevkit",
         "josephwoodward.vscodeilviewer",
         "tintoy.msbuild-project-tools",
+        "editorconfig.editorconfig",
         "github.remotehub",
         "github.vscode-pull-request-github",
         "github.vscode-github-actions"
