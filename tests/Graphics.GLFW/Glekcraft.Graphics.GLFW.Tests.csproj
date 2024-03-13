@@ -17,7 +17,6 @@
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
         <Using Include="FluentAssertions" />
         <Using Include="Moq" />
-
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../../packages/Graphics.GLFW/Glekcraft.Graphics.GLFW.csproj" />
