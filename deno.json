@@ -60,6 +60,8 @@
         "report": "pretty",
         "rules": {}
     },
+    "nodeModulesDir": true,
+    "lock": true,
     "publish": {
         "include": [
             "./src/*.ts",
