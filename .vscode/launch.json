@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug (LLDB)",
+            "program": "${workspaceFolder}/build/glekcraft-debug",
+            "windows": {
+                "program": "${workspaceFolder}/build/glekcraft-debug.exe"
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "build:debug",
+            "stopOnEntry": false
+        }
+    ]
+}
