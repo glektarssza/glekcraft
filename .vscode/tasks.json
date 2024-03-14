@@ -1,0 +1,139 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build:release",
+            "detail": "Build the release build of the project.",
+            "icon": {
+                "id": "file-binary",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "isBackground": false,
+            "type": "process",
+            "echoCommand": false,
+            "command": "make",
+            "args": [
+                "build-release"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "build:debug",
+            "detail": "Build the debug build of the project.",
+            "icon": {
+                "id": "file-binary",
+                "color": "terminal.ansiCyan"
+            },
+            "group": "build",
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "isBackground": false,
+            "type": "process",
+            "echoCommand": false,
+            "command": "make",
+            "args": [
+                "build-debug"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "test",
+            "detail": "Test the project.",
+            "icon": {
+                "id": "beaker",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "isBackground": false,
+            "type": "process",
+            "echoCommand": false,
+            "command": "make",
+            "args": [
+                "test"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "clean",
+            "detail": "Clean the project.",
+            "icon": {
+                "id": "trash",
+                "color": "terminal.ansiWhite"
+            },
+            "group": "none",
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "isBackground": false,
+            "type": "process",
+            "echoCommand": false,
+            "command": "make",
+            "args": [
+                "clean"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
