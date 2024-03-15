@@ -9,7 +9,7 @@ import "core:os"
 Write a message to a file.
 */
 output_file_message :: proc(message: string, proc_data: rawptr) {
-    fmt.fprint((cast(^os.Handle)proc_data)^, message)
+    fmt.fprintln((cast(^os.Handle)proc_data)^, message)
 }
 
 /*
