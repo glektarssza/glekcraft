@@ -7,40 +7,9 @@ import "core:strings"
 import "core:time"
 
 /*
-Format a message destined for standard output output.
-*/
-format_stdout_message :: proc(
-    record: Log_Record,
-) -> (
-    res: string,
-    err: mem.Allocator_Error,
-) {
-    year, month, day := time.date(record.timestamp)
-    hour, minute, second := time.clock_from_time(record.timestamp)
-    log_level := log_level_to_string(record.level)
-    namespace := namespace_to_string(record.namespace) or_return
-
-    sb := strings.builder_make()
-    fmt.sbprintf(
-        &sb,
-        "%02d-%02d-%02d %02d:%02d:%02d [%s@%s] %s",
-        year,
-        month,
-        day,
-        hour,
-        minute,
-        second,
-        namespace,
-        log_level,
-        record.message,
-    )
-    return strings.to_string(sb), nil
-}
-
-/*
 Write a message to the standard output.
 */
-output_stdout_message :: proc(message: string) {
+output_stdout_message :: proc(message: string, proc_data: rawptr) {
     fmt.println(message)
 }
 
@@ -57,7 +26,7 @@ create_stdout_logger_from_namespace :: proc(
             namespace = ns,
             level = level,
             enabled = enabled,
-            format = format_stdout_message,
+            format = default_format_message,
             output = output_stdout_message,
         } \
     )

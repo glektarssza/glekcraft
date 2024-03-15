@@ -59,7 +59,7 @@ format_colored_stdout_message :: proc(
 /*
 Write a message to the standard output.
 */
-output_colored_stdout_message :: proc(message: string) {
+output_colored_stdout_message :: proc(message: string, proc_data: rawptr) {
     fmt.println(message)
 }
 

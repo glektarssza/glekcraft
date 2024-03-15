@@ -59,7 +59,7 @@ format_colored_stderr_message :: proc(
 /*
 Write a message to the standard error.
 */
-output_colored_stderr_message :: proc(message: string) {
+output_colored_stderr_message :: proc(message: string, proc_data: rawptr) {
     fmt.eprintln(message)
 }
 
@@ -76,7 +76,7 @@ create_colored_stderr_logger_from_namespace :: proc(
             namespace = ns,
             level = level,
             enabled = enabled,
-            format = format_stderr_message,
+            format = default_format_message,
             output = output_stderr_message,
         } \
     )

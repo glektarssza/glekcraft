@@ -15,7 +15,10 @@ import "logging"
 The program main procedure.
 */
 app_main :: proc() -> int {
-    logger, _ := logging.create_stdout_logger("root")
+    logger, _ := logging.create_colored_stdout_logger(
+        "root",
+        logging.Log_Level.All,
+    )
     logging.info(logger, "Starting G'lekcraft")
 
     glfw.InitHint(glfw.JOYSTICK_HAT_BUTTONS, 0)

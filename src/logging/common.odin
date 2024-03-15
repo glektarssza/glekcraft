@@ -1,6 +1,7 @@
 package logging
 
 //-- Odin Standard Library
+import "core:fmt"
 import "core:mem"
 import "core:strings"
 import "core:time"
@@ -150,7 +151,7 @@ Format_Log_Record_Proc :: #type proc(
 /*
 A procedure that can be used to output a log message.
 */
-Output_Message_Proc :: #type proc(message: string)
+Output_Message_Proc :: #type proc(message: string, proc_data: rawptr)
 
 /*
 A destination for logging output.
@@ -159,27 +160,63 @@ Logger :: struct {
     /*
     The namespace this logger is for.
     */
-    namespace: Namespace,
+    namespace:        Namespace,
 
     /*
     Whether this logger is enabled.
     */
-    enabled:   bool,
+    enabled:          bool,
 
     /*
     The minimum level of log messages to output.
     */
-    level:     Log_Level,
+    level:            Log_Level,
 
     /*
     The procedure to use to format log records.
     */
-    format:    Format_Log_Record_Proc,
+    format:           Format_Log_Record_Proc,
 
     /*
     The procedure to use to output log messages.
     */
-    output:    Output_Message_Proc,
+    output:           Output_Message_Proc,
+
+    /*
+    Arbitrary data used internally to log message.
+    */
+    output_proc_data: rawptr,
+}
+
+/*
+The default mesasge formatting procedure.
+*/
+default_format_message :: proc(
+    record: Log_Record,
+) -> (
+    res: string,
+    err: mem.Allocator_Error,
+) {
+    year, month, day := time.date(record.timestamp)
+    hour, minute, second := time.clock_from_time(record.timestamp)
+    log_level := log_level_to_string(record.level)
+    namespace := namespace_to_string(record.namespace) or_return
+
+    sb := strings.builder_make()
+    fmt.sbprintf(
+        &sb,
+        "%02d-%02d-%02d %02d:%02d:%02d [%s@%s] %s",
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        second,
+        namespace,
+        log_level,
+        record.message,
+    )
+    return strings.to_string(sb), nil
 }
 
 /*
@@ -199,7 +236,7 @@ log :: proc(logger: Logger, level: Log_Level, message: string) {
     if formatted == "" {
         return
     }
-    logger.output(formatted)
+    logger.output(formatted, logger.output_proc_data)
 }
 
 /*
