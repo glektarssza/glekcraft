@@ -16,6 +16,7 @@ output_file_message :: proc(message: string, proc_data: rawptr) {
 Create a new logger that writes to the standard error.
 */
 create_file_logger_from_namespace :: proc(
+    file_handle: ^os.Handle,
     ns: Namespace,
     level: Log_Level = Log_Level.Info,
     enabled: bool = true,
@@ -27,6 +28,7 @@ create_file_logger_from_namespace :: proc(
             enabled = enabled,
             format = default_format_message,
             output = output_file_message,
+            output_proc_data = file_handle,
         } \
     )
 }
@@ -35,6 +37,7 @@ create_file_logger_from_namespace :: proc(
 Create a new logger that writes to the stdndard error.
 */
 create_file_logger_from_namespace_string :: proc(
+    file_handle: ^os.Handle,
     ns: string,
     level: Log_Level = Log_Level.Info,
     enabled: bool = true,
@@ -43,7 +46,13 @@ create_file_logger_from_namespace_string :: proc(
     err: mem.Allocator_Error,
 ) {
     namespace := namespace_from_string(ns) or_return
-    return create_file_logger_from_namespace(namespace, level, enabled), nil
+    return create_file_logger_from_namespace(
+            file_handle,
+            namespace,
+            level,
+            enabled,
+        ),
+        nil
 }
 
 /*
