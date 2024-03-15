@@ -15,7 +15,12 @@ import "logging"
 The program main procedure.
 */
 app_main :: proc() -> int {
-    logger, _ := logging.create_colored_stdout_logger(
+    logger_file_handle, _ := os.open(
+        "./output.log",
+        os.O_RDWR | os.O_CREATE | os.O_TRUNC,
+    )
+    logger, _ := logging.create_file_logger(
+        &logger_file_handle,
         "root",
         logging.Log_Level.All,
     )
