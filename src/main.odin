@@ -8,32 +8,16 @@ import "core:os"
 import "vendor:OpenGL"
 import "vendor:glfw"
 
-//-- Project Code
-import "logging"
-
 /*
 The program main procedure.
 */
 app_main :: proc() -> int {
-    logger_file_handle, _ := os.open(
-        "./output.log",
-        os.O_RDWR | os.O_CREATE | os.O_TRUNC,
-    )
-    logger, _ := logging.create_file_logger(
-        &logger_file_handle,
-        "root",
-        logging.Log_Level.All,
-    )
-    logging.info(logger, "Starting G'lekcraft")
-
     glfw.InitHint(glfw.JOYSTICK_HAT_BUTTONS, 0)
     glfw.InitHint(glfw.COCOA_CHDIR_RESOURCES, 1)
     glfw.InitHint(glfw.COCOA_MENUBAR, 1)
     // TODO: Wayland `libdecor` hint once it's available
-    logging.debug(logger, "Initializing GLFW")
     glfw_initialized := glfw.Init()
     defer if glfw_initialized {
-        logging.debug(logger, "Shutting down GLFW")
         glfw.Terminate()
     }
     if !glfw_initialized {
@@ -43,7 +27,6 @@ app_main :: proc() -> int {
             err_code,
             err_msg,
         )
-        logging.fatal(logger, msg)
         return 1
     }
     glfw.DefaultWindowHints()
@@ -52,10 +35,8 @@ app_main :: proc() -> int {
     glfw.WindowHint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
     glfw.WindowHint(glfw.OPENGL_FORWARD_COMPAT, true)
     glfw.WindowHint(glfw.VISIBLE, false)
-    logging.debug(logger, "Creating main window")
     window := glfw.CreateWindow(640, 480, "G'lekcraft", nil, nil)
     defer if window != nil {
-        logging.debug(logger, "Destroying main window")
         glfw.DestroyWindow(window)
     }
     if window == nil {
@@ -65,7 +46,6 @@ app_main :: proc() -> int {
             err_code,
             err_msg,
         )
-        logging.fatal(logger, msg)
         return 1
     }
     glfw.MakeContextCurrent(window)
@@ -91,7 +71,6 @@ app_main :: proc() -> int {
         // TODO
         glfw.SwapBuffers(window)
     }
-    logging.info(logger, "Shutting down G'lekcraft")
     return 0
 }
 
