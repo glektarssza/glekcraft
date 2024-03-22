@@ -89,7 +89,7 @@ public sealed class LibGLFW : IDisposable {
             _ = nativeAPIs.SetErrorCallback(HandleErrorCallback);
             if (!nativeAPIs.Init()) {
                 _ = nativeAPIs.SetErrorCallback(null);
-                throw new Exception("Failed to initialize native GLFW library");
+                throw new GLFWException(LastErrorCode, LastErrorDescription, "Failed to initialize native GLFW library");
             }
             Instance = new(nativeAPIs);
         }
