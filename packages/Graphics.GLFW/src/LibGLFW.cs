@@ -21,7 +21,7 @@ public sealed class LibGLFW : IDisposable {
     /// <summary>
     /// An event that is raised when the native library encounters an error.
     /// </summary>
-    public static event ErrorCallback? OnError;
+    public static event ErrorCallback? Error;
 
     #endregion
 
@@ -112,7 +112,7 @@ public sealed class LibGLFW : IDisposable {
     private static void HandleErrorCallback(ErrorCode code, string? description) {
         LastErrorCode = code;
         LastErrorDescription = description;
-        OnError?.Invoke(code, description);
+        Error?.Invoke(code, description);
     }
 
     #endregion
