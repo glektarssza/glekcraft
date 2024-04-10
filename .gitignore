@@ -33,3 +33,8 @@ tags
 
 # Logs #
 *.log*
+
+# Artifacts #
+## .NET ##
+bin/
+obj/
