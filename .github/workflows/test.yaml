@@ -53,6 +53,9 @@ jobs:
         with:
           name: test-results-${{inputs.build-os}}
           path: testResults
+      - id: install-reportgenerator
+        name: Install reportgenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
       - id: generate-coverage-report
         name: Generate coverage report
         run: |
