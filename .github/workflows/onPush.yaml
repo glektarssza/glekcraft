@@ -35,5 +35,6 @@ jobs:
           - windows-latest
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
+      reportgenerator-license: ${{secrets.REPORTGENERATOR_LICENSE}}
     with:
       build-os: ${{matrix.build-os}}

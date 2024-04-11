@@ -51,10 +51,10 @@ jobs:
         run: dotnet restore --locked-mode
       - id: build
         name: Build
-        run: dotnet build --no-restore --use-current-runtime --configuration ${{inputs.build-configuration}}
+        run: dotnet build --no-restore --configuration ${{inputs.build-configuration}}
       - id: prepare-artifacts
         name: Prepare artifacts
-        run: dotnet publish --no-build --output dist --use-current-runtime --configuration ${{inputs.build-configuration}} ./Glekcraft/Glekcraft.csproj
+        run: dotnet publish --no-build --output dist --configuration ${{inputs.build-configuration}} ./Glekcraft/Glekcraft.csproj
       - id: upload-artifacts
         name: Upload artifacts
         uses: actions/upload-artifact@v4

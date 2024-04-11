@@ -4,8 +4,14 @@ namespace Glekcraft;
 /// The class containing the program entry point.
 /// </summary>
 public static class Program {
+    /// <summary>
+    /// The program entry point.
+    /// </summary>
+    /// <returns>
+    /// A status code for the operating system.
+    /// </returns>
     public static int Main() {
         Console.WriteLine("Hello world!");
-        return 0;
+        return (int)ExitCode.Success;
     }
 }

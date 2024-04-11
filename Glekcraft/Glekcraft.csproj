@@ -10,7 +10,6 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-        <NoWarn></NoWarn>
     </PropertyGroup>
     <ItemGroup Label="Implicit Usings">
         <Using Include="System" />

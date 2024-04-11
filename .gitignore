@@ -36,5 +36,8 @@ tags
 
 # Artifacts #
 ## .NET ##
-bin/
-obj/
+[Bb]in/
+[Oo]bj/
+[Tt]estResults/
+[Cc]overage/
+[Dd]ist/
