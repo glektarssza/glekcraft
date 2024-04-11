@@ -56,12 +56,18 @@ jobs:
       - id: generate-coverage-report
         name: Generate coverage report
         run: |
-          reportgenerator '-reporttypes:html;html_dark' '-title:Glekcraft Code Coverage' \
-            '-targetdir:coverage' '-reports:**/testResults/**/coverage.cobertura.xml' \
+          reportgenerator '-reporttypes:html' '-title:Glekcraft Code Coverage' \
+            '-targetdir:coverage/html' '-reports:**/testResults/**/coverage.cobertura.xml' \
             '-filefilters:-*Interop*' '-license:${{secrets.reportgenerator-license}}'
-      - id: upload-coverage-report
-        name: Upload coverage report
+      - id: generate-dark-coverage-report
+        name: Generate dark coverage report
+        run: |
+          reportgenerator '-reporttypes:html_dark' '-title:Glekcraft Code Coverage' \
+            '-targetdir:coverage/html_dark' '-reports:**/testResults/**/coverage.cobertura.xml' \
+            '-filefilters:-*Interop*' '-license:${{secrets.reportgenerator-license}}'
+      - id: upload-coverage-reports
+        name: Upload coverage reports
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report-${{inputs.build-os}}
+          name: coverage-reports-${{inputs.build-os}}
           path: coverage
