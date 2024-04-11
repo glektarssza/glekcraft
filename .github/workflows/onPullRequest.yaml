@@ -19,7 +19,7 @@ jobs:
           - Debug
           - Release
     secrets:
-      github-token: ${{github.token}}
+      github-token: ${{secrets.GITHUB_TOKEN}}
     with:
       build-os: ${{matrix.build-os}}
       build-configuration: ${{matrix.build-configuration}}
@@ -34,6 +34,6 @@ jobs:
           - macos-latest
           - windows-latest
     secrets:
-      github-token: ${{github.token}}
+      github-token: ${{secrets.GITHUB_TOKEN}}
     with:
       build-os: ${{matrix.build-os}}
