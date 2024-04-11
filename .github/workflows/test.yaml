@@ -13,6 +13,10 @@ on:
         description: |
           The token to use when accessing GitHub APIs.
         required: true
+      reportgenerator-license:
+        description: |
+          The license key to use for the code coverage report generator tool.
+        required: true
 jobs:
   test:
     name: Test
@@ -40,3 +44,24 @@ jobs:
       - id: test
         name: Test
         run: dotnet test --no-restore --configuration Debug
+      - id: collect-coverage
+        name: Collect coverage
+        run: dotnet test --no-restore --configuration Debug --collect 'XPlat Code Coverage' --results-directory testResults
+      - id: upload-test-results
+        name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{inputs.build-os}}
+          path: testResults
+      - id: generate-coverage-report
+        name: Generate coverage report
+        run: |
+          reportgenerator '-reporttypes:html;html_dark' '-title:Glekcraft Code Coverage' \
+            '-targetdir:coverage' '-reports:**/testResults/**/coverage.cobertura.xml' \
+            '-filefilters:-*Interop*' '-license:${{secrets.reportgenerator-license}}'
+      - id: upload-coverage-report
+        name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-${{inputs.build-os}}
+          path: coverage
