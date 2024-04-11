@@ -6,6 +6,6 @@ namespace Glekcraft;
 public static class Program {
     public static int Main() {
         Console.WriteLine("Hello world!");
-        return 0;
+        return (int)ExitCode.Success;
     }
 }
