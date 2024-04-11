@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Build
-    uses: ./.github/workflows/reusable/build.yaml
+    uses: ./.github/workflows/build.yaml
     strategy:
       fail-fast: true
       matrix:
@@ -25,7 +25,7 @@ jobs:
       build-configuration: ${{matrix.build-configuration}}
   test:
     name: Test
-    uses: ./.github/workflows/reusable/test.yaml
+    uses: ./.github/workflows/test.yaml
     strategy:
       fail-fast: true
       matrix:
