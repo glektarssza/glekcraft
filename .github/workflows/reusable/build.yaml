@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build
+on:
+  workflow_call:
+    inputs:
+      build-os:
+        description: |
+          The operating system to build for.
+        type: string
+        required: true
+      build-configuration:
+        description: |
+          The configuration to build.
+        type: string
+        required: true
+    secrets:
+      github-token:
+        description: |
+          The token to use when accessing GitHub APIs.
+        required: true
+    outputs:
+      artifact-id:
+        description: |
+          The ID of the artifact produced by the build.
+        value: ${{jobs.build.outputs.artifact-id}}
+jobs:
+  build:
+    name: Build
+    runs-on: ${{inputs.build-os}}
+    outputs:
+      artifact-id: ${{steps.upload-artifacts.outputs.artifact-id}}
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - id: checkout-repository
+        name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: glektarssza/glekcraft
+          token: ${{secrets.github-token}}
+          lfs: true
+      - id: setup-dotnet
+        name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+          cache: true
+          cache-dependency-path: "**/package.lock.json"
+      - id: restore-dependencies
+        name: Restore dependencies
+        run: dotnet restore --locked-mode
+      - id: build
+        name: Build
+        run: dotnet build --no-restore --configuration ${{inputs.build-configuration}}
+      - id: prepare-artifacts
+        name: Prepare artifacts
+        run: dotnet publish --no-build --output dist --use-current-runtime --configuration ${{inputs.build-configuration}}
+      - id: upload-artifacts
+        name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{inputs.build-configuration}}-${{inputs.build-os}}
+          path: dist
