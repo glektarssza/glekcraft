@@ -238,7 +238,7 @@ void main() {
 
         ViewMatrix = Matrix4X4.CreateLookAt<float>(new(0, 0, 1), new(0, 0, 0), new(0, 1, 0));
 
-        ProjectionMatrix = Matrix4X4.CreatePerspectiveFieldOfView(Scalar.DegreesToRadians(90f), MainWindow.Size.X / MainWindow.Size.Y, 0.001f, 1000f);
+        ProjectionMatrix = Matrix4X4.CreatePerspectiveFieldOfView(Scalar.DegreesToRadians(90f), (float)MainWindow.Size.X / MainWindow.Size.Y, 0.001f, 1000f);
     }
 
     public static void OnWindowRender(double delta) {
