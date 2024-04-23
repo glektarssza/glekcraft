@@ -6,7 +6,7 @@
             "detail": "Restore project dependencies using dotnet.",
             "icon": {
                 "id": "cloud-download",
-                "color": "terminal.ansiGreen"
+                "color": "terminal.ansiWhite"
             },
             "dependsOn": [],
             "dependsOrder": "sequence",
@@ -25,6 +25,109 @@
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
                 "runOn": "folderOpen"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:build",
+            "detail": "Build the project in the default confiugration using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "isBuildCommand": true,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:build:debug",
+            "detail": "Build the project in the debug confiugration using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "isBuildCommand": true,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore",
+                "--configuration",
+                "Debug"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:build:release",
+            "detail": "Build the project in the release confiugration using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "isBuildCommand": true,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore",
+                "--configuration",
+                "Release"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
             },
             "problemMatcher": "$msCompile"
         }
