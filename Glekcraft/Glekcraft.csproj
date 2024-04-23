@@ -14,7 +14,4 @@
     <ItemGroup Label="Implicit Usings">
         <Using Include="System" />
     </ItemGroup>
-    <ItemGroup Label="Dependencies">
-
-    </ItemGroup>
 </Project>
