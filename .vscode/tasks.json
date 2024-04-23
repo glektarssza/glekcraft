@@ -26,6 +26,14 @@
                 "reevaluateOnRerun": true,
                 "runOn": "folderOpen"
             },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
             "problemMatcher": "$msCompile"
         },
         {
@@ -58,6 +66,14 @@
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
                 "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
             },
             "problemMatcher": "$msCompile"
         },
@@ -94,6 +110,14 @@
                 "reevaluateOnRerun": true,
                 "runOn": "default"
             },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
             "problemMatcher": "$msCompile"
         },
         {
@@ -129,6 +153,14 @@
                 "reevaluateOnRerun": true,
                 "runOn": "default"
             },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
             "problemMatcher": "$msCompile"
         },
         {
@@ -157,6 +189,14 @@
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
                 "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
             },
             "problemMatcher": "$msCompile"
         }
