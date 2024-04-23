@@ -130,6 +130,35 @@
                 "runOn": "default"
             },
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:clean",
+            "detail": "Clean the project using dotnet.",
+            "icon": {
+                "id": "trashcan",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBuildCommand": false,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "clean"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "problemMatcher": "$msCompile"
         }
     ]
 }
