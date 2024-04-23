@@ -335,17 +335,107 @@
             "label": "coverage:report:generate",
             "detail": "Generate a code coverage report.",
             "icon": {
-                "id": "trashcan",
+                "id": "graph-scatter",
                 "color": "terminal.ansiWhite"
             },
-            "dependsOn": [],
+            "dependsOn": [
+                "coverage:clean",
+                "dotnet:test:coverage"
+            ],
             "dependsOrder": "sequence",
             "group": "none",
             "isBackground": false,
             "promptOnClose": false,
             "type": "process",
             "command": "reportgenerator",
-            "args": [],
+            "args": [
+                "-reporttypes:html_light",
+                "-title:G'lekcraft Code Coverage",
+                "-targetdir:coverage/html/light",
+                "-reports:**/TestResults/*/coverage.cobertura.xml",
+                "-filefilters:-*Interop*",
+                "-license:${config:custom.reportgenerate.license}"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "coverage:report:generate:dark",
+            "detail": "Generate a dark code coverage report.",
+            "icon": {
+                "id": "graph-scatter",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "coverage:clean",
+                "dotnet:test:coverage"
+            ],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "reportgenerator",
+            "args": [
+                "-reporttypes:html_dark",
+                "-title:G'lekcraft Code Coverage",
+                "-targetdir:coverage/html/dark",
+                "-reports:**/TestResults/*/coverage.cobertura.xml",
+                "-filefilters:-*Interop*",
+                "-license:${config:custom.reportgenerate.license}"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "coverage:report:generate:badges",
+            "detail": "Generate a badges for the code coverage report.",
+            "icon": {
+                "id": "graph-scatter",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "coverage:clean",
+                "dotnet:test:coverage"
+            ],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "reportgenerator",
+            "args": [
+                "-reporttypes:badges",
+                "-title:G'lekcraft Code Coverage",
+                "-targetdir:coverage/badges",
+                "-reports:**/TestResults/*/coverage.cobertura.xml",
+                "-filefilters:-*Interop*",
+                "-license:${config:custom.reportgenerate.license}"
+            ],
             "runOptions": {
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
