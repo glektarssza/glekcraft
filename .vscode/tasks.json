@@ -1,4 +1,32 @@
 {
     "version": "2.0.0",
-    "tasks": []
+    "tasks": [
+        {
+            "label": "dotnet:restore",
+            "detail": "Restore project dependencies using dotnet.",
+            "icon": {
+                "id": "cloud-download",
+                "color": "terminal.ansiGreen"
+            },
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBuildCommand": false,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "restore"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "folderOpen"
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
 }
