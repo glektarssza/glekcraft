@@ -1,7 +1,6 @@
 namespace Glekcraft;
 
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using Silk.NET.Input;
 using Silk.NET.OpenGL;
