@@ -208,7 +208,8 @@
                 "color": "terminal.ansiWhite"
             },
             "dependsOn": [
-                "dotnet:restore"
+                "dotnet:restore",
+                "dotnet:build"
             ],
             "dependsOrder": "sequence",
             "group": {
@@ -223,7 +224,51 @@
             "type": "process",
             "command": "dotnet",
             "args": [
-                "test"
+                "test",
+                "--no-build"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:test:coverage",
+            "detail": "Test the project and collect code coverage using dotnet.",
+            "icon": {
+                "id": "graph-scatter",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "isBuildCommand": false,
+            "isTestCommand": true,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "--no-build",
+                "--collect",
+                "XPlat Code Coverage"
             ],
             "runOptions": {
                 "instanceLimit": 1,
