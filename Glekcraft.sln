@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1C86FE2D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft.Tests", "tests\Glekcraft\Glekcraft.Tests.csproj", "{24A3D5CF-9711-46F4-A3A5-0547D8A7A937}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{E0328906-83CE-4EE5-8044-E9C56706DBDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft.Common", "packages\Common\Glekcraft.Common.csproj", "{BD2DC4FE-1F9D-41B8-A2FD-6A78902ACB82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,8 +30,13 @@ Global
 		{24A3D5CF-9711-46F4-A3A5-0547D8A7A937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A3D5CF-9711-46F4-A3A5-0547D8A7A937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A3D5CF-9711-46F4-A3A5-0547D8A7A937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD2DC4FE-1F9D-41B8-A2FD-6A78902ACB82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD2DC4FE-1F9D-41B8-A2FD-6A78902ACB82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD2DC4FE-1F9D-41B8-A2FD-6A78902ACB82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD2DC4FE-1F9D-41B8-A2FD-6A78902ACB82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24A3D5CF-9711-46F4-A3A5-0547D8A7A937} = {1C86FE2D-4C37-4E62-8859-63368EEA4ADE}
+		{BD2DC4FE-1F9D-41B8-A2FD-6A78902ACB82} = {E0328906-83CE-4EE5-8044-E9C56706DBDA}
 	EndGlobalSection
 EndGlobal
