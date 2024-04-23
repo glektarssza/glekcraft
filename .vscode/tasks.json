@@ -1,0 +1,455 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "dotnet:restore",
+            "detail": "Restore project dependencies using dotnet.",
+            "icon": {
+                "id": "cloud-download",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBuildCommand": false,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "restore"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:build",
+            "detail": "Build the project in the default confiugration using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "isBuildCommand": true,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:build:debug",
+            "detail": "Build the project in the debug confiugration using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "isBuildCommand": true,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore",
+                "--configuration",
+                "Debug"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:build:release",
+            "detail": "Build the project in the release confiugration using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "isBuildCommand": true,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore",
+                "--configuration",
+                "Release"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:clean",
+            "detail": "Clean the project using dotnet.",
+            "icon": {
+                "id": "trashcan",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBuildCommand": false,
+            "isTestCommand": false,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "clean"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:test",
+            "detail": "Test the project using dotnet.",
+            "icon": {
+                "id": "beaker",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore",
+                "dotnet:build"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "isBuildCommand": false,
+            "isTestCommand": true,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "--no-build"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dotnet:test:coverage",
+            "detail": "Test the project and collect code coverage using dotnet.",
+            "icon": {
+                "id": "graph-scatter",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "isBuildCommand": false,
+            "isTestCommand": true,
+            "echoCommand": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "--no-build",
+                "--collect",
+                "XPlat Code Coverage"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "coverage:clean",
+            "detail": "Clean up code coverage.",
+            "icon": {
+                "id": "trashcan",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "find",
+            "args": [
+                "${workspaceFolder}",
+                "-depth",
+                "-type",
+                "f",
+                "-iname",
+                "coverage.cobertura.xml",
+                "-delete"
+            ],
+            "windows": {
+                "command": "Remove-Item",
+                "args": [
+                    "-File",
+                    "-Include",
+                    "coverage.cobertura.xml"
+                ]
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "coverage:report:generate",
+            "detail": "Generate a code coverage report.",
+            "icon": {
+                "id": "graph-scatter",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "coverage:clean",
+                "dotnet:test:coverage"
+            ],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "reportgenerator",
+            "args": [
+                "-reporttypes:html_light",
+                "-title:G'lekcraft Code Coverage",
+                "-targetdir:coverage/html/light",
+                "-reports:**/TestResults/*/coverage.cobertura.xml",
+                "-filefilters:-*Interop*",
+                "-license:${config:custom.reportgenerate.license}"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "coverage:report:generate:dark",
+            "detail": "Generate a dark code coverage report.",
+            "icon": {
+                "id": "graph-scatter",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "coverage:clean",
+                "dotnet:test:coverage"
+            ],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "reportgenerator",
+            "args": [
+                "-reporttypes:html_dark",
+                "-title:G'lekcraft Code Coverage",
+                "-targetdir:coverage/html/dark",
+                "-reports:**/TestResults/*/coverage.cobertura.xml",
+                "-filefilters:-*Interop*",
+                "-license:${config:custom.reportgenerate.license}"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "coverage:report:generate:badges",
+            "detail": "Generate a badges for the code coverage report.",
+            "icon": {
+                "id": "graph-scatter",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [
+                "coverage:clean",
+                "dotnet:test:coverage"
+            ],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "reportgenerator",
+            "args": [
+                "-reporttypes:badges",
+                "-title:G'lekcraft Code Coverage",
+                "-targetdir:coverage/badges",
+                "-reports:**/TestResults/*/coverage.cobertura.xml",
+                "-filefilters:-*Interop*",
+                "-license:${config:custom.reportgenerate.license}"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
