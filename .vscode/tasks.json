@@ -284,6 +284,82 @@
                 "clear": true
             },
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "coverage:clean",
+            "detail": "Clean up code coverage.",
+            "icon": {
+                "id": "trashcan",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "find",
+            "args": [
+                "${workspaceFolder}",
+                "-depth",
+                "-type",
+                "f",
+                "-iname",
+                "coverage.cobertura.xml",
+                "-delete"
+            ],
+            "windows": {
+                "command": "Remove-Item",
+                "args": [
+                    "-File",
+                    "-Include",
+                    "coverage.cobertura.xml"
+                ]
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "coverage:report:generate",
+            "detail": "Generate a code coverage report.",
+            "icon": {
+                "id": "trashcan",
+                "color": "terminal.ansiWhite"
+            },
+            "dependsOn": [],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "process",
+            "command": "reportgenerator",
+            "args": [],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
         }
     ]
 }
