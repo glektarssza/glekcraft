@@ -3,6 +3,7 @@ namespace Glekcraft;
 using System.Drawing;
 using System.Linq;
 using Silk.NET.Input;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 
@@ -44,6 +45,21 @@ public static class Program {
     }
 
     public static uint ShaderProgram {
+        get;
+        private set;
+    }
+
+    public static Matrix4X4<float> ModelMatrix {
+        get;
+        private set;
+    }
+
+    public static Matrix4X4<float> ViewMatrix {
+        get;
+        private set;
+    }
+
+    public static Matrix4X4<float> ProjectionMatrix {
         get;
         private set;
     }
@@ -163,11 +179,16 @@ public static class Program {
 layout(location = 0) in vec3 vs_vertex;
 layout(location = 1) in vec3 vs_color;
 
+uniform mat4 vs_modelMatrix;
+uniform mat4 vs_viewMatrix;
+uniform mat4 vs_projectionMatrix;
+
 layout(location = 0) out vec3 fs_color;
 
 void main() {
     fs_color = vs_color;
-    gl_Position = vec4(vs_vertex, 1.0);
+    mat4 mvpMatrix = vs_projectionMatrix * vs_viewMatrix * vs_modelMatrix;
+    gl_Position = mvpMatrix * vec4(vs_vertex, 1.0);
 }
 ");
         GraphicsContext.CompileShader(VertexShader);
@@ -212,6 +233,12 @@ void main() {
         if (escapePressed) {
             MainWindow.Close();
         }
+
+        ModelMatrix = Matrix4X4<float>.Identity;
+
+        ViewMatrix = Matrix4X4.CreateLookAt<float>(new(0, 0, 1), new(0, 0, 0), new(0, 1, 0));
+
+        ProjectionMatrix = Matrix4X4.CreatePerspectiveFieldOfView(Scalar.DegreesToRadians(90f), MainWindow.Size.X / MainWindow.Size.Y, 0.001f, 1000f);
     }
 
     public static void OnWindowRender(double delta) {
@@ -235,6 +262,20 @@ void main() {
         unsafe {
             GraphicsContext.VertexAttribPointer(1, 3, VertexAttribPointerType.UnsignedByte, true, 0, null);
         }
+
+        unsafe {
+            var mm = ModelMatrix.ToSystem();
+            GraphicsContext.UniformMatrix4(GraphicsContext.GetUniformLocation(ShaderProgram, "vs_modelMatrix"), 1, false, (float*)&mm);
+        }
+        unsafe {
+            var mm = ViewMatrix.ToSystem();
+            GraphicsContext.UniformMatrix4(GraphicsContext.GetUniformLocation(ShaderProgram, "vs_viewMatrix"), 1, false, (float*)&mm);
+        }
+        unsafe {
+            var mm = ProjectionMatrix.ToSystem();
+            GraphicsContext.UniformMatrix4(GraphicsContext.GetUniformLocation(ShaderProgram, "vs_projectionMatrix"), 1, false, (float*)&mm);
+        }
+
         GraphicsContext.BindBuffer(BufferTargetARB.ElementArrayBuffer, IndexBuffer);
         unsafe {
             GraphicsContext.DrawElements(PrimitiveType.Triangles, 3, DrawElementsType.UnsignedShort, null);
