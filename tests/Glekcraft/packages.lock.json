@@ -167,8 +167,8 @@
       },
       "Silk.NET.Core": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "vin8fW0bUBD3hDbN3s3br+ePtAzzdOCygslGfb7JR86ZKVQ/fAsgLcKQLDbNjZAn020F4eUEg/UNEZqpBwhOcg==",
+        "resolved": "2.21.0",
+        "contentHash": "U8gATeEGvSIc1ogSdG/LKr6SLgOjkis7Oo/QzCq+aOoGjw4tHYRVpm02V+pHp/qlQhziBbdQ/Vl5d58cmFY+PA==",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
           "Microsoft.DotNet.PlatformAbstractions": "3.1.6",
@@ -180,107 +180,107 @@
       },
       "Silk.NET.GLFW": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "VCnaHew1xH+j0AxS54zVQNLQ4HJAaTpIFQdPpmMzbJ3XB21zNPV/5MBGhz4PyBgXKEHezjT6NPkYOerbzHqkfA==",
+        "resolved": "2.21.0",
+        "contentHash": "HWu21xUICqYH9ZfSlQo4c71Q7o++tip2v7LiWczvEwgqlJacZ3L9c1+jyOlfcGo9IN9pRao8QIbPNC9dlMcSZQ==",
         "dependencies": {
-          "Silk.NET.Core": "2.20.0",
-          "Ultz.Native.GLFW": "3.3.9.2"
+          "Silk.NET.Core": "2.21.0",
+          "Ultz.Native.GLFW": "3.4.0"
         }
       },
       "Silk.NET.Input": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "RUM56lvG2ZX8/+Kmx9SGqUlXeEOtfdIVTkB6WG0Fc+Wl1Gs59FUj3du5+Brsx6M8fqS8QF4xF1z38Su/H10jBg==",
+        "resolved": "2.21.0",
+        "contentHash": "XYAhE2/lBjGT5wOZ/6CrHSQhdg930jojpe75A9+GT0AtCRXiy+m8OVq5y1lHE9Qja/0YQkqR42jWvDWP2xbkkw==",
         "dependencies": {
-          "Silk.NET.Input.Common": "2.20.0",
-          "Silk.NET.Input.Glfw": "2.20.0",
-          "Silk.NET.Input.Sdl": "2.20.0"
+          "Silk.NET.Input.Common": "2.21.0",
+          "Silk.NET.Input.Glfw": "2.21.0",
+          "Silk.NET.Input.Sdl": "2.21.0"
         }
       },
       "Silk.NET.Input.Common": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "onPElezFywVC68Ir94rHZ17Eptw/bpuryBdcLwuYnHIAawgouMheVBL2b+b9i7Aexv6gIaN6X5H9t8JSeKPzUQ==",
+        "resolved": "2.21.0",
+        "contentHash": "olS5rw8KEakrJXSWNEAcU52SesxpwYECjLFP/L+vA3G8Gr798DeOzwlp6PMZpQkqXYkmkxoOaSeL9Yjf4A5ayQ==",
         "dependencies": {
-          "Silk.NET.Windowing.Common": "2.20.0"
+          "Silk.NET.Windowing.Common": "2.21.0"
         }
       },
       "Silk.NET.Input.Glfw": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "8asmacZLFfe8JoiM2iDlc581300Pk1CrKviPEBkkg/5XBpEWcuYeZxpoy6+8tNgCq6ebB142ufACUPdfw7XS+Q==",
+        "resolved": "2.21.0",
+        "contentHash": "Erkv6cYH8+BCQ//JqTstxlblVh7EkNZ7aJmwWb4+DH5S7xLbsd6brHaMoZmjS6AO06Gidmek8dLSTFFpPoesRg==",
         "dependencies": {
-          "Silk.NET.Input.Common": "2.20.0",
-          "Silk.NET.Windowing.Glfw": "2.20.0"
+          "Silk.NET.Input.Common": "2.21.0",
+          "Silk.NET.Windowing.Glfw": "2.21.0"
         }
       },
       "Silk.NET.Input.Sdl": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "IFC2v5bjVgyjpMy5/KLwhpCV6aWPLWevuAwxeohWWavoJq8lzZd6D2b8Mk5mHE17JYU3ksc5YcuZf2vz3xmFiQ==",
+        "resolved": "2.21.0",
+        "contentHash": "p6svgz5K6jAmh05eGBPk9GDDO2zasf2L1b2nnthivlx9ImyW6iN7LMYMU5mxtKCcbGVqNE8vLfe4nP1901cg6Q==",
         "dependencies": {
-          "Silk.NET.Input.Common": "2.20.0",
-          "Silk.NET.Windowing.Sdl": "2.20.0"
+          "Silk.NET.Input.Common": "2.21.0",
+          "Silk.NET.Windowing.Sdl": "2.21.0"
         }
       },
       "Silk.NET.Maths": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "m9QxEPE6Y/m7AXTTKBbuy53Proi8k+HlvYa5x/UKbhcAbursIFFOJS8tVfCpRdZ3QGTfKBFlfifzJhByal8Vjw=="
+        "resolved": "2.21.0",
+        "contentHash": "1Hv05KJmKXzzlp3+nFHl2A8yaugGkAj0gCSOaSsLFNFnwuLUIKLBGaC6y23JgGYnK+1t1DS40oPOquHQPI06rg=="
       },
       "Silk.NET.OpenGL": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "VMeNmTCBmMGGnVu3hvc8QvQdUqU4W98ca5p75lLlxJF4YvJqNIPPVAbPWs65oAdoi5FT4UoOl9CS3i89VTPxEA==",
+        "resolved": "2.21.0",
+        "contentHash": "/8SnCbIM8PpddkacZm7trt0VRiZyN0xGTdwZr4bjsgkfbuqM86Qf0JsQLFPkZqIiVDAiIkRgw94kQbzJVz10Iw==",
         "dependencies": {
-          "Silk.NET.Core": "2.20.0",
-          "Silk.NET.Maths": "2.20.0"
+          "Silk.NET.Core": "2.21.0",
+          "Silk.NET.Maths": "2.21.0"
         }
       },
       "Silk.NET.SDL": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "AQTPGMEqv2gh5A91wRMGWJ5Dh9rrsKiHNsIKB6aJE6eIZOYdZM96kg/z4W1EDto1R7jJY1+f/k65D7ZM1H1M6w==",
+        "resolved": "2.21.0",
+        "contentHash": "Abv1Fon0iT1tyN9ZrUZH1k2mVKPxLA9L2IKhmM7/I0VGvZ+xMta2vxvOGBZWfej1m/6wdSw24YONY86GLB1Y7g==",
         "dependencies": {
-          "Silk.NET.Core": "2.20.0",
-          "Silk.NET.Maths": "2.20.0",
-          "Ultz.Native.SDL": "2.28.4"
+          "Silk.NET.Core": "2.21.0",
+          "Silk.NET.Maths": "2.21.0",
+          "Ultz.Native.SDL": "2.30.1"
         }
       },
       "Silk.NET.Windowing": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "49WVTjv9gOWH5tvw/QkDvjCkzj7Mwzp/kc7eXGdAnw7tygcAYithqPnmtnpHryZzs1tOfQzcQiX0cha/IYNhmA==",
+        "resolved": "2.21.0",
+        "contentHash": "eLcqO5Ga4SpgVUU+STb071C4MJEhfEyPTiUvgOIBPUM5F7yMexWXNVoy65DzTrTPMNbuuMcfS45TrlJE322j+w==",
         "dependencies": {
-          "Silk.NET.Windowing.Common": "2.20.0",
-          "Silk.NET.Windowing.Glfw": "2.20.0"
+          "Silk.NET.Windowing.Common": "2.21.0",
+          "Silk.NET.Windowing.Glfw": "2.21.0"
         }
       },
       "Silk.NET.Windowing.Common": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "ZsF5ddWPkQhwAlSBz2PetaBUO64u+pVAP9bOb2oGZlEHp0iH+NxfEN/zswcUntE2Dm9yHB8bdmwVD82MEOwj6Q==",
+        "resolved": "2.21.0",
+        "contentHash": "kA+E52DU65Rjcu4CKHvpioz1FLRo/iabxsS+hEjOKxMKuus90hMQ0mADI6PVN8nbge4vaHZ9n28yGAOV7CXo+Q==",
         "dependencies": {
-          "Silk.NET.Core": "2.20.0",
-          "Silk.NET.Maths": "2.20.0"
+          "Silk.NET.Core": "2.21.0",
+          "Silk.NET.Maths": "2.21.0"
         }
       },
       "Silk.NET.Windowing.Glfw": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "6w6QvdAyxeQcaLWqNOrT2juHJD0VAxSdI8Iwx9t5NuaPvJmf5VuVL2JN7zY9bQY2wUpOIEho/b6RoKwbfg5ekw==",
+        "resolved": "2.21.0",
+        "contentHash": "q6EP6H9ZIksBTtN+QJiVU8HoHTMFpfkq5zYerikUGjtpPFf6U7ZamYp1Wjx8Hha/4SXyF/dSy58mWxWqjmhzRw==",
         "dependencies": {
-          "Silk.NET.GLFW": "2.20.0",
-          "Silk.NET.Windowing.Common": "2.20.0"
+          "Silk.NET.GLFW": "2.21.0",
+          "Silk.NET.Windowing.Common": "2.21.0"
         }
       },
       "Silk.NET.Windowing.Sdl": {
         "type": "Transitive",
-        "resolved": "2.20.0",
-        "contentHash": "Os5752+77ft+73U7hYmlrVajCMoD/etss5jVUSUteyifLh71ieQMQ046SdhoEtltsm1MmTp02T986GsXu82+BQ==",
+        "resolved": "2.21.0",
+        "contentHash": "hxOGDdhF2d5oxcaUCdgWE5x3KUza9vxHYY2kVSawONRnSh+Irv39FAEDSzaYM9d9e+x3jDybUs2MbcaO2oXLRw==",
         "dependencies": {
-          "Silk.NET.SDL": "2.20.0",
-          "Silk.NET.Windowing.Common": "2.20.0"
+          "Silk.NET.SDL": "2.21.0",
+          "Silk.NET.Windowing.Common": "2.21.0"
         }
       },
       "System.Configuration.ConfigurationManager": {
@@ -341,20 +341,20 @@
       },
       "Ultz.Native.GLFW": {
         "type": "Transitive",
-        "resolved": "3.3.9.2",
-        "contentHash": "4b7gJEfMZcw207CZkFV3VUBagmHlX9jYVkk1mrzacnAOgr90JoZSILTEFPc5lz5LT7yFKxQnsnqqIsFnVO7k/Q=="
+        "resolved": "3.4.0",
+        "contentHash": "Iy22JopynbOJ32vA0lBhFEzGi65GQJBuJHYBYRBpydrDpNoTiHnjIXfA65Gu+8qsOr/ZEoIF8r9aHCgAXuO6DA=="
       },
       "Ultz.Native.SDL": {
         "type": "Transitive",
-        "resolved": "2.28.4",
-        "contentHash": "PNjy7xHiR3p8xkzfVSGhPlRYkzGZjVH6sFiJn2zMNKDQOXxqawUXJAyhFOUpdN36gyVJ26Gl4Z2CcmoLrgEArA=="
+        "resolved": "2.30.1",
+        "contentHash": "5RRNMMEapbRdyFu1yk1HINakZRW0qycoTVR2DW3mb0AYsATro8Dek7POQP4H1bMpM4I3vGPkiKTM65CC9iSrCg=="
       },
       "glekcraft": {
         "type": "Project",
         "dependencies": {
-          "Silk.NET.Input": "[2.20.0, )",
-          "Silk.NET.OpenGL": "[2.20.0, )",
-          "Silk.NET.Windowing": "[2.20.0, )"
+          "Silk.NET.Input": "[2.21.0, )",
+          "Silk.NET.OpenGL": "[2.21.0, )",
+          "Silk.NET.Windowing": "[2.21.0, )"
         }
       }
     }
