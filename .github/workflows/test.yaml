@@ -53,18 +53,18 @@ jobs:
         with:
           name: test-results-${{inputs.build-os}}
           path: testResults
-      - id: install-reportgenerator
-        name: Install reportgenerator
-        run: dotnet tool install --global dotnet-reportgenerator-globaltool
-      - id: generate-coverage-report
-        name: Generate coverage report
-        run: reportgenerator '-reporttypes:html' '-title:Glekcraft Code Coverage' '-targetdir:coverage/html' '-reports:**/testResults/**/coverage.cobertura.xml' '-filefilters:-*Interop*' '-license:${{secrets.reportgenerator-license}}'
-      - id: generate-dark-coverage-report
-        name: Generate dark coverage report
-        run: reportgenerator '-reporttypes:html_dark' '-title:Glekcraft Code Coverage' '-targetdir:coverage/html_dark' '-reports:**/testResults/**/coverage.cobertura.xml' '-filefilters:-*Interop*' '-license:${{secrets.reportgenerator-license}}'
-      - id: upload-coverage-reports
-        name: Upload coverage reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-reports-${{inputs.build-os}}
-          path: coverage
+      # - id: install-reportgenerator
+      #   name: Install reportgenerator
+      #   run: dotnet tool install --global dotnet-reportgenerator-globaltool
+      # - id: generate-coverage-report
+      #   name: Generate coverage report
+      #   run: reportgenerator '-reporttypes:html' '-title:Glekcraft Code Coverage' '-targetdir:coverage/html' '-reports:**/testResults/**/coverage.cobertura.xml' '-filefilters:-*Interop*' '-license:${{secrets.reportgenerator-license}}'
+      # - id: generate-dark-coverage-report
+      #   name: Generate dark coverage report
+      #   run: reportgenerator '-reporttypes:html_dark' '-title:Glekcraft Code Coverage' '-targetdir:coverage/html_dark' '-reports:**/testResults/**/coverage.cobertura.xml' '-filefilters:-*Interop*' '-license:${{secrets.reportgenerator-license}}'
+      # - id: upload-coverage-reports
+      #   name: Upload coverage reports
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: coverage-reports-${{inputs.build-os}}
+      #     path: coverage
