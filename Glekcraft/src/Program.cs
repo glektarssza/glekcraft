@@ -152,25 +152,31 @@ public static class Program {
         GraphicsContext.BindVertexArray(VAO);
         VertexBuffer = GraphicsContext.GenBuffer();
         GraphicsContext.BindBuffer(BufferTargetARB.ArrayBuffer, VertexBuffer);
+#pragma warning disable format
         GraphicsContext.BufferData(BufferTargetARB.ArrayBuffer, [
             -0.5f, -0.5f, 0f,
             0.5f, -0.5f, 0f,
             0f, 0.5f, 0f
         ], BufferUsageARB.StaticDraw);
+#pragma warning restore format
 
         ColorBuffer = GraphicsContext.GenBuffer();
         GraphicsContext.BindBuffer(BufferTargetARB.ArrayBuffer, ColorBuffer);
+#pragma warning disable format
         GraphicsContext.BufferData<byte>(BufferTargetARB.ArrayBuffer, [
             255, 0, 0,
             0, 255, 0,
             0, 0, 255
         ], BufferUsageARB.StaticDraw);
+#pragma warning restore format
 
         IndexBuffer = GraphicsContext.GenBuffer();
         GraphicsContext.BindBuffer(BufferTargetARB.ElementArrayBuffer, IndexBuffer);
+#pragma warning disable format
         GraphicsContext.BufferData<ushort>(BufferTargetARB.ElementArrayBuffer, [
             0, 1, 2
         ], BufferUsageARB.StaticDraw);
+#pragma warning restore format
 
         VertexShader = GraphicsContext.CreateShader(ShaderType.VertexShader);
         GraphicsContext.ShaderSource(VertexShader, @"
