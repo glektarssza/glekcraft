@@ -1,9 +1,17 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft", "Glekcraft\Glekcraft.csproj", "{3DA996B3-1F53-4D06-965E-1DD6E85FA4B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{C8CE86BD-B426-407E-9137-DD8C7E639D65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft.Graphics.OpenGL", "packages\Graphics.OpenGL\Glekcraft.Graphics.OpenGL.csproj", "{A1A313D5-4A43-4C8A-8720-9E27A98BB7DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{47887BF2-F0D7-4B0E-8B56-34C7743C6BE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft.Graphics.OpenGL.Tests", "tests\Graphics.OpenGL\Glekcraft.Graphics.OpenGL.Tests.csproj", "{7ABD65AF-C691-4FDB-9299-73B9EF072A56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +26,17 @@ Global
 		{3DA996B3-1F53-4D06-965E-1DD6E85FA4B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DA996B3-1F53-4D06-965E-1DD6E85FA4B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DA996B3-1F53-4D06-965E-1DD6E85FA4B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1A313D5-4A43-4C8A-8720-9E27A98BB7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1A313D5-4A43-4C8A-8720-9E27A98BB7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1A313D5-4A43-4C8A-8720-9E27A98BB7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1A313D5-4A43-4C8A-8720-9E27A98BB7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ABD65AF-C691-4FDB-9299-73B9EF072A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ABD65AF-C691-4FDB-9299-73B9EF072A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ABD65AF-C691-4FDB-9299-73B9EF072A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ABD65AF-C691-4FDB-9299-73B9EF072A56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A1A313D5-4A43-4C8A-8720-9E27A98BB7DF} = {C8CE86BD-B426-407E-9137-DD8C7E639D65}
+		{7ABD65AF-C691-4FDB-9299-73B9EF072A56} = {47887BF2-F0D7-4B0E-8B56-34C7743C6BE7}
 	EndGlobalSection
 EndGlobal
