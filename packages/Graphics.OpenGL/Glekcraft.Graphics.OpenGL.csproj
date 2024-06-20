@@ -3,10 +3,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <RootNamespace>Glekcraft</RootNamespace>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <OutputType>WinExe</OutputType>
-        <RuntimeIdentifiers>linux-x64;osx-x64;win-x64</RuntimeIdentifiers>
+        <RootNamespace>Glekcraft.Graphics.OpenGL</RootNamespace>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
@@ -15,10 +12,5 @@
     </PropertyGroup>
     <ItemGroup Label="Implicit Usings">
         <Using Include="System" />
-    </ItemGroup>
-    <ItemGroup Label="Dependencies">
-        <PackageReference Include="Silk.NET.Input" Version="2.21.0" />
-        <PackageReference Include="Silk.NET.OpenGL" Version="2.21.0" />
-        <PackageReference Include="Silk.NET.Windowing" Version="2.21.0" />
     </ItemGroup>
 </Project>
