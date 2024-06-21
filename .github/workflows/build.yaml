@@ -1,16 +1,29 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Build
 on:
+  push:
+  pull_request:
+    branches:
+      - main
   workflow_call:
     inputs:
       build-os:
-        description: |
+        description: >
           The operating system to build for.
+
+          Valid options are:
+           * `linux`
+           * `windows`
+           * `macos`
         type: string
         required: true
-      build-configuration:
+      build-config:
         description: |
           The configuration to build.
+
+          Valid options are:
+           * `Release`
+           * `Debug`
         type: string
         required: true
     secrets:
@@ -23,14 +36,34 @@ on:
         description: |
           The ID of the artifact produced by the build.
         value: ${{jobs.build.outputs.artifact-id}}
+      artifact-name:
+        description: |
+          The name of the artifact produced by the build.
+        value: ${{jobs.build.outputs.artifact-name}}
 jobs:
   build:
     name: Build
-    runs-on: ${{inputs.build-os}}
+    runs-on: ${{matrix.build-os}}
+    strategy:
+      fail-fast: true
+      matrix:
+        build-os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        build-config:
+          - Release
+          - Debug
+        exclude:
+          - build-config: ${{(inputs.build-config == 'Release' && 'Debug') || (inputs.build-config == 'Debug' && 'Release')}}
+          - build-os: ${{(inputs.build-os == 'linux' && 'windows-latest') || (inputs.build-os == 'macos' && 'windows-latest') || (inputs.build-os == 'windows' && '')}}
+          - build-os: ${{(inputs.build-os == 'linux' && '') || (inputs.build-os == 'macos' && 'ubuntu-latest') || (inputs.build-os == 'windows' && 'ubuntu-latest')}}
+          - build-os: ${{(inputs.build-os == 'linux' && 'macos-latest') || (inputs.build-os == 'macos' && '') || (inputs.build-os == 'windows' && 'macos-latest')}}
     outputs:
       artifact-id: ${{steps.upload-artifacts.outputs.artifact-id}}
+      artifact-name: ${{steps.upload-artifacts.outputs.artifact-name}}
     env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+      NUGET_PACKAGES: ${{github.workspace}}/.nuget/packages
     steps:
       - id: checkout-repository
         name: Checkout repository
@@ -51,13 +84,13 @@ jobs:
         run: dotnet restore --locked-mode
       - id: build
         name: Build
-        run: dotnet build --no-restore --configuration ${{inputs.build-configuration}}
+        run: dotnet build --no-restore --configuration ${{matrix.build-config}}
       - id: prepare-artifacts
         name: Prepare artifacts
-        run: dotnet publish --no-build --output dist --configuration ${{inputs.build-configuration}} ./Glekcraft/Glekcraft.csproj
+        run: dotnet publish --no-build --output dist --configuration ${{matrix.build-config}} ./Glekcraft/Glekcraft.csproj
       - id: upload-artifacts
         name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{inputs.build-configuration}}-${{inputs.build-os}}
+          name: dist-${{matrix.build-config}}-${{matrix.build-os}}
           path: dist
