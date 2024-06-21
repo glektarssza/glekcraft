@@ -48,8 +48,7 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
         with:
-          repository: glektarssza/glekcraft
-          token: ${{secrets.github-token}}
+          token: ${{secrets.github-token || github.token}}
           lfs: true
       - id: setup-dotnet
         name: Setup dotnet
