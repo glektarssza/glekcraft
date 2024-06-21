@@ -1,11 +1,20 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Test
 on:
+  push:
+  pull_request:
+    branches:
+      - main
   workflow_call:
     inputs:
       build-os:
-        description: |
-          The operating system to test on.
+        description: >
+          The operating system to build for.
+
+          Valid options are:
+           * `linux`
+           * `windows`
+           * `macos`
         type: string
         required: true
     secrets:
@@ -20,16 +29,26 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: ${{inputs.build-os}}
+    runs-on: ${{matrix.build-os}}
+    strategy:
+      fail-fast: true
+      matrix:
+        build-os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        exclude:
+          - build-os: ${{(inputs.build-os == 'linux' && 'windows-latest') || (inputs.build-os == 'macos' && 'windows-latest') || (inputs.build-os == 'windows' && '')}}
+          - build-os: ${{(inputs.build-os == 'linux' && '') || (inputs.build-os == 'macos' && 'ubuntu-latest') || (inputs.build-os == 'windows' && 'ubuntu-latest')}}
+          - build-os: ${{(inputs.build-os == 'linux' && 'macos-latest') || (inputs.build-os == 'macos' && '') || (inputs.build-os == 'windows' && 'macos-latest')}}
     env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+      NUGET_PACKAGES: ${{github.workspace}}/.nuget/packages
     steps:
       - id: checkout-repository
         name: Checkout repository
         uses: actions/checkout@v4
         with:
-          repository: glektarssza/glekcraft
-          token: ${{secrets.github-token}}
+          token: ${{secrets.github-token || github.token}}
           lfs: true
       - id: setup-dotnet
         name: Setup dotnet
@@ -51,7 +70,7 @@ jobs:
         name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{inputs.build-os}}
+          name: test-results-${{matrix.build-os}}
           path: testResults
       # - id: install-reportgenerator
       #   name: Install reportgenerator
