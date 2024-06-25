@@ -34,10 +34,5 @@ tags
 # Logs #
 *.log*
 
-# Artifacts #
-## .NET ##
-[Bb]in/
-[Oo]bj/
-[Tt]estResults/
-[Cc]overage/
-[Dd]ist/
+# Environment #
+.envrc
