@@ -53,8 +53,24 @@ jobs:
             if (!BUILD_CONFIG) {
               BUILD_CONFIG = 'debug,release';
             }
-            const buildOSes = BUILD_OS.split(',').map((e) => e.trim());
-            const buildConfigs = BUILD_CONFIG.split(',').map((e) => e.trim());
+            const buildOSes = BUILD_OS.split(',').map((e) => e.trim()).map((e) => {
+              switch (e) {
+                case 'windows':
+                  return 'windows-latest';
+                case 'linux':
+                  return 'ubuntu-latest';
+                case 'macos':
+                  return 'macos-latest';
+              }
+            });
+            const buildConfigs = BUILD_CONFIG.split(',').map((e) => e.trim()).map((e) => {
+              switch (e) {
+                case 'debug':
+                  return 'Debug';
+                case 'release':
+                  return 'Release';
+              }
+            });
             return {
               'build-config': buildConfigs,
               'build-os': buildOSes
@@ -87,4 +103,4 @@ jobs:
         run: dotnet restore --locked-mode
       - id: build
         name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration ${{matrix.build-config}}
