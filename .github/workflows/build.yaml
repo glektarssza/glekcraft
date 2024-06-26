@@ -125,4 +125,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: dist
-          name: dist-${{matrix.build-config}}-${{startsWith(matrix.build-os, 'windows') && 'windows' || startsWith(matrix.build-os, 'ubuntu') && 'linux' || startsWith(matrix.build-os, 'macos') && 'macos' || 'unknown'}}
+          name: dist-${{startsWith(matrix.build-config, 'Debug') && 'debug' || startsWith(matrix.build-config, 'Release') && 'release' || 'unknown'}}-${{startsWith(matrix.build-os, 'windows') && 'windows' || startsWith(matrix.build-os, 'ubuntu') && 'linux' || startsWith(matrix.build-os, 'macos') && 'macos' || 'unknown'}}
