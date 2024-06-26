@@ -38,5 +38,6 @@ tags
 .envrc
 
 # Artifacts #
+dist/
 bin/
 obj/
