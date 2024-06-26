@@ -113,10 +113,10 @@ jobs:
           cache-dependency-path: '**/packages.lock.json'
       - id: restore-dependencies
         name: Restore dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore --locked-mode --use-current-runtime
       - id: build
         name: Build
-        run: dotnet build --no-restore --configuration ${{matrix.build-config}}
+        run: dotnet build --no-restore --configuration ${{matrix.build-config}} --use-current-runtime
       - id: generate-distribution
         name: Generate distribution
         run: dotnet publish --no-build --configuration ${{matrix.build-config}} --use-current-runtime --output dist Glekcraft/Glekcraft.csproj
