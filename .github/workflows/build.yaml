@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+  workflow_call:
+    inputs:
+      build-config:
+        description: >
+          The build configurations to build, as a comma-separated list.
+
+          Valid options are:
+           * debug
+           * release
+        type: string
+        required: true
+      build-os:
+        description: >
+          The operating system to build for, as a comma-separated list.
+
+          Valid options are:
+           * linux
+           * windows
+           * macos
+        type: string
+        required: true
+    secrets:
+      github-token:
+        description: >
+          The token to use when making authenticated GitHub API calls.
+        required: true
+jobs:
+  generate-build-matrix:
+    name: Generate build matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{steps.generate-build-matrix.outputs.result}}
+    steps:
+      - id: generate-build-matrix
+        name: Generate build matrix
+        env:
+          BUILD_OS: ${{inputs.build-os}}
+          BUILD_CONFIG: ${{inputs.build-config}}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let {BUILD_OS, BUILD_CONFIG} = process.env;
+            if (!BUILD_OS) {
+              BUILD_OS = 'windows,linux,macos';
+            }
+            if (!BUILD_CONFIG) {
+              BUILD_CONFIG = 'debug,release';
+            }
+            const buildOSes = BUILD_OS.split(',').map((e) => e.trim());
+            const buildConfigs = BUILD_CONFIG.split(',').map((e) => e.trim());
+            return {
+              'build-config': buildConfigs,
+              'build-os': buildOSes
+            };
+  build:
+    name: Build
+    runs-on: ${{matrix.build-os}}
+    env:
+      NUGET_PACKAGES: ${{github.workspace}}/.nuget/packages
+    needs:
+      - generate-build-matrix
+    strategy:
+      fail-fast: true
+      matrix: ${{fromJson(needs.generate-build-matrix.outputs.matrix)}}
+    steps:
+      - id: checkout-repository
+        name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+          lfs: true
+      - id: setup-dotnet
+        name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+          cache: true
+      - id: restore-dependencies
+        name: Restore dependencies
+        run: dotnet restore --locked-mode
+      - id: build
+        name: Build
+        run: dotnet build --no-restore
