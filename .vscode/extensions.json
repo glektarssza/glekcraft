@@ -2,6 +2,10 @@
     "recommendations": [
         "github.remotehub",
         "github.vscode-pull-request-github",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "josephwoodward.vscodeilviewer",
+        "tintoy.msbuild-project-tools"
     ]
 }
