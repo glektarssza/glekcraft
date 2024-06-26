@@ -5,7 +5,7 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <RootNamespace>Glekcraft</RootNamespace>
         <OutputType>WinExe</OutputType>
-        <RuntimeIdentifiers>linux-x64;osx-x64;win-x64</RuntimeIdentifiers>
+        <RuntimeIdentifiers>linux-x64;osx-x64;osx-arm64;win-x64</RuntimeIdentifiers>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
