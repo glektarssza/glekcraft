@@ -56,7 +56,7 @@ jobs:
           cache-dependency-path: '**/packages.lock.json'
       - id: restore-dependencies
         name: Restore dependencies
-        run: dotnet restore --locked-mode --use-current-runtime
+        run: dotnet restore --locked-mode
       - id: test
         name: Test
-        run: dotnet test --no-restore --use-current-runtime
+        run: dotnet test --no-restore
