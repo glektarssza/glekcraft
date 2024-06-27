@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Lint
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      github-token:
+        description: >
+          The token to use for making authenticated GitHub calls.
+        required: true
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    env:
+      NUGET_PACKAGES: ${{github.workspace}}/.nuget/packages/
+    steps:
+      - id: checkout-repository
+        name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+      - id: setup-dotnet
+        name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+      - id: restore-dependencies
+        name: Restore dependencies
+        run: dotnet restore --locked-mode
+      - id: lint
+        name: Lint
+        run: dotnet format --verify-no-changes
