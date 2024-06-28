@@ -42,6 +42,7 @@ on:
           The project to build.
         type: string
         required: false
+        default: Glekcraft/Glekcraft.csproj
       build-os:
         description: >
           The operating system to build for.
