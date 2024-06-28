@@ -104,10 +104,10 @@ jobs:
         run: dotnet restore --locked-mode --use-current-runtime
       - id: build
         name: Build
-        run: dotnet build --no-restore --use-current-runtime --configuration ${{inputs.build-config}}
+        run: dotnet build --no-restore --use-current-runtime --configuration ${{(inputs.build-config == 'debug' && 'Debug') || (inputs.build-config == 'release' && 'Release') || ''}}
       - id: generate-artifacts
         name: Generate artifacts
-        run: dotnet publish --no-build --use-current-runtime --configuration ${{inputs.build-config}} --output ${{github.workspace}}/dist/ ${{inputs.project}}
+        run: dotnet publish --no-build --use-current-runtime --configuration ${{(inputs.build-config == 'debug' && 'Debug') || (inputs.build-config == 'release' && 'Release') || ''}} --output ${{github.workspace}}/dist/ ${{inputs.project}}
       - id: upload-artifacts
         name: Upload artifacts
         uses: actions/upload-artifact@v4
