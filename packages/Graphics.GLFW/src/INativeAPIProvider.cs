@@ -73,7 +73,7 @@ public interface INativeAPIProvider {
     /// The version of the native library being used.
     /// </returns>
     /// <seealso cref="GetVersionString" />
-    public Version GetVersion();
+    public Version? GetVersion();
 
     /// <summary>
     /// Get the version string of the native library being used.
