@@ -16,3 +16,7 @@ repos:
       - id: end-of-file-fixer
       - id: mixed-line-ending
       - id: trailing-whitespace
+  - repo: https://github.com/glektarssza/pre-commit-hooks
+    rev: 4f25fe44c7b1c2c5f38baa4dc84500edbd167976
+    hooks:
+      - id: dotnet-lint
