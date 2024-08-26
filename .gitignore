@@ -37,6 +37,7 @@ tags
 # Environment #
 .envrc
 
-# Packages #
-## NodeJS ##
-node_modules/
+# Artifacts #
+## MSBuild ##
+[Bb]in/
+[Oo]bj/
