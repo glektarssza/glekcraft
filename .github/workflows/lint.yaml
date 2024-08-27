@@ -20,6 +20,7 @@ jobs:
         with:
           dotnet-version: 8.x
           cache: true
+          cache-dependency-path: Glekcraft/packages.lock.json
       - id: checkout
         name: Checkout
         uses: actions/checkout@v4
