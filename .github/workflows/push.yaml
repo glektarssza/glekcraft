@@ -10,3 +10,23 @@ jobs:
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
     uses: ./.github/workflows/lint.yaml
+  build:
+    name: Build
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        build-os:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+        build-config:
+          - debug
+          - release
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}
+    uses: ./.github/workflows/build.yaml
+    with:
+      build-os: ${{matrix.build-os}}
+      build-config: ${{matrix.build-config}}
