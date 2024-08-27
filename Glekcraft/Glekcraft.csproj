@@ -2,6 +2,7 @@
 <?xml-model href="https://github.com/dotnet/msbuild/raw/main/src/MSBuild/Microsoft.Build.xsd" type="application/xml" schematypens="http://schemas.microsoft.com/developer/msbuild/2003"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup Label="General Properties">
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <RootNamespace>Glekcraft</RootNamespace>
         <OutputType>WinExe</OutputType>
         <RuntimeIdentifiers>linux-x64;osx-x64;osx-arm64;win-x64</RuntimeIdentifiers>
