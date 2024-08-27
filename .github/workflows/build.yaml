@@ -72,3 +72,5 @@ jobs:
         with:
           name: dist-${{inputs.build-os}}-${{inputs.build-config}}
           path: dist
+          compression-level: 0
+          if-no-files-found: error
