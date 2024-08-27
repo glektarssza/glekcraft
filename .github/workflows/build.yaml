@@ -39,11 +39,11 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ${{github.event.inputs.build-os}}
+    runs-on: ${{inputs.build-os}}
     permissions:
       contents: read
     outputs:
-      artifact-name: dist-${{github.event.inputs.build-os}}-${{github.event.inputs.build-config}}
+      artifact-name: dist-${{inputs.build-os}}-${{inputs.build-config}}
       artifact-id: ${{steps.upload-artifacts.outputs.artifact-id}}
     steps:
       - id: checkout
@@ -65,10 +65,10 @@ jobs:
         run: dotnet restore --locked-mode
       - id: build
         name: Build
-        run: dotnet publish --no-restore --configuration ${{github.event.inputs.build-config}} --output dist --self-contained --use-current-runtime Glekcraft
+        run: dotnet publish --no-restore --configuration ${{inputs.build-config}} --output dist --self-contained --use-current-runtime Glekcraft
       - id: upload-artifacts
         name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{github.event.inputs.build-os}}-${{github.event.inputs.build-config}}
+          name: dist-${{inputs.build-os}}-${{inputs.build-config}}
           path: dist
