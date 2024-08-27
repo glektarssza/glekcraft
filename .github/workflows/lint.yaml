@@ -25,7 +25,9 @@ jobs:
         with:
           dotnet-version: 8.x
           cache: true
-          cache-dependency-path: Glekcraft/packages.lock.json
+          cache-dependency-path: |
+            Glekcraft/packages.lock.json
+            packages/*/packages.lock.json
       - id: restore-dependencies
         name: Restore dependencies
         run: dotnet restore --locked-mode
