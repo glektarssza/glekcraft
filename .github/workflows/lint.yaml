@@ -27,7 +27,7 @@ jobs:
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
       - id: restore-dependencies
         name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore --locked-mode
       - id: lint
         name: Lint
         run: dotnet format --no-restore --verify-no-changes
