@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft", "Glekcraft\Glekcraft.csproj", "{5C33C7BC-9D07-42CA-B071-D5A0C4592E7B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{8044D2F1-5201-457A-9BB7-8970D138131D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft.Graphics.GLFW", "packages\Graphics.GLFW\Glekcraft.Graphics.GLFW.csproj", "{1834F931-DDDE-450B-BC24-A71488A3EF05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,12 @@ Global
 		{5C33C7BC-9D07-42CA-B071-D5A0C4592E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C33C7BC-9D07-42CA-B071-D5A0C4592E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C33C7BC-9D07-42CA-B071-D5A0C4592E7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1834F931-DDDE-450B-BC24-A71488A3EF05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1834F931-DDDE-450B-BC24-A71488A3EF05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1834F931-DDDE-450B-BC24-A71488A3EF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1834F931-DDDE-450B-BC24-A71488A3EF05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1834F931-DDDE-450B-BC24-A71488A3EF05} = {8044D2F1-5201-457A-9BB7-8970D138131D}
 	EndGlobalSection
 EndGlobal
