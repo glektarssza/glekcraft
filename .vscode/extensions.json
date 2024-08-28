@@ -8,7 +8,6 @@
         "ms-dotnettools.csdevkit",
         "josephwoodward.vscodeilviewer",
         "tintoy.msbuild-project-tools",
-        "ms-vscode.mono-debug",
-        "task.vscode-task"
+        "ms-vscode.mono-debug"
     ]
 }
