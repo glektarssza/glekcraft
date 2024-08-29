@@ -1,4 +1,16 @@
 {
     "version": "0.2.0",
-    "configurations": []
+    "configurations": [
+        {
+            "name": ".NET Launch",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dotnet:build:debug",
+            "program": "${workspaceFolder}/Glekcraft/bin/Debug/net8.0/Glekcraft.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        }
+    ]
 }
