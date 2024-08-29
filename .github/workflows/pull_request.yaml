@@ -30,3 +30,23 @@ jobs:
     with:
       build-os: ${{matrix.build-os}}
       build-config: ${{matrix.build-config}}
+  test:
+    name: Test
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        build-os:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+        build-config:
+          - debug
+          - release
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}
+    uses: ./.github/workflows/test.yaml
+    with:
+      build-os: ${{matrix.build-os}}
+      build-config: ${{matrix.build-config}}
