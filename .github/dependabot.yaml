@@ -1,11 +1,11 @@
 # yaml-language-server: $schema=https://json.schemastore.org/dependabot-2.0.json
 version: 2
 updates:
-  - package-ecosystem: npm
+  - package-ecosystem: nuget
     directory: /
     labels:
+      - Chore
       - Dependencies
-    versioning-strategy: increase
     assignees:
       - glektarssza
     reviewers:

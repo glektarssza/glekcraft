@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Lint
+on:
+  workflow_call:
+    secrets:
+      github-token:
+        required: true
+        description: |
+          The token to use for making authenticated requests to the GitHub API.
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+      - id: setup-dotnet
+        name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+          cache: true
+          cache-dependency-path: |
+            Glekcraft/packages.lock.json
+            packages/*/packages.lock.json
+      - id: restore-dependencies
+        name: Restore dependencies
+        run: dotnet restore --locked-mode
+      - id: lint
+        name: Lint
+        run: dotnet format --no-restore --verify-no-changes
