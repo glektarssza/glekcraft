@@ -1,4 +1,567 @@
 {
     "version": "2.0.0",
-    "tasks": []
+    "tasks": [
+        {
+            "label": "dotnet:restore",
+            "detail": "Restore the project dependencies using dotnet.",
+            "icon": {
+                "id": "cloud-download",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": true
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "restore"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:build",
+            "detail": "Build the project using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:build:debug",
+            "detail": "Build the project in debug mode using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiCyan"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore",
+                "--configuration",
+                "Debug"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:build:release",
+            "detail": "Build the project in release mode using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiGreen"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "--no-restore",
+                "--configuration",
+                "Release"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:publish",
+            "detail": "Publish the project using dotnet.",
+            "icon": {
+                "id": "package",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:build"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "--no-restore",
+                "--no-build",
+                "--output",
+                "dist"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:publish:debug",
+            "detail": "Publish the project in debug mode using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiCyan"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:build"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "--no-restore",
+                "--no-build",
+                "--output",
+                "dist",
+                "--configuration",
+                "Debug"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:build:release",
+            "detail": "Build the project in release mode using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiGreen"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:build"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "--no-restore",
+                "--no-build",
+                "--output",
+                "dist",
+                "--configuration",
+                "Release"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:clean",
+            "detail": "Clean the project using dotnet.",
+            "icon": {
+                "id": "trash",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "clean"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:clean:debug",
+            "detail": "Clean the project in debug mode using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiCyan"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "clean",
+                "--configuration",
+                "Debug"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:clean:release",
+            "detail": "Clean the project in release mode using dotnet.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiGreen"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "clean",
+                "--configuration",
+                "Release"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:test",
+            "detail": "Test the project using dotnet.",
+            "icon": {
+                "id": "beaker",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:build"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "--no-build",
+                "--configuration",
+                "Debug"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:test:coverage",
+            "detail": "Test the project using dotnet and collect code coverage.",
+            "icon": {
+                "id": "beaker",
+                "color": "terminal.ansiCyan"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:build"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "--no-build",
+                "--configuration",
+                "Debug",
+                "--collect",
+                "Code Coverage"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "dotnet:lint",
+            "detail": "Lint the project using dotnet.",
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "hide": false,
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "dotnet:restore"
+            ],
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "format",
+                "--no-restore",
+                "--verify-no-changes"
+            ],
+            "options": {},
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        }
+    ]
 }
