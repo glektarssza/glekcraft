@@ -16,6 +16,12 @@ public static class Program {
         using var glfw = LibGLFW.Initialize();
         Console.WriteLine("Hello, World!");
         Console.WriteLine("Using GLFW v{0}", glfw.NativeVersionString);
+        var monitors = glfw.Monitors;
+        Console.WriteLine("Found {0} monitors", monitors.Length);
+        Console.WriteLine("=== Monitors ===");
+        foreach (var monitor in monitors) {
+            Console.WriteLine("{0} {1}", monitor.IsPrimary ? "*" : " ", monitor.Name ?? "Unknown");
+        }
         return (int)ExitCode.Success;
     }
 }

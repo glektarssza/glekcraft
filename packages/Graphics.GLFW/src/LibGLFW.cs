@@ -1,5 +1,8 @@
 namespace Glekcraft.Graphics.GLFW;
 
+using System.Collections.Generic;
+using System.Linq;
+
 /// <summary>
 /// The main entry point into the library.
 /// </summary>
@@ -91,6 +94,15 @@ public sealed class LibGLFW : IDisposable {
 
     #endregion
 
+    #region Private Fields
+
+    /// <summary>
+    /// The monitors attached to the system.
+    /// </summary>
+    private readonly List<Monitor> monitors;
+
+    #endregion
+
     #region Public Properties
 
     /// <summary>
@@ -111,6 +123,20 @@ public sealed class LibGLFW : IDisposable {
     public INativeAPIProvider APIProvider {
         get;
     }
+
+    /// <summary>
+    /// The primary monitor attached to the system.
+    /// </summary>
+    public Monitor? PrimaryMonitor {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// A list of monitors attached to the system.
+    /// </summary>
+    public Monitor[] Monitors =>
+        [.. monitors];
 
     /// <summary>
     /// Whether this instance is the one currently managing the native library.
@@ -136,8 +162,35 @@ public sealed class LibGLFW : IDisposable {
     /// <param name="apiProvider">
     /// The object which will provide access to the native library APIs.
     /// </param>
-    private LibGLFW(INativeAPIProvider apiProvider) =>
+    private LibGLFW(INativeAPIProvider apiProvider) {
         APIProvider = apiProvider;
+        var primaryMonitorPtr = APIProvider.GetPrimaryMonitor();
+        PrimaryMonitor = primaryMonitorPtr != IntPtr.Zero ? new Monitor(this, primaryMonitorPtr) : null;
+        monitors = APIProvider.GetMonitors().Select(ptr => new Monitor(this, ptr)).ToList();
+        _ = APIProvider.SetErrorCallback((code, description) => {
+            LastErrorCode = code;
+            LastErrorDescription = description;
+        });
+        _ = APIProvider.SetMonitorCallback((monitor, @event) => {
+            switch (@event) {
+                case MonitorEvent.Connected:
+                    var m = new Monitor(this, monitor);
+                    monitors.Add(m);
+                    if (APIProvider.GetPrimaryMonitor() == monitor) {
+                        PrimaryMonitor = m;
+                    }
+                    break;
+                case MonitorEvent.Disconnected:
+                    _ = monitors.RemoveAll(m => m.Handle == monitor);
+                    if (PrimaryMonitor?.Handle == monitor) {
+                        PrimaryMonitor = null;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
 
     /// <summary>
     /// The finalizer.
@@ -184,9 +237,10 @@ public sealed class LibGLFW : IDisposable {
         }
         if (managed) {
             if (IsCurrentInstance) {
+                _ = APIProvider.SetMonitorCallback(null);
+                _ = APIProvider.SetErrorCallback(null);
                 APIProvider.Terminate();
             }
-            // TODO: Dispose of managed resources
         }
         if (IsCurrentInstance) {
             Instance = null;

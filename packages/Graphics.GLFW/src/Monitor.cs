@@ -14,6 +14,30 @@ public class Monitor {
     }
 
     /// <summary>
+    /// Whether this instance is the primary monitor.
+    /// </summary>
+    public bool IsPrimary {
+        get {
+            if (!IsValid) {
+                return false;
+            }
+            return LibraryInstance.APIProvider.GetPrimaryMonitor() == Handle;
+        }
+    }
+
+    /// <summary>
+    /// The name of this instance.
+    /// </summary>
+    public string? Name {
+        get {
+            if (!IsValid) {
+                return null;
+            }
+            return LibraryInstance.APIProvider.GetMonitorName(Handle);
+        }
+    }
+
+    /// <summary>
     /// The handle wrapped by this instance.
     /// </summary>
     public IntPtr Handle {
@@ -24,7 +48,7 @@ public class Monitor {
     /// Whether this instance is valid.
     /// </summary>
     public bool IsValid =>
-        Handle != IntPtr.Zero;
+        !LibraryInstance.IsDisposed && LibraryInstance.IsCurrentInstance && Handle != IntPtr.Zero;
 
     #endregion
 

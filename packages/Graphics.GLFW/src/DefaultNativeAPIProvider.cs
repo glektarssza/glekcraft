@@ -51,8 +51,7 @@ internal partial class DefaultNativeAPIProvider : INativeAPIProvider {
     private static partial bool glfwPlatformSupported(Platform platform);
 
     [LibraryImport(DLL_NAME)]
-    [return: MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt, SizeParamIndex = 0)]
-    private static partial IntPtr[] glfwGetMonitors(ref int count);
+    private static partial IntPtr glfwGetMonitors(ref int count);
 
     [LibraryImport(DLL_NAME)]
     private static partial IntPtr glfwGetPrimaryMonitor();
@@ -82,8 +81,7 @@ internal partial class DefaultNativeAPIProvider : INativeAPIProvider {
     private static partial INativeAPIProvider.MonitorCallback? glfwSetMonitorCallback(INativeAPIProvider.MonitorCallback? callback);
 
     [LibraryImport(DLL_NAME)]
-    [return: MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt, SizeParamIndex = 1)]
-    private static partial IntPtr[] glfwGetVideoModes(IntPtr monitor, ref int count);
+    private static partial IntPtr glfwGetVideoModes(IntPtr monitor, ref int count);
 
     [LibraryImport(DLL_NAME)]
     private static partial IntPtr glfwGetVideoMode(IntPtr monitor);
@@ -161,7 +159,13 @@ internal partial class DefaultNativeAPIProvider : INativeAPIProvider {
     /// <inheritdoc />
     public IntPtr[] GetMonitors() {
         var count = 0;
-        return glfwGetMonitors(ref count);
+        var mPtrs = glfwGetMonitors(ref count);
+        var handles = new IntPtr[count];
+        for (var i = 0; i < count; i++) {
+            handles[i] = Marshal.ReadIntPtr(mPtrs, i * IntPtr.Size);
+        }
+        return handles;
+
     }
 
     /// <inheritdoc />
@@ -242,7 +246,11 @@ internal partial class DefaultNativeAPIProvider : INativeAPIProvider {
             throw new ArgumentNullException(nameof(monitor), "Invalid monitor handle");
         }
         var count = 0;
-        var vModes = glfwGetVideoModes(monitor, ref count);
+        var vModesPtr = glfwGetVideoModes(monitor, ref count);
+        var vModes = new IntPtr[count];
+        for (var i = 0; i < count; i++) {
+            vModes[i] = Marshal.ReadIntPtr(vModesPtr, i * IntPtr.Size);
+        }
         return vModes.Select(Marshal.PtrToStructure<VideoMode>).ToArray();
     }
 
