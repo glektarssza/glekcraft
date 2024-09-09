@@ -94,6 +94,18 @@ public sealed class LibGLFW : IDisposable {
     #region Public Properties
 
     /// <summary>
+    /// The version of the native library being used.
+    /// </summary>
+    public Version? NativeVersion =>
+        APIProvider.GetVersion();
+
+    /// <summary>
+    /// Get the version string of the native library.
+    /// </summary>
+    public string? NativeVersionString =>
+        APIProvider.GetVersionString();
+
+    /// <summary>
     /// The object which provides access to the native library APIs.
     /// </summary>
     public INativeAPIProvider APIProvider {
