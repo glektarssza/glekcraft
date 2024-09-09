@@ -87,7 +87,6 @@ public sealed class LibGLFW : IDisposable {
             LastErrorDescription = errDescription;
             throw new GLFWException("Failed to initialize the native library");
         }
-        // TODO: Set error callback
         Instance = new(api);
         return Instance;
     }
