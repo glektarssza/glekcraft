@@ -15,4 +15,7 @@
     <ItemGroup Label="Implicit Usings">
         <Using Include="System" />
     </ItemGroup>
+    <ItemGroup Label="Dependencies">
+        <ProjectReference Include="../packages/Graphics.GLFW/Glekcraft.Graphics.GLFW.csproj" />
+    </ItemGroup>
 </Project>
