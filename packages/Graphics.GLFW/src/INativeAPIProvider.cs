@@ -137,34 +137,166 @@ public interface INativeAPIProvider {
 
     #region Public Methods - Monitors
 
+    /// <summary>
+    /// Get an array of handles to all connected monitors.
+    /// </summary>
+    /// <returns>
+    /// An array of handles to all connected monitors.
+    /// </returns>
     public IntPtr[] GetMonitors();
 
-    public IntPtr? GetPrimaryMonitor();
+    /// <summary>
+    /// Get the handle to the primary monitor.
+    /// </summary>
+    /// <returns>
+    /// The handle to the primary monitor.
+    /// </returns>
+    public IntPtr GetPrimaryMonitor();
 
+    /// <summary>
+    /// Get the position of the monitor in screen coordinates.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the position of.
+    /// </param>
+    /// <returns>
+    /// The position of the monitor in screen coordinates.
+    /// </returns>
     public (int xPos, int yPos) GetMonitorPos(IntPtr monitor);
 
+    /// <summary>
+    /// Get the work area of the monitor in screen coordinates.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the work area of.
+    /// </param>
+    /// <returns>
+    /// The work area of the monitor in screen coordinates.
+    /// </returns>
     public (int xPos, int yPos, int width, int height) GetMonitorWorkarea(IntPtr monitor);
 
+    /// <summary>
+    /// Get the physical size of the monitor, in millimeters.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the physical size of.
+    /// </param>
+    /// <returns>
+    /// The physical size of the monitor, in millimeters.
+    /// </returns>
     public (int widthMM, int heightMM) GetMonitorPhysicalSize(IntPtr monitor);
 
+    /// <summary>
+    /// Get the content scale of the monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the content scale of.
+    /// </param>
+    /// <returns>
+    /// The content scale of the monitor.
+    /// </returns>
     public (float xScale, float yScale) GetMonitorContentScale(IntPtr monitor);
 
+    /// <summary>
+    /// Get the name of the monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the name of.
+    /// </param>
+    /// <returns>
+    /// The name of the monitor.
+    /// </returns>
     public string? GetMonitorName(IntPtr monitor);
 
+    /// <summary>
+    /// Set the user pointer of the monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to set the user pointer of.
+    /// </param>
+    /// <param name="userPointer">
+    /// The user pointer to set the user pointer to or
+    /// <see cref="IntPtr.Zero" /> to clear the user pointer.
+    /// </param>
     public void SetMonitorUserPointer(IntPtr monitor, IntPtr userPointer);
 
+    /// <summary>
+    /// Get the user pointer of the monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the user pointer of.
+    /// </param>
+    /// <returns>
+    /// The user pointer of the monitor.
+    /// </returns>
     public IntPtr GetMonitorUserPointer(IntPtr monitor);
 
+    /// <summary>
+    /// Set the callback to be called when a monitor event occurs.
+    /// </summary>
+    /// <param name="callback">
+    /// The callback to be called when a monitor event occurs or <c>null</c>
+    /// to clear the current callback.
+    /// </param>
+    /// <returns>
+    /// The current callback being called when a monitor event occurs or
+    /// <c>null</c> if no callback is currently set.
+    /// </returns>
     public MonitorCallback? SetMonitorCallback(MonitorCallback? callback);
 
+    /// <summary>
+    /// Get the supported video modes of a monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the supported video modes of.
+    /// </param>
+    /// <returns>
+    /// An array of supported video modes of the monitor.
+    /// </returns>
     public VideoMode[] GetVideoModes(IntPtr monitor);
 
-    public VideoMode GetVideoMode(IntPtr monitor);
+    /// <summary>
+    /// Get the current video mode of a monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the current video mode of.
+    /// </param>
+    /// <returns>
+    /// The current video mode of the monitor.
+    /// </returns>
+    public VideoMode? GetVideoMode(IntPtr monitor);
 
+    /// <summary>
+    /// Set the gamma of a monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to set the gamma of.
+    /// </param>
+    /// <param name="gamma">
+    /// The gamma to set the monitor to.
+    /// </param>
     public void SetGamma(IntPtr monitor, float gamma);
 
-    public GammaRamp GetGammaRamp(IntPtr monitor);
+    /// <summary>
+    /// Get the gamma ramp of a monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to get the gamma ramp of.
+    /// </param>
+    /// <returns>
+    /// The gamma ramp of the monitor.
+    /// </returns>
+    public GammaRamp? GetGammaRamp(IntPtr monitor);
 
+    /// <summary>
+    /// Set the gamma ramp of a monitor.
+    /// </summary>
+    /// <param name="monitor">
+    /// The handle to the monitor to set the gamma ramp of.
+    /// </param>
+    /// <param name="ramp">
+    /// The gamma ramp to set the monitor to.
+    /// </param>
     public void SetGammaRamp(IntPtr monitor, GammaRamp ramp);
 
     #endregion
