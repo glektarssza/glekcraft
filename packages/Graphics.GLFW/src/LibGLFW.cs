@@ -24,9 +24,46 @@ public sealed class LibGLFW : IDisposable {
     public static bool IsInitialized =>
         Instance != null;
 
+    /// <summary>
+    /// The last error code set by the native library.
+    /// </summary>
+    public static ErrorCode? LastErrorCode {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// The last error description set by the native library.
+    /// </summary>
+    public static string? LastErrorDescription {
+        get;
+        private set;
+    }
+
     #endregion
 
     #region Public Static Methods
+
+    /// <summary>
+    /// Clear the last error code encountered by the native library.
+    /// </summary>
+    public static void ClearLastErrorCode() =>
+        LastErrorCode = null;
+
+    /// <summary>
+    /// Clear the last error description encountered by the native library.
+    /// </summary>
+    public static void ClearLastErrorDescription() =>
+        LastErrorDescription = null;
+
+    /// <summary>
+    /// Clear the last error code and description encountered by the native
+    /// library.
+    /// </summary>
+    public static void ClearLastError() {
+        ClearLastErrorCode();
+        ClearLastErrorDescription();
+    }
 
     /// <summary>
     /// Initializes the native library.
@@ -43,9 +80,11 @@ public sealed class LibGLFW : IDisposable {
         }
         var api = apiProvider ?? new DefaultNativeAPIProvider();
         if (!api.Init()) {
-            // TODO: Use a custom exception type
-            throw new InvalidOperationException("Failed to initialize the native library");
+            LastErrorCode = api.GetError(out var errDescription);
+            LastErrorDescription = errDescription;
+            throw new GLFWException("Failed to initialize the native library");
         }
+        // TODO: Set error callback
         Instance = new(api);
         return Instance;
     }
