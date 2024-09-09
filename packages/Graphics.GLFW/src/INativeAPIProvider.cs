@@ -19,9 +19,20 @@ public interface INativeAPIProvider {
     /// </param>
     public delegate void ErrorCallback(ErrorCode code, string? description);
 
+    /// <summary>
+    /// A delegate that can be called when a monitor event occurs.
+    /// </summary>
+    /// <param name="monitor">
+    /// The monitor that the event occurred on.
+    /// </param>
+    /// <param name="event">
+    /// The event that occurred on the monitor.
+    /// </param>
+    public delegate void MonitorCallback(IntPtr monitor, MonitorEvent @event);
+
     #endregion
 
-    #region Public Methods
+    #region Public Methods - Core
 
     /// <summary>
     /// Set an initialization hint.
@@ -121,6 +132,40 @@ public interface INativeAPIProvider {
     /// <c>false</c> otherwise.
     /// </returns>
     public bool IsPlatformSupported(Platform platform);
+
+    #endregion
+
+    #region Public Methods - Monitors
+
+    public IntPtr[] GetMonitors();
+
+    public IntPtr? GetPrimaryMonitor();
+
+    public (int xPos, int yPos) GetMonitorPos(IntPtr monitor);
+
+    public (int xPos, int yPos, int width, int height) GetMonitorWorkarea(IntPtr monitor);
+
+    public (int widthMM, int heightMM) GetMonitorPhysicalSize(IntPtr monitor);
+
+    public (float xScale, float yScale) GetMonitorContentScale(IntPtr monitor);
+
+    public string? GetMonitorName(IntPtr monitor);
+
+    public void SetMonitorUserPointer(IntPtr monitor, IntPtr userPointer);
+
+    public IntPtr GetMonitorUserPointer(IntPtr monitor);
+
+    public MonitorCallback? SetMonitorCallback(MonitorCallback? callback);
+
+    public VideoMode[] GetVideoModes(IntPtr monitor);
+
+    public VideoMode GetVideoMode(IntPtr monitor);
+
+    public void SetGamma(IntPtr monitor, float gamma);
+
+    public GammaRamp GetGammaRamp(IntPtr monitor);
+
+    public void SetGammaRamp(IntPtr monitor, GammaRamp ramp);
 
     #endregion
 }
