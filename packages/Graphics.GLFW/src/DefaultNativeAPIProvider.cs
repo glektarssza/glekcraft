@@ -11,7 +11,7 @@ internal partial class DefaultNativeAPIProvider : INativeAPIProvider {
     /// <summary>
     /// The name of the native library to load entry points from.
     /// </summary>
-    public const string DLL_NAME = "glfw";
+    public const string DLL_NAME = "glfw3";
 
     #endregion
 
