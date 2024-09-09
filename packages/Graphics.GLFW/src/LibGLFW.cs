@@ -88,6 +88,7 @@ public sealed class LibGLFW : IDisposable {
             throw new GLFWException("Failed to initialize the native library");
         }
         Instance = new(api);
+        Instance.PostInit();
         return Instance;
     }
 
@@ -163,32 +164,7 @@ public sealed class LibGLFW : IDisposable {
     /// </param>
     private LibGLFW(INativeAPIProvider apiProvider) {
         APIProvider = apiProvider;
-        var primaryMonitorPtr = APIProvider.GetPrimaryMonitor();
-        PrimaryMonitor = primaryMonitorPtr != IntPtr.Zero ? new Monitor(this, primaryMonitorPtr) : null;
-        monitors = APIProvider.GetMonitors().Select(ptr => new Monitor(this, ptr)).ToList();
-        _ = APIProvider.SetErrorCallback((code, description) => {
-            LastErrorCode = code;
-            LastErrorDescription = description;
-        });
-        _ = APIProvider.SetMonitorCallback((monitor, @event) => {
-            switch (@event) {
-                case MonitorEvent.Connected:
-                    var m = new Monitor(this, monitor);
-                    monitors.Add(m);
-                    if (APIProvider.GetPrimaryMonitor() == monitor) {
-                        PrimaryMonitor = m;
-                    }
-                    break;
-                case MonitorEvent.Disconnected:
-                    _ = monitors.RemoveAll(m => m.Handle == monitor);
-                    if (PrimaryMonitor?.Handle == monitor) {
-                        PrimaryMonitor = null;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        });
+        monitors = [];
     }
 
     /// <summary>
@@ -222,6 +198,39 @@ public sealed class LibGLFW : IDisposable {
     #endregion
 
     #region Private Methods
+
+    /// <summary>
+    /// Do any initialization that requires the instance to be fully
+    /// constructed.
+    /// </summary>
+    private void PostInit() {
+        var primaryMonitorPtr = APIProvider.GetPrimaryMonitor();
+        PrimaryMonitor = primaryMonitorPtr != IntPtr.Zero ? new Monitor(this, primaryMonitorPtr) : null;
+        monitors.AddRange(APIProvider.GetMonitors().Select(ptr => new Monitor(this, ptr)));
+        _ = APIProvider.SetErrorCallback((code, description) => {
+            LastErrorCode = code;
+            LastErrorDescription = description;
+        });
+        _ = APIProvider.SetMonitorCallback((monitor, @event) => {
+            switch (@event) {
+                case MonitorEvent.Connected:
+                    var m = new Monitor(this, monitor);
+                    monitors.Add(m);
+                    if (APIProvider.GetPrimaryMonitor() == monitor) {
+                        PrimaryMonitor = m;
+                    }
+                    break;
+                case MonitorEvent.Disconnected:
+                    _ = monitors.RemoveAll(m => m.Handle == monitor);
+                    if (PrimaryMonitor?.Handle == monitor) {
+                        PrimaryMonitor = null;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
 
     /// <summary>
     /// Dispose of this instance.
