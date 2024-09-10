@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "dotnet:build:debug",
-            "program": "${workspaceFolder}/Glekcraft/bin/x64/Debug/net8.0/Glekcraft.dll",
+            "program": "${workspaceFolder}/Glekcraft/bin/Debug/net8.0/Glekcraft.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
