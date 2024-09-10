@@ -8,7 +8,7 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-        <NoWarn>IDE0130</NoWarn>
+        <NoWarn>IDE0130;IDE0058;CA1707</NoWarn>
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
@@ -16,9 +16,13 @@
     <ItemGroup Label="Implicit Usings">
         <Using Include="System" />
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+        <Using Include="FluentAssertions" />
+        <Using Include="Moq" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../../packages/Graphics.GLFW/Glekcraft.Graphics.GLFW.csproj" />
+        <PackageReference Include="FluentAssertions" Version="6.12.1" />
+        <PackageReference Include="Moq" Version="4.20.72" />
         <PackageReference Include="coverlet.collector" Version="6.0.2" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
         <PackageReference Include="MSTest.TestAdapter" Version="3.5.2" />
