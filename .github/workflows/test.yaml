@@ -50,7 +50,7 @@ jobs:
             packages/*/packages.lock.json
       - id: restore-dependencies
         name: Restore dependencies
-        run: dotnet restore --locked-mode
+        run: dotnet restore
       - id: build
         name: Build
         run: dotnet build --no-restore --configuration ${{inputs.build-config}}
