@@ -5,10 +5,8 @@ updates:
     directory: /
     labels:
       - Chore
-      - Dependencies
+      - Dependency
     assignees:
-      - glektarssza
-    reviewers:
       - glektarssza
     schedule:
       interval: weekly
