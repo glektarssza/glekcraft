@@ -8,8 +8,6 @@ updates:
       - Dependency
     assignees:
       - glektarssza
-    reviewers:
-      - glektarssza
     schedule:
       interval: weekly
       day: wednesday
