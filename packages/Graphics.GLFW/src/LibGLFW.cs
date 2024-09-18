@@ -68,6 +68,16 @@ public sealed class LibGLFW : IDisposable {
     }
 
     /// <summary>
+    /// The version of the native library being used.
+    /// </summary>
+    public Version? NativeVersion => NativeApi.GetVersion();
+
+    /// <summary>
+    /// The version string of the native library being used.
+    /// </summary>
+    public string? NativeVersionString => NativeApi.GetVersionString();
+
+    /// <summary>
     /// Whether this instance is the one managing the native library.
     /// </summary>
     public bool IsCurrentInstance => Instance == this;
