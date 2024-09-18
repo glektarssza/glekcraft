@@ -39,6 +39,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+      - id: install-reportgenerator
+        name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
       - id: setup-dotnet
         name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -56,4 +59,17 @@ jobs:
         run: dotnet build --no-restore --configuration ${{inputs.build-config}}
       - id: test
         name: Test
-        run: dotnet test --no-build --configuration ${{inputs.build-config}}
+        run: dotnet test --no-build --configuration ${{inputs.build-config}} --collect "XPlat Code Coverage"
+      - id: generate-html-report
+        name: Generate HTML report
+        run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html" "-reporttypes:Html" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
+      - id: generate-dark-html-report
+        name: Generate dark HTML report
+        run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html_dark" "-reporttypes:Html_Dark" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
+      - id: upload-coverage-reports
+        name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage
+          if-no-files-found: warn
