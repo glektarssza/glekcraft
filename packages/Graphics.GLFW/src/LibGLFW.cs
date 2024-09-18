@@ -68,6 +68,22 @@ public sealed class LibGLFW : IDisposable {
     }
 
     /// <summary>
+    /// The error code of the last error that was set by the native library.
+    /// </summary>
+    public ErrorCode LastErrorCode {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// The description of the last error that was set by the native library.
+    /// </summary>
+    public string? LastErrorDescription {
+        get;
+        private set;
+    }
+
+    /// <summary>
     /// The version of the native library being used.
     /// </summary>
     public Version? NativeVersion => NativeApi.GetVersion();
@@ -100,8 +116,14 @@ public sealed class LibGLFW : IDisposable {
     /// <param name="apiProvider">
     /// The native API provider to use.
     /// </param>
-    private LibGLFW(INativeApiProvider apiProvider) =>
+    private LibGLFW(INativeApiProvider apiProvider) {
         NativeApi = apiProvider;
+        LastErrorCode = ErrorCode.NoError;
+        _ = NativeApi.SetErrorCallback((code, description) => {
+            LastErrorCode = code;
+            LastErrorDescription = description;
+        });
+    }
 
     /// <summary>
     /// The finalizer.
@@ -112,6 +134,29 @@ public sealed class LibGLFW : IDisposable {
     #endregion
 
     #region Public Methods
+
+    /// <summary>
+    /// Clear the error code of the last error that was set by the native
+    /// library.
+    /// </summary>
+    public void ClearLastErrorCode() =>
+        LastErrorCode = ErrorCode.NoError;
+
+    /// <summary>
+    /// Clear the description of the last error that was set by the native
+    /// library.
+    /// </summary>
+    public void ClearLastErrorDescription() =>
+        LastErrorDescription = null;
+
+    /// <summary>
+    /// Clear the error code and description of the last error that was set by
+    /// the native library.
+    /// </summary>
+    public void ClearLastError() {
+        ClearLastErrorCode();
+        ClearLastErrorDescription();
+    }
 
     /// <summary>
     /// Dispose of this instance.
@@ -153,6 +198,7 @@ public sealed class LibGLFW : IDisposable {
             return;
         }
         if (managed && IsCurrentInstance) {
+            _ = NativeApi.SetErrorCallback(null);
             NativeApi.Terminate();
         }
         if (IsCurrentInstance) {
