@@ -173,4 +173,36 @@ public class LibGLFWTests {
         LibGLFW.IsInitialized.Should().BeFalse();
         MockApiProvider.Verify(x => x.Terminate(), Times.Once);
     }
+
+    [TestMethod]
+    [Description("Test that the `Version` property returns a version.")]
+    [TestCategory("Core")]
+    public void Test_Version_ShouldReturnVersion() {
+        //-- Given
+        MockApiProvider.Setup(x => x.Init()).Returns(true);
+        MockApiProvider.Setup(x => x.GetVersion()).Returns(new Version(3, 3, 3));
+        using var instance = LibGLFW.Init(MockApiProvider.Object);
+
+        //-- When
+        var result = instance.NativeVersion;
+
+        //-- Then
+        result.Should().NotBeNull().And.BeEquivalentTo<Version>(new(3, 3, 3));
+    }
+
+    [TestMethod]
+    [Description("Test that the `VersionString` property returns a version string.")]
+    [TestCategory("Core")]
+    public void Test_VersionString_ShouldReturnVersionString() {
+        //-- Given
+        MockApiProvider.Setup(x => x.Init()).Returns(true);
+        MockApiProvider.Setup(x => x.GetVersionString()).Returns("3.3.3 (mock)");
+        using var instance = LibGLFW.Init(MockApiProvider.Object);
+
+        //-- When
+        var result = instance.NativeVersionString;
+
+        //-- Then
+        result.Should().NotBeNull().And.Be("3.3.3 (mock)");
+    }
 }
