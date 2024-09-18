@@ -68,6 +68,7 @@ jobs:
         run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html_dark" "-reporttypes:Html_Dark" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
       - id: upload-coverage-reports
         name: Upload coverage reports
+        if: ${{runner.os == 'Windows'}}
         uses: actions/upload-artifact@v4
         with:
           name: coverage-reports
