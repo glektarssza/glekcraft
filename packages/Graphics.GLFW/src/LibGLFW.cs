@@ -121,6 +121,7 @@ public sealed class LibGLFW : IDisposable {
 
     #region Private Methods
 
+#pragma warning disable CA1822 // Mark members as static
     /// <summary>
     /// Perform any post-initialization steps that require the
     /// <see cref="Instance" /> property to be set.
@@ -128,6 +129,7 @@ public sealed class LibGLFW : IDisposable {
     private void PostInit() {
         // TODO
     }
+#pragma warning restore CA1822 // Mark members as static
 
     /// <summary>
     /// Dispose of this instance.
