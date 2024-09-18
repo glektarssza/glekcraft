@@ -73,5 +73,4 @@ jobs:
         with:
           name: coverage-reports
           path: coverage
-          overwrite: true
           if-no-files-found: warn
