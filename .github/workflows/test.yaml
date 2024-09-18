@@ -3,6 +3,12 @@ name: Test
 on:
   workflow_call:
     inputs:
+      upload-coverage-report:
+        description: |
+          Whether to upload the coverage report.
+        type: boolean
+        required: false
+        default: false
       build-os:
         description: |
           The operating system to build for.
@@ -11,8 +17,8 @@ on:
            * `windows-latest`
            * `ubuntu-latest`
            * `macos-latest`
-        required: true
         type: string
+        required: true
       build-config:
         description: |
           The configuration to build.
@@ -20,13 +26,13 @@ on:
           Valid options are:
            * `debug`
            * `release`
-        required: true
         type: string
+        required: true
     secrets:
       github-token:
-        required: true
         description: |
           The token to use for making authenticated requests to the GitHub API.
+        required: true
 jobs:
   test:
     name: Test
@@ -68,7 +74,7 @@ jobs:
         run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html_dark" "-reporttypes:Html_Dark" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
       - id: upload-coverage-reports
         name: Upload coverage reports
-        if: ${{runner.os == 'Windows'}}
+        if: ${{inputs.upload-coverage-report}}
         uses: actions/upload-artifact@v4
         with:
           name: coverage-reports
