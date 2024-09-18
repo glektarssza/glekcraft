@@ -171,6 +171,7 @@ public class LibGLFWTests {
         instance.IsCurrentInstance.Should().BeFalse();
         LibGLFW.Instance.Should().BeNull();
         LibGLFW.IsInitialized.Should().BeFalse();
+        MockApiProvider.Verify(x => x.SetErrorCallback(null), Times.Once);
         MockApiProvider.Verify(x => x.Terminate(), Times.Once);
     }
 
@@ -204,5 +205,56 @@ public class LibGLFWTests {
 
         //-- Then
         result.Should().NotBeNull().And.Be("3.3.3 (mock)");
+    }
+
+    [TestMethod]
+    [Description("Test that the `LastErrorCode` property returns the last error code.")]
+    [TestCategory("Core")]
+    public void Test_LastErrorCode_ReturnsLastErrorCode() {
+        //-- Given
+        MockApiProvider.Setup(x => x.Init()).Returns(true);
+        MockApiProvider.Setup(x => x.SetErrorCallback(It.IsAny<INativeApiProvider.ErrorCallback?>()))
+            .Callback<INativeApiProvider.ErrorCallback?>(callback => callback?.Invoke(ErrorCode.PlatformError, "Platform error"));
+        using var instance = LibGLFW.Init(MockApiProvider.Object);
+
+        //-- When
+        var result = instance.LastErrorCode;
+
+        //-- Then
+        result.Should().Be(ErrorCode.PlatformError);
+    }
+
+    [TestMethod]
+    [Description("Test that the `LastErrorDescription` property returns the last error description.")]
+    [TestCategory("Core")]
+    public void Test_LastErrorDescription_ReturnsErrorDescription() {
+        //-- Given
+        MockApiProvider.Setup(x => x.Init()).Returns(true);
+        MockApiProvider.Setup(x => x.SetErrorCallback(It.IsAny<INativeApiProvider.ErrorCallback?>()))
+            .Callback<INativeApiProvider.ErrorCallback?>(callback => callback?.Invoke(ErrorCode.PlatformError, "Platform error"));
+        using var instance = LibGLFW.Init(MockApiProvider.Object);
+
+        //-- When
+        var result = instance.LastErrorDescription;
+
+        //-- Then
+        result.Should().Be("Platform error");
+    }
+
+    [TestMethod]
+    [Description("Test that the `ClearLastErrorCode` method clears the last error description.")]
+    [TestCategory("Core")]
+    public void Test_ClearLastErrorCode_ClearsLastErrorCode() {
+        //-- Given
+        MockApiProvider.Setup(x => x.Init()).Returns(true);
+        MockApiProvider.Setup(x => x.SetErrorCallback(It.IsAny<INativeApiProvider.ErrorCallback?>()))
+            .Callback<INativeApiProvider.ErrorCallback?>(callback => callback?.Invoke(ErrorCode.PlatformError, "Platform error"));
+        using var instance = LibGLFW.Init(MockApiProvider.Object);
+
+        //-- When
+        var result = instance.LastErrorDescription;
+
+        //-- Then
+        result.Should().Be("Platform error");
     }
 }
