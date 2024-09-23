@@ -38,7 +38,7 @@ public sealed class LibGLFW : IDisposable {
     /// If the native library is already initialized, the existing instance of
     /// this class is returned; a new instance otherwise.
     /// </returns>
-    /// <exception cref="InvalidOperationException">
+    /// <exception cref="GLFWException">
     /// Thrown if a new instance needs to be created and the native library
     /// fails to initialize.
     /// </exception>
@@ -48,8 +48,8 @@ public sealed class LibGLFW : IDisposable {
         }
         var nativeApi = apiProvider ?? new DefaultNativeApiProvider();
         if (!nativeApi.Init()) {
-            // TODO: Use custom exception
-            throw new InvalidOperationException("Failed to initialize the native GLFW library");
+            var errorCode = nativeApi.GetError(out var description);
+            throw new GLFWException(errorCode, description, "Failed to initialize the native GLFW library");
         }
         Instance = new LibGLFW(nativeApi);
         Instance.PostInit();

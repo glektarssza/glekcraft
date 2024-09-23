@@ -61,7 +61,7 @@ public class LibGLFWTests {
             LibGLFW.Init(MockApiProvider.Object));
 
         //-- Then
-        result.Should().Throw<InvalidOperationException>()
+        result.Should().Throw<GLFWException>()
             .WithMessage("Failed to initialize the native GLFW library");
     }
 
