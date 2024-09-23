@@ -24,7 +24,7 @@ public class LibGLFWTests {
 
         //-- When
         var result = FluentActions.Invoking(() =>
-            LibGLFW.Init(MockApiProvider.Object));
+            LibGLFW.Init(null, MockApiProvider.Object));
 
         //-- Then
         result.Should().NotThrow().Subject
@@ -37,11 +37,11 @@ public class LibGLFWTests {
     public void Test_Init_ShouldReturnExistingInstance() {
         //-- Given
         MockApiProvider.Setup(x => x.Init()).Returns(true);
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         var result = FluentActions.Invoking(() =>
-            LibGLFW.Init(MockApiProvider.Object));
+            LibGLFW.Init(null, MockApiProvider.Object));
 
         //-- Then
         result.Should().NotThrow().Subject
@@ -58,7 +58,7 @@ public class LibGLFWTests {
 
         //-- When
         var result = FluentActions.Invoking(() =>
-            LibGLFW.Init(MockApiProvider.Object));
+            LibGLFW.Init(null, MockApiProvider.Object));
 
         //-- Then
         result.Should().Throw<GLFWException>()
@@ -74,7 +74,7 @@ public class LibGLFWTests {
 
         //-- When
         var result = FluentActions.Invoking(() =>
-            LibGLFW.Init(MockApiProvider.Object));
+            LibGLFW.Init(null, MockApiProvider.Object));
 
         //-- Then
         result.Should().NotThrow();
@@ -100,7 +100,7 @@ public class LibGLFWTests {
     public void Test_IsCurrentInstance_ShouldReturnTrueIfIsTheCurrentInstance() {
         //-- Given
         MockApiProvider.Setup(x => x.Init()).Returns(true);
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         //-- Do nothing
@@ -115,7 +115,7 @@ public class LibGLFWTests {
     public void Test_IsCurrentInstance_ShouldReturnFalseIfIsNotTheCurrentInstance() {
         //-- Given
         MockApiProvider.Setup(x => x.Init()).Returns(true);
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
         instance.Terminate();
 
         //-- When
@@ -131,7 +131,7 @@ public class LibGLFWTests {
     public void Test_IsDisposed_ShouldReturnTrueIfIsDisposed() {
         //-- Given
         MockApiProvider.Setup(x => x.Init()).Returns(true);
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         instance.Dispose();
@@ -146,7 +146,7 @@ public class LibGLFWTests {
     public void Test_IsDisposed_ShouldReturnFalseIfIsNotDisposed() {
         //-- Given
         MockApiProvider.Setup(x => x.Init()).Returns(true);
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         //-- Do nothing
@@ -161,7 +161,7 @@ public class LibGLFWTests {
     public void Test_Dispose_ShouldDisposeOfInstance() {
         //-- Given
         MockApiProvider.Setup(x => x.Init()).Returns(true);
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         instance.Dispose();
@@ -182,7 +182,7 @@ public class LibGLFWTests {
         //-- Given
         MockApiProvider.Setup(x => x.Init()).Returns(true);
         MockApiProvider.Setup(x => x.GetVersion()).Returns(new Version(3, 3, 3));
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         var result = instance.NativeVersion;
@@ -198,7 +198,7 @@ public class LibGLFWTests {
         //-- Given
         MockApiProvider.Setup(x => x.Init()).Returns(true);
         MockApiProvider.Setup(x => x.GetVersionString()).Returns("3.3.3 (mock)");
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         var result = instance.NativeVersionString;
@@ -215,7 +215,7 @@ public class LibGLFWTests {
         MockApiProvider.Setup(x => x.Init()).Returns(true);
         MockApiProvider.Setup(x => x.SetErrorCallback(It.IsAny<INativeApiProvider.ErrorCallback?>()))
             .Callback<INativeApiProvider.ErrorCallback?>(callback => callback?.Invoke(ErrorCode.PlatformError, "Platform error"));
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         var result = instance.LastErrorCode;
@@ -232,7 +232,7 @@ public class LibGLFWTests {
         MockApiProvider.Setup(x => x.Init()).Returns(true);
         MockApiProvider.Setup(x => x.SetErrorCallback(It.IsAny<INativeApiProvider.ErrorCallback?>()))
             .Callback<INativeApiProvider.ErrorCallback?>(callback => callback?.Invoke(ErrorCode.PlatformError, "Platform error"));
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         var result = instance.LastErrorDescription;
@@ -249,7 +249,7 @@ public class LibGLFWTests {
         MockApiProvider.Setup(x => x.Init()).Returns(true);
         MockApiProvider.Setup(x => x.SetErrorCallback(It.IsAny<INativeApiProvider.ErrorCallback?>()))
             .Callback<INativeApiProvider.ErrorCallback?>(callback => callback?.Invoke(ErrorCode.PlatformError, "Platform error"));
-        using var instance = LibGLFW.Init(MockApiProvider.Object);
+        using var instance = LibGLFW.Init(null, MockApiProvider.Object);
 
         //-- When
         var result = instance.LastErrorDescription;

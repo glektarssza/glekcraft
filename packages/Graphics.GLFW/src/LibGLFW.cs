@@ -30,6 +30,9 @@ public sealed class LibGLFW : IDisposable {
     /// <summary>
     /// Initialize the GLFW library.
     /// </summary>
+    /// <param name="hints">
+    /// The initialization hints to use or <c>null</c> to use the default hints.
+    /// </param>
     /// <param name="apiProvider">
     /// The native API provider to use or <c>null</c> to use the default
     /// provider.
@@ -42,11 +45,21 @@ public sealed class LibGLFW : IDisposable {
     /// Thrown if a new instance needs to be created and the native library
     /// fails to initialize.
     /// </exception>
-    public static LibGLFW Init(INativeApiProvider? apiProvider = null) {
+    public static LibGLFW Init(InitHints? hints = null, INativeApiProvider? apiProvider = null) {
         if (Instance != null) {
             return Instance;
         }
         var nativeApi = apiProvider ?? new DefaultNativeApiProvider();
+        //-- Apply initialization hints
+        if (hints.HasValue) {
+            nativeApi.InitHint(InitHint.JoystickHatButtons, hints.Value.JoystickHatButtons);
+            nativeApi.InitHint(InitHint.AnglePlatformType, (int)hints.Value.AnglePlatformType);
+            nativeApi.InitHint(InitHint.Platform, (int)hints.Value.Platform);
+            nativeApi.InitHint(InitHint.CocoaChdirResources, hints.Value.CocoaChdirResources);
+            nativeApi.InitHint(InitHint.CocoaMenubar, hints.Value.CocoaMenubar);
+            nativeApi.InitHint(InitHint.X11XcbVulkanSurface, hints.Value.X11XcbVulkanSurface);
+            nativeApi.InitHint(InitHint.WaylandLibdecor, hints.Value.WaylandLibdecor ? 0x00038001 : 0x00038002);
+        }
         if (!nativeApi.Init()) {
             var errorCode = nativeApi.GetError(out var description);
             throw new GLFWException(errorCode, description, "Failed to initialize the native GLFW library");
