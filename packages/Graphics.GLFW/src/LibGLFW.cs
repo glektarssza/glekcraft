@@ -1,5 +1,7 @@
 namespace Glekcraft.Graphics.GLFW;
 
+using System.Collections.Generic;
+
 /// <summary>
 /// The main class for interacting with the GLFW library.
 /// </summary>
@@ -81,6 +83,21 @@ public sealed class LibGLFW : IDisposable {
     }
 
     /// <summary>
+    /// The monitors that are connected to the system.
+    /// </summary>
+    public List<Monitor> Monitors {
+        get;
+    }
+
+    /// <summary>
+    /// The primary monitor that is connected to the system.
+    /// </summary>
+    public Monitor? PrimaryMonitor {
+        get;
+        private set;
+    }
+
+    /// <summary>
     /// The error code of the last error that was set by the native library.
     /// </summary>
     public ErrorCode LastErrorCode {
@@ -136,6 +153,7 @@ public sealed class LibGLFW : IDisposable {
             LastErrorCode = code;
             LastErrorDescription = description;
         });
+        Monitors = [];
     }
 
     /// <summary>
@@ -189,15 +207,20 @@ public sealed class LibGLFW : IDisposable {
 
     #region Private Methods
 
-#pragma warning disable CA1822 // Mark members as static
     /// <summary>
     /// Perform any post-initialization steps that require the
     /// <see cref="Instance" /> property to be set.
     /// </summary>
     private void PostInit() {
-        // TODO
+        var monitorHandles = NativeApi.GetMonitors();
+        foreach (var handle in monitorHandles) {
+            var monitor = new Monitor(this, handle);
+            Monitors.Add(monitor);
+            if (monitor.IsPrimary) {
+                PrimaryMonitor = monitor;
+            }
+        }
     }
-#pragma warning restore CA1822 // Mark members as static
 
     /// <summary>
     /// Dispose of this instance.
@@ -210,6 +233,10 @@ public sealed class LibGLFW : IDisposable {
         if (IsDisposed) {
             return;
         }
+        if (managed) {
+            Monitors.Clear();
+        }
+        PrimaryMonitor = null;
         if (managed && IsCurrentInstance) {
             _ = NativeApi.SetErrorCallback(null);
             NativeApi.Terminate();
