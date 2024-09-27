@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Launch",
+            "name": ".NET Launch (Glekcraft)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "dotnet:build:debug",
