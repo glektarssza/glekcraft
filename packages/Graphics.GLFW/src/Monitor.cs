@@ -59,6 +59,25 @@ public sealed class Monitor {
 
     #region Constructors/Finalizer
 
+    /// <summary>
+    /// Create a new instance.
+    /// </summary>
+    /// <param name="library">
+    /// The library instance that will manage the new instance.
+    /// </param>
+    /// <param name="handle">
+    /// The handle to the native monitor that the new instance will wrap.
+    /// </param>
+    /// <exception cref="ObjectDisposedException">
+    /// Thrown if the <paramref name="library" /> instance has been disposed.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the <paramref name="library" /> instance is not the instance
+    /// that is currently managing the native library.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown if the <paramref name="handle" /> is a null pointer.
+    /// </exception>
     internal Monitor(LibGLFW library, IntPtr handle) {
         if (library.IsDisposed) {
             throw new ObjectDisposedException(nameof(LibGLFW), "Library instance has been disposed");
