@@ -93,4 +93,19 @@ public sealed class Monitor {
     }
 
     #endregion
+
+    #region Public Methods
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) {
+        if (obj is Monitor monitor) {
+            return monitor.Handle == Handle;
+        }
+        return false;
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode() => Handle.GetHashCode();
+
+    #endregion
 }
