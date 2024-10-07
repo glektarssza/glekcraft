@@ -2,44 +2,13 @@
     "version": 1,
     "dependencies": {
         "net8.0": {
-            "Ultz.Native.GLFW": {
-                "type": "Direct",
-                "requested": "[3.4.0, )",
-                "resolved": "3.4.0",
-                "contentHash": "Iy22JopynbOJ32vA0lBhFEzGi65GQJBuJHYBYRBpydrDpNoTiHnjIXfA65Gu+8qsOr/ZEoIF8r9aHCgAXuO6DA=="
+            "glekcraft.native.glfw": {
+                "type": "Project"
             }
         },
-        "net8.0/linux-x64": {
-            "Ultz.Native.GLFW": {
-                "type": "Direct",
-                "requested": "[3.4.0, )",
-                "resolved": "3.4.0",
-                "contentHash": "Iy22JopynbOJ32vA0lBhFEzGi65GQJBuJHYBYRBpydrDpNoTiHnjIXfA65Gu+8qsOr/ZEoIF8r9aHCgAXuO6DA=="
-            }
-        },
-        "net8.0/osx-arm64": {
-            "Ultz.Native.GLFW": {
-                "type": "Direct",
-                "requested": "[3.4.0, )",
-                "resolved": "3.4.0",
-                "contentHash": "Iy22JopynbOJ32vA0lBhFEzGi65GQJBuJHYBYRBpydrDpNoTiHnjIXfA65Gu+8qsOr/ZEoIF8r9aHCgAXuO6DA=="
-            }
-        },
-        "net8.0/osx-x64": {
-            "Ultz.Native.GLFW": {
-                "type": "Direct",
-                "requested": "[3.4.0, )",
-                "resolved": "3.4.0",
-                "contentHash": "Iy22JopynbOJ32vA0lBhFEzGi65GQJBuJHYBYRBpydrDpNoTiHnjIXfA65Gu+8qsOr/ZEoIF8r9aHCgAXuO6DA=="
-            }
-        },
-        "net8.0/win-x64": {
-            "Ultz.Native.GLFW": {
-                "type": "Direct",
-                "requested": "[3.4.0, )",
-                "resolved": "3.4.0",
-                "contentHash": "Iy22JopynbOJ32vA0lBhFEzGi65GQJBuJHYBYRBpydrDpNoTiHnjIXfA65Gu+8qsOr/ZEoIF8r9aHCgAXuO6DA=="
-            }
-        }
+        "net8.0/linux-x64": {},
+        "net8.0/osx-arm64": {},
+        "net8.0/osx-x64": {},
+        "net8.0/win-x64": {}
     }
 }
