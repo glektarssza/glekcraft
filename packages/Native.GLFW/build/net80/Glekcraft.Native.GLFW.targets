@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="https://github.com/dotnet/msbuild/raw/main/src/MSBuild/Microsoft.Build.xsd" type="application/xml" schematypens="http://schemas.microsoft.com/developer/msbuild/2003"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Glekcraft_Native_GLFW_IsWindows
+            Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">
+            true</Glekcraft_Native_GLFW_IsWindows>
+        <Glekcraft_Native_GLFW_IsMacOS
+            Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">
+            true</Glekcraft_Native_GLFW_IsMacOS>
+        <Glekcraft_Native_GLFW_IsLinux
+            Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">
+            true</Glekcraft_Native_GLFW_IsLinux>
+
+        <Glekcraft_Native_GLFW_NativeRuntime
+            Condition=" '$(Glekcraft_Native_GLFW_NativeRuntime)' == '' And '$(Glekcraft_Native_GLFW_IsMacOS)' == 'true' And ('$(Prefer32Bit)' == 'false' Or '$(PlatformTarget)' == 'x64')">
+            osx-x64</Glekcraft_Native_GLFW_NativeRuntime>
+        <Glekcraft_Native_GLFW_NativeRuntime
+            Condition=" '$(Glekcraft_Native_GLFW_NativeRuntime)' == '' And '$(Glekcraft_Native_GLFW_IsLinux)' == 'true' And ('$(Prefer32Bit)' == 'false' Or '$(PlatformTarget)' == 'x64')">
+            linux-x64</Glekcraft_Native_GLFW_NativeRuntime>
+        <Glekcraft_Native_GLFW_NativeRuntime
+            Condition=" '$(Glekcraft_Native_GLFW_NativeRuntime)' == '' And '$(Glekcraft_Native_GLFW_IsWindows)' == 'true' And ('$(Prefer32Bit)' == 'true' Or '$(PlatformTarget)' == 'x86')">
+            win-x86</Glekcraft_Native_GLFW_NativeRuntime>
+        <Glekcraft_Native_GLFW_NativeRuntime
+            Condition=" '$(Glekcraft_Native_GLFW_NativeRuntime)' == '' And '$(Glekcraft_Native_GLFW_IsWindows)' == 'true' And ('$(Prefer32Bit)' == 'false' Or '$(PlatformTarget)' == 'x64')">
+            win-x64</Glekcraft_Native_GLFW_NativeRuntime>
+        <Glekcraft_Native_GLFW_NativeRuntime
+            Condition=" '$(Glekcraft_Native_GLFW_NativeRuntime)' == '' And '$(Glekcraft_Native_GLFW_IsMacOS)' == 'true' And '$(PlatformTarget)' == 'arm64'">
+            osx-arm64
+        </Glekcraft_Native_GLFW_NativeRuntime>
+
+        <Glekcraft_Native_GLFW_NativeLibName
+            Condition="'$(Glekcraft_Native_GLFW_NativeRuntime)' == 'win-x86'">glfw3.dll</Glekcraft_Native_GLFW_NativeLibName>
+        <Glekcraft_Native_GLFW_NativeLibName
+            Condition="'$(Glekcraft_Native_GLFW_NativeRuntime)' == 'win-x64'">glfw3.dll</Glekcraft_Native_GLFW_NativeLibName>
+        <Glekcraft_Native_GLFW_NativeLibName
+            Condition="'$(Glekcraft_Native_GLFW_NativeRuntime)' == 'osx-x64'">libglfw3.dylib</Glekcraft_Native_GLFW_NativeLibName>
+        <Glekcraft_Native_GLFW_NativeLibName
+            Condition="'$(Glekcraft_Native_GLFW_NativeRuntime)' == 'linux-x64'">libglfw3.so</Glekcraft_Native_GLFW_NativeLibName>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Condition="'$(Glekcraft_Native_GLFW_NativeRuntime)' != ''"
+            Include="$(MSBuildThisFileDirectory)..\..\runtimes\$(Glekcraft_Native_GLFW_NativeRuntime)\native\$(Glekcraft_Native_GLFW_NativeLibName)">
+            <Link>%(Filename)%(Extension)</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </Content>
+    </ItemGroup>
+</Project>
