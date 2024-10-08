@@ -3,12 +3,6 @@
     "dependencies": {
         "net8.0": {
             "glekcraft.graphics.glfw": {
-                "type": "Project",
-                "dependencies": {
-                    "Glekcraft.Native.GLFW": "[1.0.0, )"
-                }
-            },
-            "glekcraft.native.glfw": {
                 "type": "Project"
             }
         },
