@@ -16,6 +16,6 @@
         <Using Include="System" />
     </ItemGroup>
     <ItemGroup Label="Dependencies">
-        <ProjectReference Include="../Native.GLFW/Glekcraft.Native.GLFW.csproj" />
+        <ProjectReference Include="../Native.GLFW/Glekcraft.Native.GLFW.csproj" ReferenceOutputAssembly="false" />
     </ItemGroup>
 </Project>
