@@ -5,14 +5,27 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <RuntimeIdentifiers>linux-x64;osx-x64;osx-arm64;win-x64</RuntimeIdentifiers>
         <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>disable</ImplicitUsings>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-        <NoWarn>IDE0130</NoWarn>
     </PropertyGroup>
-    <ItemGroup Label="Implicit Usings">
-        <Using Include="System" />
-    </ItemGroup>
-    <ItemGroup Label="Dependencies">
+    <PropertyGroup Label="Runtime Identifier">
+        <CurrentOS Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">win</CurrentOS>
+        <CurrentOS Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">linux</CurrentOS>
+        <CurrentOS Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">osx</CurrentOS>
+        <CurrentArchitecture Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">x64</CurrentArchitecture>
+        <CurrentArchitecture Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X86'">x86</CurrentArchitecture>
+        <CurrentArchitecture Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">arm64</CurrentArchitecture>
+        <CurrentRuntimeID Condition="'$(CurrentRuntimeID)' == ''">$(RuntimeIdentifier)</CurrentRuntimeID>
+        <CurrentRuntimeID Condition="'$(CurrentRuntimeID)' == ''">$(CurrentOS)-$(CurrentArchitecture)</CurrentRuntimeID>
+    </PropertyGroup>
+    <PropertyGroup Label="Native Library">
+        <NativeLibraryName Condition="'$(NativeLibraryName)' == '' AND ('$(RuntimeIdentifier.StartsWith((&quot;win&quot;)))' == 'true' OR '$(CurrentRuntimeID.StartsWith(&quot;win&quot;))' == 'true')">glfw3.dll</NativeLibraryName>
+        <NativeLibraryName Condition="'$(NativeLibraryName)' == '' AND ('$(RuntimeIdentifier.StartsWith((&quot;linux&quot;)))' == 'true' OR '$(CurrentRuntimeID.StartsWith(&quot;linux&quot;))' == 'true')">libglfw3.so</NativeLibraryName>
+        <NativeLibraryName Condition="'$(NativeLibraryName)' == '' AND ('$(RuntimeIdentifier.StartsWith((&quot;osx&quot;)))' == 'true' OR '$(CurrentRuntimeID.StartsWith(&quot;osx&quot;))' == 'true')">libglfw3.dylib</NativeLibraryName>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="./native/$(CurrentRuntimeID)/$(NativeLibraryName)">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <TargetPath>$(NativeLibraryName)</TargetPath>
+            <Visible>false</Visible>
+        </Content>
     </ItemGroup>
 </Project>
