@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://github.com/dotnet/msbuild/raw/main/src/MSBuild/Microsoft.Build.xsd" type="application/xml" schematypens="http://schemas.microsoft.com/developer/msbuild/2003"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
+    <PropertyGroup Label="General Properties">
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
