@@ -1,11 +1,9 @@
 # Default all files to text with Unix-style line endings
 * text eol=lf
-
 # Solution files should have Windows-style line endings
 *.sln text eol=crlf
-
 # DLLs are binary
 *.dll binary
-
 # But treat them with Git LFS
 *.dll filter=lfs diff=lfs merge=lfs -text
+*.so filter=lfs diff=lfs merge=lfs -text
