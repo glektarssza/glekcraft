@@ -5,4 +5,35 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
+    <PropertyGroup Label="Platform Detection">
+        <!-- Detect operating system -->
+        <Platform_IsWindows Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))">true</Platform_IsWindows>
+        <Platform_IsWindows Condition="$(Platform_IsWindows) == ''">false</Platform_IsWindows>
+        <Platform_IsLinux Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))">true</Platform_IsLinux>
+        <Platform_IsLinux Condition="$(Platform_IsLinux) == ''">false</Platform_IsLinux>
+        <Platform_IsOSX Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))">true</Platform_IsOSX>
+        <Platform_IsOSX Condition="$(Platform_IsOSX) == ''">false</Platform_IsOSX>
+        <Platform_IsFreeBSD Condition="$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::FreeBSD)))">true</Platform_IsFreeBSD>
+        <Platform_IsFreeBSD Condition="$(Platform_IsFreeBSD) == ''">false</Platform_IsFreeBSD>
+
+        <!-- Detect architecture -->
+        <Platform_Isx64 Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'X64'">true</Platform_Isx64>
+        <Platform_Isx64 Condition="$(Platform_Isx64) == ''">false</Platform_Isx64>
+        <Platform_Isx86 Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'X86'">true</Platform_Isx86>
+        <Platform_Isx86 Condition="$(Platform_Isx86) == ''">false</Platform_Isx86>
+        <Platform_IsARM Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'Arm'">true</Platform_IsARM>
+        <Platform_IsARM Condition="$(Platform_IsARM) == ''">false</Platform_IsARM>
+        <Platform_IsARM64 Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'Arm64'">true</Platform_IsARM64>
+        <Platform_IsARM64 Condition="$(Platform_IsARM64) == ''">false</Platform_IsARM64>
+        <Platform_IsWASM Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'Wasm'">true</Platform_IsWASM>
+        <Platform_IsWASM Condition="$(Platform_IsWASM) == ''">false</Platform_IsWASM>
+        <Platform_IsS390X Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'S390x'">true</Platform_IsS390X>
+        <Platform_IsS390X Condition="$(Platform_IsS390X) == ''">false</Platform_IsS390X>
+        <Platform_IsLoongArch64 Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'LoongArch64'">true</Platform_IsLoongArch64>
+        <Platform_IsLoongArch64 Condition="$(Platform_IsLoongArch64) == ''">false</Platform_IsLoongArch64>
+        <Platform_IsArmv6 Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'Armv6'">true</Platform_IsArmv6>
+        <Platform_IsArmv6 Condition="$(Platform_IsArmv6) == ''">false</Platform_IsArmv6>
+        <Platform_IsPpc64le Condition="$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'Ppc64le'">true</Platform_IsPpc64le	>
+        <Platform_IsPpc64le Condition="$(Platform_IsPpc64le) == ''">false</Platform_IsPpc64le>
+    </PropertyGroup>
 </Project>
