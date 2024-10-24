@@ -46,4 +46,11 @@
         <Platform_NativeRuntime_Suffix Condition="$(Platform_IsWindows)">.dll</Platform_NativeRuntime_Suffix>
         <Platform_NativeRuntime_Suffix Condition="$(Platform_IsLinux)">.so</Platform_NativeRuntime_Suffix>
     </PropertyGroup>
+    <ItemGroup>
+        <Content Include="$(MSBuildThisFileDirectory)runtimes/$(Platform_NativeRuntime)/$(Platform_NativeRuntime_Prefix)glfw3$(Platform_NativeRuntime_Suffix)">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Visible>false</Visible>
+            <Link>$(Platform_NativeRuntime_Prefix)glfw3$(Platform_NativeRuntime_Suffix)</Link>
+        </Content>
+    </ItemGroup>
 </Project>
