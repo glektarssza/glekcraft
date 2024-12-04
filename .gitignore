@@ -7,11 +7,11 @@
 !.vscode/extensions.json
 !.vscode/launch.json
 !.vscode/tasks.json
+!.vscode/*.code-snippets
 
 ## Vim ##
 ### Swap ###
 [._]*.s[a-v][a-z]
-!*.svg
 [._]*.sw[a-p]
 [._]*.s[a-rt-v][a-z]
 [._]*.ss[a-gi-z]
@@ -31,6 +31,18 @@ tags
 ### Undo Persistence ###
 [._]*.un~
 
+## Visual Studio ##
+### User-specific Files ###
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## MonoDevelop ##
+### User-specific Files ###
+*.userprefs
+
 # Logs #
 *.log*
 
@@ -41,6 +53,5 @@ tags
 ## MSBuild ##
 [Bb]in/
 [Oo]bj/
-[Dd]ist/
-[Tt]est[Rr]esults/
-coverage/
+[Tt]est[Rr]esult*/
+[Cc]overage/
