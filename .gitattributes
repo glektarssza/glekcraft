@@ -18,3 +18,9 @@
 
 # Run .so files through Git LFS
 *.so filter=lfs diff=lfs merge=lfs -text
+
+# Treat .dylib files as binary by default
+*.dylib binary
+
+# Run .dylib files through Git LFS
+*.dylib filter=lfs diff=lfs merge=lfs -text
