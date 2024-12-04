@@ -31,6 +31,14 @@ tags
 ### Undo Persistence ###
 [._]*.un~
 
+## Visual Studio ##
+### User-specific Files ###
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
 # Logs #
 *.log*
 
