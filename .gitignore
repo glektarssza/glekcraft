@@ -39,6 +39,10 @@ tags
 *.userosscache
 *.sln.docstates
 
+## MonoDevelop ##
+### User-specific Files ###
+*.userprefs
+
 # Logs #
 *.log*
 
