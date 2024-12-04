@@ -121,16 +121,8 @@
                 "resolved": "1.6.0",
                 "contentHash": "COC1aiAJjCoA5GBF+QKL2uLqEBew4JsCkQmoHKbN3TlOZKa2fKLz5CpiRQKDz0RsAOEGsVKqOD5bomsXq/4STQ=="
             },
-            "Ultz.Native.GLFW": {
-                "type": "Transitive",
-                "resolved": "3.4.0",
-                "contentHash": "Iy22JopynbOJ32vA0lBhFEzGi65GQJBuJHYBYRBpydrDpNoTiHnjIXfA65Gu+8qsOr/ZEoIF8r9aHCgAXuO6DA=="
-            },
             "glekcraft.graphics.glfw": {
-                "type": "Project",
-                "dependencies": {
-                    "Ultz.Native.GLFW": "[3.4.0, )"
-                }
+                "type": "Project"
             }
         }
     }

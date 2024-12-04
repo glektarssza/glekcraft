@@ -6,3 +6,15 @@
 
 # Treat .cmd files as text with Windows-style line endings by default
 *.cmd text eol=crlf
+
+# Treat .dll files as binary by default
+*.dll binary
+
+# Run .dll files through Git LFS
+*.dll filter=lfs diff=lfs merge=lfs -text
+
+# Treat .so files as binary by default
+*.so binary
+
+# Run .so files through Git LFS
+*.so filter=lfs diff=lfs merge=lfs -text

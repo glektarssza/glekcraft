@@ -14,6 +14,8 @@
         <Using Include="System" />
     </ItemGroup>
     <ItemGroup Label="Dependencies">
-        <PackageReference Include="Ultz.Native.GLFW" Version="3.4.0" />
+        <ProjectReference Include="../Native.GLFW/Glekcraft.Native.GLFW.csproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+        </ProjectReference>
     </ItemGroup>
 </Project>
