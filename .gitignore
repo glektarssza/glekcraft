@@ -39,5 +39,6 @@ tags
 
 # Artifacts #
 ## MSBuild ##
-bin/
-obj/
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esult*/
