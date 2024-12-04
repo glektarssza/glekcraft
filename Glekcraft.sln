@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -12,8 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D0577C60-FCFA-4834-9A0E-2BE59162D2B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft.Graphics.GLFW.Tests", "tests\Graphics.GLFW\Glekcraft.Graphics.GLFW.Tests.csproj", "{2FB2F407-F167-49FF-BD3E-382FBA62F434}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft.Native.GLFW", "packages\Native.GLFW\Glekcraft.Native.GLFW.csproj", "{27542716-410C-48BF-A856-2F2A0FB99D6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,18 +48,9 @@ Global
 		{2FB2F407-F167-49FF-BD3E-382FBA62F434}.Debug|x64.Build.0 = Debug|x64
 		{2FB2F407-F167-49FF-BD3E-382FBA62F434}.Release|x64.ActiveCfg = Release|x64
 		{2FB2F407-F167-49FF-BD3E-382FBA62F434}.Release|x64.Build.0 = Release|x64
-		{27542716-410C-48BF-A856-2F2A0FB99D6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27542716-410C-48BF-A856-2F2A0FB99D6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27542716-410C-48BF-A856-2F2A0FB99D6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27542716-410C-48BF-A856-2F2A0FB99D6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27542716-410C-48BF-A856-2F2A0FB99D6D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{27542716-410C-48BF-A856-2F2A0FB99D6D}.Debug|x64.Build.0 = Debug|Any CPU
-		{27542716-410C-48BF-A856-2F2A0FB99D6D}.Release|x64.ActiveCfg = Release|Any CPU
-		{27542716-410C-48BF-A856-2F2A0FB99D6D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1834F931-DDDE-450B-BC24-A71488A3EF05} = {8044D2F1-5201-457A-9BB7-8970D138131D}
 		{2FB2F407-F167-49FF-BD3E-382FBA62F434} = {D0577C60-FCFA-4834-9A0E-2BE59162D2B0}
-		{27542716-410C-48BF-A856-2F2A0FB99D6D} = {8044D2F1-5201-457A-9BB7-8970D138131D}
 	EndGlobalSection
 EndGlobal
