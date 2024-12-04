@@ -41,10 +41,14 @@
         <Platform_NativeRuntime Condition="$(Platform_IsLinux)AND $(Platform_Isx64)">linux-x64</Platform_NativeRuntime>
         <Platform_NativeRuntime Condition="$(Platform_IsWindows) AND $(Platform_Isx86)">win-x86</Platform_NativeRuntime>
         <Platform_NativeRuntime Condition="$(Platform_IsLinux)AND $(Platform_Isx86)">linux-x86</Platform_NativeRuntime>
+        <Platform_NativeRuntime Condition="$(Platform_IsOSX) AND $(Platform_Isx64)">macos-x64</Platform_NativeRuntime>
+        <Platform_NativeRuntime Condition="$(Platform_IsOSX) AND $(Platform_IsARM64)">macos-arm64</Platform_NativeRuntime>
         <Platform_NativeRuntime_Prefix Condition="$(Platform_IsWindows)"></Platform_NativeRuntime_Prefix>
         <Platform_NativeRuntime_Prefix Condition="$(Platform_IsLinux)">lib</Platform_NativeRuntime_Prefix>
+        <Platform_NativeRuntime_Prefix Condition="$(Platform_IsOSX)">lib</Platform_NativeRuntime_Prefix>
         <Platform_NativeRuntime_Suffix Condition="$(Platform_IsWindows)">.dll</Platform_NativeRuntime_Suffix>
         <Platform_NativeRuntime_Suffix Condition="$(Platform_IsLinux)">.so</Platform_NativeRuntime_Suffix>
+        <Platform_NativeRuntime_Suffix Condition="$(Platform_IsOSX)">.dylib</Platform_NativeRuntime_Suffix>
     </PropertyGroup>
     <ItemGroup>
         <Content Include="$(MSBuildThisFileDirectory)runtimes/$(Platform_NativeRuntime)/$(Platform_NativeRuntime_Prefix)glfw3$(Platform_NativeRuntime_Suffix)">
