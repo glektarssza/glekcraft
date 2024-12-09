@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 /// <summary>
 /// A default implementation of the <see cref="INativeApiProvider"/> interface
-/// that relies on the <c>Ultz.Native.GLFW</c> library.
+/// that relies on the <c>Glekcraft.Native.GLFW</c> library.
 /// </summary>
 internal partial class DefaultNativeApiProvider : INativeApiProvider {
     #region Public Constants
