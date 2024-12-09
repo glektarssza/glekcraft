@@ -1,8 +1,11 @@
 # Custom Dictionary Words
 assemblyfilters
+Chdir
+Finalizer
 G'lekcraft
 Glekcraft
 globaltool
+Libdecor
 reportgenerator
 reporttypes
 runsettings
