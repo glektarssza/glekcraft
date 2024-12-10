@@ -16,6 +16,37 @@ public class LibGLFWTests {
     }
 
     [TestMethod]
+    [Description("Test that the `Init` static method handles initialization hints.")]
+    [TestCategory("Core")]
+    public void Test_Init_HandlesInitHints() {
+        //-- Given
+        var hints = new InitHints {
+            AnglePlatformType = AnglePlatform.OpenGL,
+            CocoaChdirResources = false,
+            CocoaMenubar = false,
+            JoystickHatButtons = true,
+            Platform = Platform.X11,
+            WaylandLibdecor = false,
+            X11XcbVulkanSurface = false
+        };
+        MockApiProvider.Setup(x => x.Init()).Returns(true);
+        MockApiProvider.Setup(x => x.InitHint(It.IsAny<InitHint>(), It.IsAny<bool>()));
+        MockApiProvider.Setup(x => x.InitHint(It.IsAny<InitHint>(), It.IsAny<int>()));
+
+        //-- When
+        using var instance = LibGLFW.Init(hints, MockApiProvider.Object);
+
+        //-- Then
+        MockApiProvider.Verify(x => x.InitHint(InitHint.AnglePlatformType, (int)AnglePlatform.OpenGL));
+        MockApiProvider.Verify(x => x.InitHint(InitHint.CocoaChdirResources, false));
+        MockApiProvider.Verify(x => x.InitHint(InitHint.CocoaMenubar, false));
+        MockApiProvider.Verify(x => x.InitHint(InitHint.JoystickHatButtons, true));
+        MockApiProvider.Verify(x => x.InitHint(InitHint.Platform, (int)Platform.X11));
+        MockApiProvider.Verify(x => x.InitHint(InitHint.WaylandLibdecor, 0x00038002));
+        MockApiProvider.Verify(x => x.InitHint(InitHint.X11XcbVulkanSurface, false));
+    }
+
+    [TestMethod]
     [Description("Test that the `Init` static method returns a new instance if the library is not initialized.")]
     [TestCategory("Core")]
     public void Test_Init_ShouldReturnNewInstance() {
