@@ -233,7 +233,8 @@ public sealed class Monitor {
     }
 
     /// <inheritdoc />
-    public override int GetHashCode() => Handle.GetHashCode();
+    public override int GetHashCode() =>
+        Handle.GetHashCode();
 
     #endregion
 }
