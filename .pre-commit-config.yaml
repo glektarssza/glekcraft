@@ -15,7 +15,7 @@ repos:
       - id: check-xml
       - id: check-json
       - id: pretty-format-json
-        args: [--autofix, --indent, '4', --no-sort-keys]
+        args: [--autofix, --indent, "4", --no-sort-keys]
       - id: check-toml
       - id: check-yaml
       - id: detect-private-key
@@ -30,6 +30,6 @@ repos:
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
   - repo: https://github.com/glektarssza/pre-commit-hooks
-    rev: 4f25fe44c7b1c2c5f38baa4dc84500edbd167976
+    rev: v0.1.0
     hooks:
       - id: dotnet-lint
