@@ -1,0 +1,11 @@
+{
+    "id": "microsoft-apt",
+    "version": "0.0.1",
+    "name": "microsoft-apt",
+    "description": "Install the Microsft apt package repository.",
+    "dependsOn": {
+        "./features/apt-wget": {},
+        "./features/apt-sed": {},
+        "./features/apt-gnupg2": {}
+    }
+}
