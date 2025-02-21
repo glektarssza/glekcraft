@@ -18,7 +18,7 @@ fi
 write_debug "Installing Microsoft APT source list...";
 
 wget https://packages.microsoft.com/config/debian/12/prod.list -O - | \
-sed sed 's/signed-by=\([^]]\+\)/signed-by=\/usr\/share\/keyrings\/microsoft-apt.gpg/' |
+sed 's/signed-by=\([^]]\+\)/signed-by=\/usr\/share\/keyrings\/microsoft-apt.gpg/' |
 tee /etc/apt/sources.list.d/microsoft.list;
 
 if [ $? -ne 0 ]; then
