@@ -5,6 +5,7 @@
     "description": "Install the Microsft apt package repository.",
     "dependsOn": {
         "./features/apt-wget": {},
+        "./features/apt-sed": {},
         "./features/apt-gnupg2": {}
     }
 }

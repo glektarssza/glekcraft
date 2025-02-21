@@ -1,17 +1,13 @@
 {
-    "id": "apt-jq",
+    "id": "apt-sed",
     "version": "0.0.1",
-    "name": "apt-jq",
-    "description": "Install the jq package using apt.",
+    "name": "apt-sed",
+    "description": "Install the sed package using apt.",
     "keywords": [
-        "jq",
-        "json",
+        "sed",
         "apt",
         "debian",
         "ubuntu",
         "linux"
-    ],
-    "dependsOn": {
-        "./features/apt-ca-certificates": {}
-    }
+    ]
 }
