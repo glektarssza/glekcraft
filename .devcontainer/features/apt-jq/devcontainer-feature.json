@@ -1,0 +1,13 @@
+{
+    "id": "apt-sed",
+    "version": "0.0.1",
+    "name": "apt-sed",
+    "description": "Install the sed package using apt.",
+    "keywords": [
+        "sed",
+        "apt",
+        "debian",
+        "ubuntu",
+        "linux"
+    ]
+}
