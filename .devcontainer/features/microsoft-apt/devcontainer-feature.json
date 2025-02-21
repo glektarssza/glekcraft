@@ -1,22 +1,10 @@
 {
-    "id": "apt-dotnet-sdk",
+    "id": "microsoft-apt",
     "version": "0.0.1",
-    "name": "apt-dotnet-sdk",
-    "description": "Install dotnet-sdk package using apt.",
+    "name": "microsoft-apt",
+    "description": "Install the Microsft apt package repository.",
     "dependsOn": {
-        "./features/microsoft-apt": {}
-    },
-    "options": {
-        "version": {
-            "type": "string",
-            "description": "The dotnet SDK version to install.",
-            "proposals": [
-                "9.0",
-                "8.0",
-                "7.0",
-                "6.0"
-            ],
-            "default": "9.0"
-        }
+        "./features/apt-wget": {},
+        "./features/apt-gnupg2": {}
     }
 }
