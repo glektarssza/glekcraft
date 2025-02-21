@@ -1,0 +1,22 @@
+{
+    "id": "apt-dotnet-sdk",
+    "version": "0.0.1",
+    "name": "apt-dotnet-sdk",
+    "description": "Install dotnet-sdk package using apt.",
+    "dependsOn": {
+        "./features/microsoft-apt": {}
+    },
+    "options": {
+        "version": {
+            "type": "string",
+            "description": "The dotnet SDK version to install.",
+            "proposals": [
+                "9.0",
+                "8.0",
+                "7.0",
+                "6.0"
+            ],
+            "default": "9.0"
+        }
+    }
+}

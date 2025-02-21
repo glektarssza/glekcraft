@@ -21,6 +21,7 @@
         }
     },
     "installsAfter": [
-        "./features/create-user"
+        "./features/create-user",
+        "./features/apt-dotnet-sdk"
     ]
 }
