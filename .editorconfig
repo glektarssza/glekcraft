@@ -16,7 +16,6 @@ indent_size = 2
 end_of_line = crlf
 
 [*.sln]
-end_of_line = crlf
 indent_style = tab
 
 [*.cs]
