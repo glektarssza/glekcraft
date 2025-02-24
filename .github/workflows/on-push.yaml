@@ -33,8 +33,6 @@ jobs:
       build-config: ${{matrix.build-config}}
   test:
     name: Test
-    #-- Disabled for now!
-    if: false
     permissions:
       contents: read
     strategy:
