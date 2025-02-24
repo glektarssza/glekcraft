@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Manual Build
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: |
+          The project to build.
+        required: false
+        type: string
+        default: Glekcraft
+      build-os:
+        description: |
+          The operating system to build for.
+
+          Valid options are:
+           * `windows-latest`
+           * `ubuntu-latest`
+           * `macos-latest`
+        required: true
+        type: choice
+        options:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+      build-config:
+        description: |
+          The configuration to build.
+
+          Valid options are:
+           * `debug`
+           * `release`
+        required: true
+        type: choice
+        options:
+          - debug
+          - release
+jobs:
+  build:
+    name: Build
+    permissions:
+      contents: read
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}
+    uses: ./.github/workflows/build.yaml
+    with:
+      project: ${{inputs.project}}
+      build-os: ${{inputs.build-os}}
+      build-config: ${{inputs.build-config}}
