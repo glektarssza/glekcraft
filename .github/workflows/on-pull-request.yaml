@@ -53,3 +53,4 @@ jobs:
     with:
       build-os: ${{matrix.build-os}}
       build-config: ${{matrix.build-config}}
+      upload-coverage-report: ${{matrix.build-config == 'debug' && matrix.build-os == 'windows-latest'}}
