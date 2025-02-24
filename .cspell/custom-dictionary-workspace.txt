@@ -1,6 +1,7 @@
 # Custom Dictionary Words
 assemblyfilters
 autobuild
+esults
 g'lekcraft
 glekcraft
 globaltool
