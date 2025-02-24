@@ -5,6 +5,12 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft", "Glekcraft\Glekcraft.csproj", "{3AB4F119-C641-4733-9C0E-1497DDFC8D1E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Glekcraft", "Glekcraft", "{D7D4FAE4-BF23-E419-97CF-49A63FB0FC8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glekcraft.Tests", "tests\Glekcraft\Glekcraft.Tests.csproj", "{75CC0B7F-D75C-42B1-8559-7A715AE77837}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +33,24 @@ Global
 		{3AB4F119-C641-4733-9C0E-1497DDFC8D1E}.Release|x64.Build.0 = Release|Any CPU
 		{3AB4F119-C641-4733-9C0E-1497DDFC8D1E}.Release|x86.ActiveCfg = Release|Any CPU
 		{3AB4F119-C641-4733-9C0E-1497DDFC8D1E}.Release|x86.Build.0 = Release|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Debug|x64.Build.0 = Debug|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Debug|x86.Build.0 = Debug|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Release|x64.ActiveCfg = Release|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Release|x64.Build.0 = Release|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Release|x86.ActiveCfg = Release|Any CPU
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D7D4FAE4-BF23-E419-97CF-49A63FB0FC8B} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{75CC0B7F-D75C-42B1-8559-7A715AE77837} = {D7D4FAE4-BF23-E419-97CF-49A63FB0FC8B}
 	EndGlobalSection
 EndGlobal
