@@ -1,0 +1,82 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: |
+          The project to build.
+        required: true
+        type: string
+      build-os:
+        description: |
+          The operating system to build for.
+
+          Valid options are:
+           * `windows-latest`
+           * `ubuntu-latest`
+           * `macos-latest`
+        required: true
+        type: string
+      build-config:
+        description: |
+          The configuration to build.
+
+          Valid options are:
+           * `debug`
+           * `release`
+        required: true
+        type: string
+    outputs:
+      artifact-name:
+        description: |
+          The name of the artifact that was created.
+        value: ${{jobs.build.outputs.artifact-name}}
+      artifact-id:
+        description: |
+          The ID of the artifact that was created.
+        value: ${{jobs.build.outputs.artifact-id}}
+    secrets:
+      github-token:
+        required: true
+        description: |
+          The token to use for making authenticated requests to the GitHub API.
+jobs:
+  build:
+    name: Build
+    runs-on: ${{inputs.build-os}}
+    permissions:
+      contents: read
+    outputs:
+      artifact-name: dist-${{inputs.project}}-${{inputs.build-os}}-${{inputs.build-config}}
+      artifact-id: ${{steps.upload-artifacts.outputs.artifact-id}}
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.GITHUB_TOKEN || secrets.github-token}}
+      - id: setup-dotnet
+        name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+          cache: true
+          cache-dependency-path: |
+            ${{inputs.project}}/packages.lock.json
+            packages/*/packages.lock.json
+            tests/*/packages.lock.json
+      - id: restore-dependencies
+        name: Restore dependencies
+        run: dotnet restore
+      - id: build
+        name: Build
+        run: dotnet publish --no-restore --configuration ${{inputs.build-config}} --output dist-${{inputs.project}} --self-contained --use-current-runtime ${{inputs.project}}
+      - id: upload-artifacts
+        name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{inputs.project}}-${{inputs.build-os}}-${{inputs.build-config}}
+          path: dist-${{inputs.project}}
+          compression-level: 0
+          if-no-files-found: error
