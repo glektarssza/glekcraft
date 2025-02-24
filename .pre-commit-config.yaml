@@ -21,6 +21,7 @@ repos:
         args: [--fix=lf]
         exclude_types: [batch]
       - id: mixed-line-ending
+        name: mixed line ending (batch)
         args: [--fix=crlf]
         types: [batch]
       - id: trailing-whitespace
