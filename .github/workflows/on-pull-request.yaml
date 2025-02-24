@@ -50,5 +50,6 @@ jobs:
       github-token: ${{secrets.GITHUB_TOKEN}}
     uses: ./.github/workflows/test.yaml
     with:
+      project: Glekcraft
       build-os: ${{matrix.build-os}}
       build-config: ${{matrix.build-config}}
