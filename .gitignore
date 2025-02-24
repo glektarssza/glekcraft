@@ -46,5 +46,6 @@ tags
 
 # Artifacts #
 ## dotnet ##
-bin/
-obj/
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/

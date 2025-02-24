@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Test
+on:
+  workflow_call:
+    inputs:
+      upload-coverage-report:
+        description: |
+          Whether to upload the coverage report.
+        type: boolean
+        required: false
+        default: false
+      build-os:
+        description: |
+          The operating system to build for.
+
+          Valid options are:
+           * `windows-latest`
+           * `ubuntu-latest`
+           * `macos-latest`
+        type: string
+        required: true
+      build-config:
+        description: |
+          The configuration to build.
+
+          Valid options are:
+           * `debug`
+           * `release`
+        type: string
+        required: true
+    secrets:
+      github-token:
+        description: |
+          The token to use for making authenticated requests to the GitHub API.
+        required: true
+jobs:
+  test:
+    name: Test
+    runs-on: ${{inputs.build-os}}
+    permissions:
+      contents: read
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.GITHUB_TOKEN || secrets.github-token}}
+      - id: install-reportgenerator
+        name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      - id: setup-dotnet
+        name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+          cache: true
+          cache-dependency-path: |
+            */packages.lock.json
+            packages/*/packages.lock.json
+            tests/*/packages.lock.json
+      - id: restore-dependencies
+        name: Restore dependencies
+        run: dotnet restore
+      - id: build
+        name: Build
+        run: dotnet build --no-restore --configuration ${{inputs.build-config}}
+      - id: test
+        name: Test
+        run: dotnet test --no-build --configuration ${{inputs.build-config}} --settings xplat_coverage.runsettings
+      - id: generate-html-report
+        name: Generate HTML report
+        run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html" "-reporttypes:Html" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
+      - id: generate-dark-html-report
+        name: Generate dark HTML report
+        run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html_dark" "-reporttypes:Html_Dark" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
+      - id: upload-coverage-reports
+        name: Upload coverage reports
+        if: ${{inputs.upload-coverage-report}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage
+          if-no-files-found: warn

@@ -1,2 +1,12 @@
 # Custom Dictionary Words
+assemblyfilters
+autobuild
+esults
+g'lekcraft
 glekcraft
+globaltool
+reportgenerator
+reporttypes
+runsettings
+targetdir
+xplat

@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Manual CodeQL
+on:
+  workflow_dispatch:
+jobs:
+  codeql:
+    name: CodeQL
+    permissions:
+      contents: read
+      security-events: write
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}
+    uses: ./.github/workflows/codeql.yaml
