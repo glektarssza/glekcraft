@@ -7,5 +7,11 @@ public class Program {
     /// <summary>
     /// The program entry point.
     /// </summary>
-    public static void Main() => Console.WriteLine("Hello, World!");
+    /// <returns>
+    /// A status code for the operating system.
+    /// </returns>
+    public static int Main() {
+        Console.WriteLine("Hello, World!");
+        return (int)ExitCode.Ok;
+    }
 }
