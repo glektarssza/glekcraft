@@ -1,14 +1,9 @@
 {
     "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
     "name": "Main dev container",
+    "image": "debian:bookworm",
     "remoteUser": "vscode",
-    "runArgs": [
-        "-u",
-        "1000"
-    ],
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
+    "runArgs": ["-u", "1000"],
     "hostRequirements": {
         "cpus": 4,
         "memory": "8gb",
