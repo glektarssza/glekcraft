@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Manual Build
+on:
+  workflow_dispatch:
+    inputs:
+      upload-coverage-report:
+        description: |
+          Whether to upload the coverage report.
+        type: boolean
+        required: true
+      build-os:
+        description: |
+          The operating system to build for.
+
+          Valid options are:
+           * `windows-latest`
+           * `ubuntu-latest`
+           * `macos-latest`
+        required: true
+        type: choice
+        options:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+      build-config:
+        description: |
+          The configuration to build.
+
+          Valid options are:
+           * `debug`
+           * `release`
+        required: true
+        type: choice
+        options:
+          - debug
+          - release
+jobs:
+  test:
+    name: Test
+    permissions:
+      contents: read
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}
+    uses: ./.github/workflows/test.yaml
+    with:
+      build-os: ${{inputs.build-os}}
+      build-config: ${{inputs.build-config}}
+      upload-coverage-report: ${{inputs.upload-coverage-report}}
