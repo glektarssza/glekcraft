@@ -2,17 +2,6 @@
 name: Lint
 on:
   workflow_call:
-    inputs:
-      project:
-        description: |
-          The project to lint.
-
-          Use `*` for all projects.
-
-          Defaults to `*`.
-        required: false
-        type: string
-        default: "*"
     secrets:
       github-token:
         required: true
@@ -37,7 +26,7 @@ jobs:
           dotnet-version: 9.x
           cache: true
           cache-dependency-path: |
-            ${{inputs.project}}/packages.lock.json
+            */packages.lock.json
             packages/*/packages.lock.json
             tests/*/packages.lock.json
       - id: restore-dependencies
