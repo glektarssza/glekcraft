@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: nuget
     directories:
       - Glekcraft/
-      - tests/*/
+      - tests/Glekcraft/
     labels:
       - Dependency
     schedule:
