@@ -25,3 +25,7 @@ repos:
         args: [--fix=crlf]
         types: [batch]
       - id: trailing-whitespace
+  - repo: https://github.com/glektarssza/pre-commit-hooks
+    rev: v0.4.0
+    hooks:
+      - id: dotnet-lint
