@@ -2,6 +2,7 @@
 Armv
 assemblyfilters
 autobuild
+dylib
 esults
 g'lekcraft
 glekcraft
