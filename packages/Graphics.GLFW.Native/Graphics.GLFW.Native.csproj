@@ -37,14 +37,17 @@
         <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformWindows)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX86)' == 'true'">win-x86</_GlekcraftGLFW_RuntimeId>
         <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformLinux)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX64)' == 'true'">linux-x64</_GlekcraftGLFW_RuntimeId>
         <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformLinux)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX86)' == 'true'">linux-x86</_GlekcraftGLFW_RuntimeId>
+        <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformOSX)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureArm64)' == 'true'">osx-arm64</_GlekcraftGLFW_RuntimeId>
+        <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformOSX)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX64)' == 'true'">osx-x64</_GlekcraftGLFW_RuntimeId>
         <_GlekcraftGLFW_RuntimePlatform>$(_GlekcraftGLFW_RuntimeId.Split('-')[0])</_GlekcraftGLFW_RuntimePlatform>
         <_GlekcraftGLFW_RuntimeArchitecture>$(_GlekcraftGLFW_RuntimeId.Split('-')[1])</_GlekcraftGLFW_RuntimeArchitecture>
     </PropertyGroup>
     <PropertyGroup Label="Native Paths">
         <_GlekcraftGLFW_NativePrefix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'linux' OR '$(_GlekcraftGLFW_RuntimePlatform)' == 'osx'">lib</_GlekcraftGLFW_NativePrefix>
         <_GlekcraftGLFW_NativePrefix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'win'"></_GlekcraftGLFW_NativePrefix>
-        <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'linux' OR '$(_GlekcraftGLFW_RuntimePlatform)' == 'osx'">.so</_GlekcraftGLFW_NativeSuffix>
+        <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'linux'">.so</_GlekcraftGLFW_NativeSuffix>
         <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'win'">.dll</_GlekcraftGLFW_NativeSuffix>
+        <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'osx'">.dylib</_GlekcraftGLFW_NativeSuffix>
     </PropertyGroup>
     <ItemGroup Label="Native Libraries">
         <Content Include="$(MSBuildThisFileDirectory)runtimes/$(_GlekcraftGLFW_RuntimeId)/$(_GlekcraftGLFW_NativePrefix)glfw3$(_GlekcraftGLFW_NativeSuffix)">
