@@ -1,10 +1,8 @@
 namespace Glekcraft.Graphics.GLFW.Tests;
 
 [TestClass]
-public sealed class DummyTests
-{
+public sealed class DummyTests {
     [TestMethod]
-    public void TestMethod1()
-    {
+    public void TestMethod1() {
     }
 }
