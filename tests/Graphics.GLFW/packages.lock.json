@@ -246,7 +246,7 @@
                     "System.Text.Encodings.Web": "6.0.0"
                 }
             },
-            "glekcraft": {
+            "glekcraft.graphics.glfw": {
                 "type": "Project"
             }
         }

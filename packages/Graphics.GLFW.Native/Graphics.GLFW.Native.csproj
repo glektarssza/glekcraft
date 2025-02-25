@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project Sdk="Microsoft.NET.Sdk"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Project Properties">
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <RootNamespace>Glekcraft.Graphics.GLFW.Native</RootNamespace>
+        <ProjectDir>$(MSBuildProjectDirectory)/src/</ProjectDir>
+        <TargetFramework>net9.0</TargetFramework>
+        <RuntimeIdentifiers>win-x64;win-x86;linux-x64;linux-x86</RuntimeIdentifiers>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup Label="Implicit Usings">
+        <Using Include="System" />
+    </ItemGroup>
+    <PropertyGroup Label="OS Detection">
+        <_GlekcraftGLFW_IsHostPlatformWindows>$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)).ToString().ToLower())</_GlekcraftGLFW_IsHostPlatformWindows>
+        <_GlekcraftGLFW_IsHostPlatformLinux>$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)).ToString().ToLower())</_GlekcraftGLFW_IsHostPlatformLinux>
+        <_GlekcraftGLFW_IsHostPlatformOSX>$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)).ToString().ToLower())</_GlekcraftGLFW_IsHostPlatformOSX>
+        <_GlekcraftGLFW_IsHostPlatformFreeBSD>$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::FreeBSD)).ToString().ToLower())</_GlekcraftGLFW_IsHostPlatformFreeBSD>
+    </PropertyGroup>
+    <PropertyGroup Label="Architecture Detection">
+        <_GlekcraftGLFW_IsHostArchitectureX64>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('X64').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureX64>
+        <_GlekcraftGLFW_IsHostArchitectureX86>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('X86').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureX86>
+        <_GlekcraftGLFW_IsHostArchitectureArm>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('Arm').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureArm>
+        <_GlekcraftGLFW_IsHostArchitectureArm64>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('Arm64').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureArm64>
+        <_GlekcraftGLFW_IsHostArchitectureWasm>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('Wasm').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureWasm>
+        <_GlekcraftGLFW_IsHostArchitectureS390x>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('S390x').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureS390x>
+        <_GlekcraftGLFW_IsHostArchitectureLoongArch64>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('LoongArch64').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureLoongArch64>
+        <_GlekcraftGLFW_IsHostArchitectureArmv6>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('Armv6').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureArmv6>
+        <_GlekcraftGLFW_IsHostArchitecturePpc64le>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('Ppc64le').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitecturePpc64le>
+        <_GlekcraftGLFW_IsHostArchitectureRiscV64>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Equals('RiscV64').ToString().ToLower())</_GlekcraftGLFW_IsHostArchitectureRiscV64>
+    </PropertyGroup>
+    <PropertyGroup Label="Runtime Detection">
+        <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformWindows)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX64)' == 'true'">win-x64</_GlekcraftGLFW_RuntimeId>
+        <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformWindows)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX86)' == 'true'">win-x86</_GlekcraftGLFW_RuntimeId>
+        <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformLinux)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX64)' == 'true'">linux-x64</_GlekcraftGLFW_RuntimeId>
+        <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformLinux)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX86)' == 'true'">linux-x86</_GlekcraftGLFW_RuntimeId>
+        <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformOSX)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureArm64)' == 'true'">osx-arm64</_GlekcraftGLFW_RuntimeId>
+        <_GlekcraftGLFW_RuntimeId Condition="'$(_GlekcraftGLFW_RuntimeId)' == '' AND '$(_GlekcraftGLFW_IsHostPlatformOSX)' == 'true' AND '$(_GlekcraftGLFW_IsHostArchitectureX64)' == 'true'">osx-x64</_GlekcraftGLFW_RuntimeId>
+        <_GlekcraftGLFW_RuntimePlatform>$(_GlekcraftGLFW_RuntimeId.Split('-')[0])</_GlekcraftGLFW_RuntimePlatform>
+        <_GlekcraftGLFW_RuntimeArchitecture>$(_GlekcraftGLFW_RuntimeId.Split('-')[1])</_GlekcraftGLFW_RuntimeArchitecture>
+    </PropertyGroup>
+    <PropertyGroup Label="Native Paths">
+        <_GlekcraftGLFW_NativePrefix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'linux' OR '$(_GlekcraftGLFW_RuntimePlatform)' == 'osx'">lib</_GlekcraftGLFW_NativePrefix>
+        <_GlekcraftGLFW_NativePrefix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'win'"></_GlekcraftGLFW_NativePrefix>
+        <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'linux'">.so</_GlekcraftGLFW_NativeSuffix>
+        <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'win'">.dll</_GlekcraftGLFW_NativeSuffix>
+        <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'osx'">.dylib</_GlekcraftGLFW_NativeSuffix>
+    </PropertyGroup>
+    <ItemGroup Label="Native Libraries">
+        <Content Include="$(MSBuildThisFileDirectory)runtimes/$(_GlekcraftGLFW_RuntimeId)/$(_GlekcraftGLFW_NativePrefix)glfw3$(_GlekcraftGLFW_NativeSuffix)">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Link>$(_GlekcraftGLFW_NativePrefix)glfw3$(_GlekcraftGLFW_NativeSuffix)</Link>
+        </Content>
+    </ItemGroup>
+</Project>
