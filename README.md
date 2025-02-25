@@ -14,4 +14,4 @@ Copyright (c) 2025 G'lek Tarssza
 
 All rights reserved.
 
-See [LICENSe.md](LICENSE.md) for the full license.
+See [LICENSE.md](LICENSE.md) for the full license.
