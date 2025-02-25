@@ -18,3 +18,9 @@
 
 # Handle .dll files with Git LFS
 *.dll filter=lfs diff=lfs merge=lfs -text
+
+# Treat .dylib files as binary
+*.dylib binary
+
+# Handle .dylib files with Git LFS
+*.dylib filter=lfs diff=lfs merge=lfs -text
