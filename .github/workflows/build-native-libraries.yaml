@@ -1,0 +1,187 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build Native Libraries
+on:
+  workflow_dispatch:
+concurrency:
+  cancel-in-progress: false
+  group: build-native-libs
+jobs:
+  build-linux:
+    name: Build for Linux
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.github-token}}
+          lfs: true
+          submodules: recursive
+      - id: load-git-signing-key
+        name: Load Git signing key
+        env:
+          SECRET_PASSPHRASE: ${{secrets.BUILD_NATIVE_LIBS_GPG_PASSPHRASE}}
+        run: |
+          ${{github.workspace}}/scripts/import-gpg-key.sh "${{github.workspace}}/secrets/git-signing-key.asc.gpg" "${SECRET_PASSPHRASE}"
+      - id: configure-git
+        name: Configure Git
+        env:
+          GIT_COMMITTER_NAME: ${{vars.BUILD_NATIVE_LIBS_COMMITTER_NAME}}
+          GIT_COMMITTER_EMAIL: ${{vars.BUILD_NATIVE_LIBS_COMMITTER_EMAIL}}
+        run: |
+          git config --local user.name "${GIT_COMMITTER_NAME}"
+          git config --local user.email "${GIT_COMMITTER_EMAIL}"
+          git config --local user.signingkey "$(gpg --list-keys --with-colons "${GIT_COMMITTER_EMAIL}" | awk -F ":" '/fpr/{print $10}')"
+          git config --local commit.gpgsign true
+      - id: install-glfw-build-dependencies
+        name: Install GLFW build dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt update
+          sudo apt install --yes --no-install-recommends cmake ninja-build pkg-config
+          sudo apt install --yes --no-install-recommends libwayland-dev libxkbcommon-dev libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+          sudo apt install --yes --no-install-recommends gcc-multilib
+          sudo apt install --yes --no-install-recommends libwayland-dev:i386 libxkbcommon-dev:i386 libx11-dev:i386 libxrandr-dev:i386 libxinerama-dev:i386 libxcursor-dev:i386 libxi-dev:i386
+      - id: build-for-x64
+        name: Build for x64
+        run: |
+          mkdir -p "${{github.workspace}}/temp/build/glfw/linux/x64"
+          cmake -G Ninja -S "${{github.workspace}}/deps/glfw" -B "${{github.workspace}}/temp/build/glfw/linux/x64" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/temp/dist/glfw/linux/x64" -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF
+          cmake --build "${{github.workspace}}/temp/build/glfw/linux/x64" --config Release
+          cmake --install "${{github.workspace}}/temp/build/glfw/linux/x64" --config Release
+          cp "${{github.workspace}}/temp/build/glfw/linux/x64/lib/libglfw.so" "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/linux-x64/libglfw3.so"
+      - id: build-for-x86
+        name: Build for x86
+        run: |
+          mkdir -p "${{github.workspace}}/temp/build/glfw/linux/x86"
+          cmake -G Ninja -S "${{github.workspace}}/deps/glfw" -B "${{github.workspace}}/temp/build/glfw/linux/x86" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/temp/dist/glfw/linux/x86" -DCMAKE_C_FLAGS=-m32 -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF
+          cmake --build "${{github.workspace}}/temp/build/glfw/linux/x86" --config Release
+          cmake --install "${{github.workspace}}/temp/build/glfw/linux/x86" --config Release
+          cp "${{github.workspace}}/temp/build/glfw/linux/x86/lib/libglfw.so" "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/linux-x86/libglfw3.so"
+      - id: commit
+        name: Commit
+        run: |
+          git checkout -b chore/update-linux-glfw-binaries
+          git add "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/**/*.so"
+          git commit -m "Updated Linux GLFW binaries."
+          git push --force origin chore/update-linux-glfw-binaries
+      # TODO: Create pull request
+  build-osx:
+    name: Build for OSX
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.github-token}}
+          lfs: true
+          submodules: recursive
+      - id: load-git-signing-key
+        name: Load Git signing key
+        env:
+          SECRET_PASSPHRASE: ${{secrets.BUILD_NATIVE_LIBS_GPG_PASSPHRASE}}
+        run: |
+          ${{github.workspace}}/scripts/import-gpg-key.sh "${{github.workspace}}/secrets/git-signing-key.asc.gpg" "${SECRET_PASSPHRASE}"
+      - id: configure-git
+        name: Configure Git
+        env:
+          GIT_COMMITTER_NAME: ${{vars.BUILD_NATIVE_LIBS_COMMITTER_NAME}}
+          GIT_COMMITTER_EMAIL: ${{vars.BUILD_NATIVE_LIBS_COMMITTER_EMAIL}}
+        run: |
+          git config --local user.name "${GIT_COMMITTER_NAME}"
+          git config --local user.email "${GIT_COMMITTER_EMAIL}"
+          git config --local user.signingkey "$(gpg --list-keys --with-colons "${GIT_COMMITTER_EMAIL}" | awk -F ":" '/fpr/{print $10}')"
+          git config --local commit.gpgsign true
+      - id: install-glfw-build-dependencies
+        name: Install GLFW build dependencies
+        run: |
+          brew install --quiet ninja cmake
+      - id: build-for-x64
+        name: Build for x64
+        run: |
+          mkdir -p "${{github.workspace}}/temp/build/glfw/osx/x64"
+          cmake -G Ninja -S "${{github.workspace}}/deps/glfw" -B "${{github.workspace}}/temp/build/glfw/osx/x64" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/temp/dist/glfw/osx/x64" -DCMAKE_OSX_ARCHITECTURES=x86_64 -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF
+          cmake --build "${{github.workspace}}/temp/build/glfw/osx/x64" --config Release
+          cmake --install "${{github.workspace}}/temp/build/glfw/osx/x64" --config Release
+          cp "${{github.workspace}}/temp/build/glfw/osx/x64/lib/libglfw.dylib" "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/osx-x64/libglfw3.dylib"
+      - id: build-for-arm64
+        name: Build for ARM64
+        run: |
+          mkdir -p "${{github.workspace}}/temp/build/glfw/osx/arm64"
+          cmake -G Ninja -S "${{github.workspace}}/deps/glfw" -B "${{github.workspace}}/temp/build/glfw/osx/arm64" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/temp/dist/glfw/osx/arm64" -DCMAKE_OSX_ARCHITECTURES=arm64 -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF
+          cmake --build "${{github.workspace}}/temp/build/glfw/osx/arm64" --config Release
+          cmake --install "${{github.workspace}}/temp/build/glfw/osx/arm64" --config Release
+          cp "${{github.workspace}}/temp/build/glfw/osx/arm64/lib/libglfw.dylib" "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/osx-arm64/libglfw3.dylib"
+      - id: commit
+        name: Commit
+        run: |
+          git checkout -b chore/update-osx-glfw-binaries
+          git add "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/**/*.dylib"
+          git commit -m "Updated OSX GLFW binaries."
+          git push --force origin chore/update-osx-glfw-binaries
+      # TODO: Create pull request
+  build-windows:
+    name: Build for Windows
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.github-token}}
+          lfs: true
+          submodules: recursive
+      - id: load-git-signing-key
+        name: Load Git signing key
+        env:
+          SECRET_PASSPHRASE: ${{secrets.BUILD_NATIVE_LIBS_GPG_PASSPHRASE}}
+        run: |
+          ${{github.workspace}}/scripts/import-gpg-key.sh "${{github.workspace}}/secrets/git-signing-key.asc.gpg" "${SECRET_PASSPHRASE}"
+      - id: configure-git
+        name: Configure Git
+        env:
+          GIT_COMMITTER_NAME: ${{vars.BUILD_NATIVE_LIBS_COMMITTER_NAME}}
+          GIT_COMMITTER_EMAIL: ${{vars.BUILD_NATIVE_LIBS_COMMITTER_EMAIL}}
+        run: |
+          git config --local user.name "${GIT_COMMITTER_NAME}"
+          git config --local user.email "${GIT_COMMITTER_EMAIL}"
+          git config --local user.signingkey "$(gpg --list-keys --with-colons "${GIT_COMMITTER_EMAIL}" | awk -F ":" '/fpr/{print $10}')"
+          git config --local commit.gpgsign true
+      - id: install-glfw-build-dependencies
+        name: Install GLFW build dependencies
+        run: |
+          choco install ninja cmake
+      - id: build-for-x64
+        name: Build for x64
+        run: |
+          mkdir -p "${{github.workspace}}/temp/build/glfw/win/x64"
+          cmake -G Ninja -A Win64 -S "${{github.workspace}}/deps/glfw" -B "${{github.workspace}}/temp/build/glfw/win/x64" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/temp/dist/glfw/win/x64" -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF
+          cmake --build "${{github.workspace}}/temp/build/glfw/win/x64" --config Release
+          cmake --install "${{github.workspace}}/temp/build/glfw/win/x64" --config Release
+          cp "${{github.workspace}}/temp/build/glfw/win/x64/lib/glfw3.dll" "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/win-x64/glfw3.dll"
+      - id: build-for-arm64
+        name: Build for x86
+        run: |
+          mkdir -p "${{github.workspace}}/temp/build/glfw/win/x86"
+          cmake -G Ninja -A Win32 -S "${{github.workspace}}/deps/glfw" -B "${{github.workspace}}/temp/build/glfw/win/x86" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/temp/dist/glfw/win/x86" -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF
+          cmake --build "${{github.workspace}}/temp/build/glfw/win/x86" --config Release
+          cmake --install "${{github.workspace}}/temp/build/glfw/win/x86" --config Release
+          cp "${{github.workspace}}/temp/build/glfw/win/x86/lib/glfw3.dll" "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/win-x86/glfw3.dll"
+      - id: commit
+        name: Commit
+        run: |
+          git checkout -b chore/update-win-glfw-binaries
+          git add "${{github.workspace}}/packages/Graphics.GLFW.Native/runtimes/**/*.dll"
+          git commit -m "Updated Windows GLFW binaries."
+          git push --force origin chore/update-win-glfw-binaries
+      # TODO: Create pull request
