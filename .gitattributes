@@ -24,3 +24,9 @@
 
 # Handle .dylib files with Git LFS
 *.dylib filter=lfs diff=lfs merge=lfs -text
+
+# Treat .gpg files as binary
+*.gpg binary
+
+# Handle .gpg files with Git LFS
+*.gpg filter=lfs diff=lfs merge=lfs -text
