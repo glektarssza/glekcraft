@@ -102,7 +102,7 @@ public interface INativeAPIProvider {
     /// <returns>
     /// The platform the native library is currently using.
     /// </returns>
-    public int GetPlatform();
+    public Platform GetPlatform();
 
     /// <summary>
     /// Check whether the given platform is supported by the native library.
@@ -111,7 +111,7 @@ public interface INativeAPIProvider {
     /// <c>true</c> if the given platform is supported by the native library;
     /// <c>false</c> otherwise.
     /// </returns>
-    public bool IsPlatformSupported(int platform);
+    public bool IsPlatformSupported(Platform platform);
 
     #endregion
 }
