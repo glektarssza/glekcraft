@@ -85,11 +85,13 @@ public interface INativeAPIProvider {
     /// <summary>
     /// Get the last error that occurred in the native library.
     /// </summary>
+    /// <param name="description">
+    /// The location to store the human-readable description of the error in.
+    /// </param>
     /// <returns>
-    /// The last error that occurred in the native library as a tuple of an
-    /// error code and optional human-readable description.
+    /// The last error that occurred in the native library.
     /// </returns>
-    public (ErrorCode Code, string? Description) GetError();
+    public ErrorCode GetError(out string? description);
 
     /// <summary>
     /// Set the method to be called when an error occurs in the native library.
