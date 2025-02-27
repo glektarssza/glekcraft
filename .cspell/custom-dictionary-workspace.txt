@@ -1,7 +1,8 @@
 # Custom Dictionary Words
-Armv
+armv
 assemblyfilters
 autobuild
+chdir
 dylib
 esults
 finalizer
@@ -9,7 +10,8 @@ g'lekcraft
 glekcraft
 glfw
 globaltool
-Loong
+libdecor
+loong
 reportgenerator
 reporttypes
 runsettings
