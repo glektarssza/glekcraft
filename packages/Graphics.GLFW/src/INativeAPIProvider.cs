@@ -33,7 +33,15 @@ public interface INativeAPIProvider {
     /// </summary>
     public void InitHint(int hint, int value);
 
-    // TODO: InitAllocator
+    /// <summary>
+    /// Set the functions to be used by the native library for allocating heap
+    /// memory.
+    /// </summary>
+    /// <param name="allocator">
+    /// A structure containing the functions to be used by the native library or
+    /// <c>null</c> to use the default one.
+    /// </param>
+    public void InitAllocator(NativeAllocator? allocator);
 
     /// <summary>
     /// Initialize Vulkan.
