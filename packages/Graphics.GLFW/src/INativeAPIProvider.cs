@@ -26,12 +26,12 @@ public interface INativeAPIProvider {
     /// <summary>
     /// Configure initialization hints for the native library.
     /// </summary>
-    public void InitHint(int hint, bool value);
+    public void InitHint(BoolInitHint hint, bool value);
 
     /// <summary>
     /// Configure initialization hints for the native library.
     /// </summary>
-    public void InitHint(int hint, int value);
+    public void InitHint(InitHint hint, int value);
 
     /// <summary>
     /// Set the functions to be used by the native library for allocating heap
