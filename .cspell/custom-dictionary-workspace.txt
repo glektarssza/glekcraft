@@ -4,6 +4,7 @@ assemblyfilters
 autobuild
 dylib
 esults
+finalizer
 g'lekcraft
 glekcraft
 glfw
