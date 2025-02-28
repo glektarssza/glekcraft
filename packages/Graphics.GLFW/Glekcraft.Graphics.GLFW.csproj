@@ -5,6 +5,7 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <RootNamespace>Glekcraft.Graphics.GLFW</RootNamespace>
         <ProjectDir>$(MSBuildProjectDirectory)/src/</ProjectDir>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
