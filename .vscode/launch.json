@@ -1,0 +1,59 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "coreclr:debug",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dotnet:build:debug",
+            "program": "${input:program}"
+        },
+        {
+            "name": "coreclr:attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "project",
+            "description": "The project to debug.",
+            "type": "pickString",
+            "options": [
+                {
+                    "label": "Glekcraft",
+                    "value": "${workspaceFolder}/Glekcraft/Glekcraaft.csproj"
+                },
+                {
+                    "label": "Glekcraft.Tests",
+                    "value": "${workspaceFolder}/tests/Glekcraft/Glekcraaft.Tests.csproj"
+                },
+                {
+                    "label": "Glekcraft.Graphics.GLFW.Tests",
+                    "value": "${workspaceFolder}/tests/Graphics.GLFW/Glekcraaft.Graphics.GLFW.Tests.csproj"
+                }
+            ],
+            "default": "Glekcraft"
+        },
+        {
+            "id": "program",
+            "description": "The program to debug.",
+            "type": "pickString",
+            "options": [
+                {
+                    "label": "Glekcraft",
+                    "value": "${workspaceFolder}/Glekcraft/bin/Debug/net9.0/Glekcraft.dll"
+                },
+                {
+                    "label": "Glekcraft.Tests",
+                    "value": "${workspaceFolder}/tests/Glekcraft/bin/Debug/net9.0/Glekcraft.Tests.dll"
+                },
+                {
+                    "label": "Glekcraft.Graphics.GLFW.Tests",
+                    "value": "${workspaceFolder}/tests/Graphics.GLFW/bin/Debug/net9.0/Glekcraft.Graphics.GLFW.dll"
+                }
+            ],
+            "default": "Glekcraft"
+        }
+    ]
+}
