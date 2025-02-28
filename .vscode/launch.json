@@ -2,13 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "dotnet:debug",
-            "type": "dotnet",
-            "request": "launch",
-            "preLaunchTask": "dotnet:build:debug",
-            "projectPath": "${input:project}"
-        },
-        {
             "name": "coreclr:debug",
             "type": "coreclr",
             "request": "launch",
