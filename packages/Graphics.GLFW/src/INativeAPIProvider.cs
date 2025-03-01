@@ -91,7 +91,7 @@ public interface INativeAPIProvider {
     /// <returns>
     /// The last error that occurred in the native library.
     /// </returns>
-    public ErrorCode GetError(out string? description);
+    public (ErrorCode Code, string? Description) GetError();
 
     /// <summary>
     /// Set the method to be called when an error occurs in the native library.
