@@ -1,12 +1,9 @@
-using System.Runtime.InteropServices;
-
 namespace Glekcraft.Graphics.GLFW;
 
 /// <summary>
 /// A structure which is used to control how the native library makes heap
 /// allocations.
 /// </summary>
-[StructLayout(LayoutKind.Sequential)]
 public struct NativeAllocator {
     #region Public Delegates
 
@@ -56,31 +53,39 @@ public struct NativeAllocator {
 
     #endregion
 
-    #region Public Fields
+    #region Public Properties
 
     /// <summary>
     /// The function to use to allocate memory on the heap.
     /// </summary>
-    [MarshalAs(UnmanagedType.FunctionPtr)]
-    public AllocateFunction Allocate;
+    public AllocateFunction Allocate {
+        get;
+        set;
+    }
 
     /// <summary>
     /// The function to use to reallocate memory on the heap.
     /// </summary>
-    [MarshalAs(UnmanagedType.FunctionPtr)]
-    public ReallocateFunction Reallocate;
+    public ReallocateFunction Reallocate {
+        get;
+        set;
+    }
 
     /// <summary>
     /// The function to use to deallocate memory on the heap.
     /// </summary>
-    [MarshalAs(UnmanagedType.FunctionPtr)]
-    public DeallocateFunction Deallocate;
+    public DeallocateFunction Deallocate {
+        get;
+        set;
+    }
 
     /// <summary>
     /// The pointer to the custom data to pass to each custom function.
     /// </summary>
-    [MarshalAs(UnmanagedType.SysUInt)]
-    public IntPtr UserData;
+    public IntPtr UserData {
+        get;
+        set;
+    }
 
     #endregion
 }
