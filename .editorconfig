@@ -72,7 +72,7 @@ dotnet_code_quality_unused_parameters = non_public
 csharp_style_expression_bodied_local_functions = when_on_single_line
 csharp_prefer_static_local_function = true
 csharp_prefer_simple_using_statement = true
-csharp_using_directive_placement = outside_namespace
+csharp_using_directive_placement = inside_namespace
 csharp_style_prefer_switch_expression = true
 dotnet_style_prefer_simplified_interpolation = true
 dotnet_style_prefer_simplified_boolean_expressions = true
@@ -194,7 +194,7 @@ dotnet_naming_rule.static_readonly_fields_must_be_pascal_case_rule.style = pasca
 dotnet_naming_rule.static_readonly_fields_must_be_pascal_case_rule.severity = warning
 
 # Public and protected fields are disallowed
-dotnet_naming_symbols.public_fields_group.applicable_accessibilities = public, protected, protected_internal
+dotnet_naming_symbols.public_fields_group.applicable_accessibilities = public, protected, protected_internal, internal
 dotnet_naming_symbols.public_fields_group.applicable_kinds = field
 dotnet_naming_rule.public_fields_must_be_pascal_case_rule.symbols = public_fields_group
 dotnet_naming_rule.public_fields_must_be_pascal_case_rule.style = disallowed_style
