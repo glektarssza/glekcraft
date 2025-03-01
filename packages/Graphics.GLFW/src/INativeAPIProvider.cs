@@ -17,7 +17,7 @@ public interface INativeAPIProvider {
     /// <param name="description">
     /// An optional human-readable description of the error that occurred.
     /// </param>
-    public delegate void ErrorCallback(ErrorCode code, string description);
+    public delegate void ErrorCallback(ErrorCode code, string? description);
 
     #endregion
 
