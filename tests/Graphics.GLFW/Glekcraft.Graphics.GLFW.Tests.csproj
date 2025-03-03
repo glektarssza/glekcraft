@@ -8,6 +8,7 @@
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+        <NoWarn>CA1707</NoWarn>
     </PropertyGroup>
     <ItemGroup Label="Implicit Usings">
         <Using Include="System" />
