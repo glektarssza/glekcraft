@@ -43,6 +43,10 @@ public sealed class LibGLFW : IDisposable {
         var apiProvider = provider ?? new DefaultNativeAPIProvider();
         // TODO: Set up temporary error handling
         // TODO: Configure API provider
+        if (!apiProvider.Init()) {
+            // TODO: Custom exception
+            throw new InvalidOperationException("Failed to initialize native library");
+        }
         Instance = new(apiProvider);
         // TODO: Instance post-construction initialization
         return Instance;
