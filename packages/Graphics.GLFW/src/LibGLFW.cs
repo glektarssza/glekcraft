@@ -36,7 +36,7 @@ public sealed class LibGLFW : IDisposable {
     /// The existing instance if one the library is still initialized; a new
     /// instance otherwise.
     /// </returns>
-    public static LibGLFW Initialize(INativeAPIProvider? provider) {
+    public static LibGLFW Initialize(INativeAPIProvider? provider = null) {
         if (Instance != null && !Instance.IsDisposed && Instance.IsCurrentInstance) {
             return Instance;
         }
