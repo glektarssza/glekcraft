@@ -4,12 +4,15 @@ namespace Glekcraft.Graphics.GLFW;
 /// The main entry point into the library.
 /// </summary>
 public sealed class LibGLFW : IDisposable {
-    #region Private Static Fields
+    #region Internal Static Properties
 
     /// <summary>
-    /// The current instance.
+    /// The current instance if the library is initialized.
     /// </summary>
-    private static LibGLFW? Instance;
+    internal static LibGLFW? Instance {
+        get;
+        private set;
+    }
 
     #endregion
 
