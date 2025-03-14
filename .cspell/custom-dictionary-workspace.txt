@@ -1,6 +1,8 @@
 # Custom Dictionary Words
+accessibilities
 Armv
 assemblyfilters
+atlmfc
 autobuild
 dylib
 esults
@@ -9,8 +11,10 @@ glekcraft
 glfw
 globaltool
 Loong
+Newtonsoft
 reportgenerator
 reporttypes
 runsettings
 targetdir
+vctools
 xplat

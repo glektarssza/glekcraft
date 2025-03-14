@@ -19,9 +19,7 @@
             "promptOnClose": false,
             "type": "shell",
             "command": "dotnet",
-            "args": [
-                "restore"
-            ],
+            "args": ["restore"],
             "runOptions": {
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
@@ -36,9 +34,7 @@
                 "showReuseMessage": false,
                 "clear": false
             },
-            "problemMatcher": [
-                "$msCompile"
-            ]
+            "problemMatcher": ["$msCompile"]
         },
         {
             "label": "dotnet:build:debug",
@@ -52,20 +48,13 @@
                 "isDefault": false
             },
             "dependsOrder": "sequence",
-            "dependsOn": [
-                "dotnet:restore"
-            ],
+            "dependsOn": ["dotnet:restore"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
             "type": "shell",
             "command": "dotnet",
-            "args": [
-                "build",
-                "--no-restore",
-                "--configuration",
-                "Debug"
-            ],
+            "args": ["build", "--no-restore", "--configuration", "Debug"],
             "runOptions": {
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
@@ -80,9 +69,7 @@
                 "showReuseMessage": false,
                 "clear": false
             },
-            "problemMatcher": [
-                "$msCompile"
-            ]
+            "problemMatcher": ["$msCompile"]
         },
         {
             "label": "dotnet:build:release",
@@ -96,20 +83,13 @@
                 "isDefault": false
             },
             "dependsOrder": "sequence",
-            "dependsOn": [
-                "dotnet:restore"
-            ],
+            "dependsOn": ["dotnet:restore"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
             "type": "shell",
             "command": "dotnet",
-            "args": [
-                "build",
-                "--no-restore",
-                "--configuration",
-                "Release"
-            ],
+            "args": ["build", "--no-restore", "--configuration", "Release"],
             "runOptions": {
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
@@ -124,9 +104,7 @@
                 "showReuseMessage": false,
                 "clear": false
             },
-            "problemMatcher": [
-                "$msCompile"
-            ]
+            "problemMatcher": ["$msCompile"]
         },
         {
             "label": "dotnet:build:all",
@@ -140,10 +118,7 @@
                 "isDefault": false
             },
             "dependsOrder": "parallel",
-            "dependsOn": [
-                "dotnet:build:debug",
-                "dotnet:build:release"
-            ],
+            "dependsOn": ["dotnet:build:debug", "dotnet:build:release"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
@@ -161,9 +136,7 @@
                 "showReuseMessage": false,
                 "clear": false
             },
-            "problemMatcher": [
-                "$msCompile"
-            ]
+            "problemMatcher": ["$msCompile"]
         },
         {
             "label": "dotnet:build",
@@ -177,9 +150,7 @@
                 "isDefault": true
             },
             "dependsOrder": "sequence",
-            "dependsOn": [
-                "dotnet:build:debug"
-            ],
+            "dependsOn": ["dotnet:build:debug"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
@@ -197,9 +168,7 @@
                 "showReuseMessage": false,
                 "clear": false
             },
-            "problemMatcher": [
-                "$msCompile"
-            ]
+            "problemMatcher": ["$msCompile"]
         },
         {
             "label": "dotnet:test",
@@ -213,9 +182,7 @@
                 "isDefault": true
             },
             "dependsOrder": "sequence",
-            "dependsOn": [
-                "dotnet:build:debug"
-            ],
+            "dependsOn": ["dotnet:build:debug"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
@@ -227,7 +194,7 @@
                 "--configuration",
                 "Debug",
                 "--settings",
-                "${workspaceFolder}/xplat_coverage.runsettings"
+                "${workspaceFolder}/coverage.runsettings"
             ],
             "runOptions": {
                 "instanceLimit": 1,
@@ -243,9 +210,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "problemMatcher": [
-                "$msCompile"
-            ]
+            "problemMatcher": ["$msCompile"]
         },
         {
             "label": "dotnet:lint",
@@ -259,19 +224,13 @@
                 "isDefault": false
             },
             "dependsOrder": "sequence",
-            "dependsOn": [
-                "dotnet:restore"
-            ],
+            "dependsOn": ["dotnet:restore"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
             "type": "shell",
             "command": "dotnet",
-            "args": [
-                "format",
-                "--no-restore",
-                "--verify-no-changes"
-            ],
+            "args": ["format", "--no-restore", "--verify-no-changes"],
             "runOptions": {
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
@@ -286,9 +245,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "problemMatcher": [
-                "$msCompile"
-            ]
+            "problemMatcher": ["$msCompile"]
         }
     ]
 }

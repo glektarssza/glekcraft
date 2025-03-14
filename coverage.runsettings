@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RunSettings>
+    <DataCollectionRunSettings>
+        <DataCollectors>
+            <DataCollector friendlyName="Code Coverage">
+                <Configuration>
+                    <CodeCoverage>
+                        <Sources>
+                            <Exclude>
+                                <Source>.*\\tests\\.*</Source>
+                                <Source>.*\.g\.cs$</Source>
+                                <Source>.*\\Moq\\.*</Source>
+                                <Source>.*\\.nuget\\.*</Source>
+                                <Source>.*\\atlmfc\\.*</Source>
+                                <Source>.*\\vctools\\.*</Source>
+                                <Source>.*\\public\\sdk\\.*</Source>
+                                <Source>.*\\microsoft sdks\\.*</Source>
+                                <Source>.*\\vc\\include\\.*</Source>
+                            </Exclude>
+                        </Sources>
+                        <CompanyNames>
+                            <Exclude>
+                                <CompanyName>.*microsoft.*</CompanyName>
+                            </Exclude>
+                        </CompanyNames>
+                    </CodeCoverage>
+                </Configuration>
+            </DataCollector>
+        </DataCollectors>
+    </DataCollectionRunSettings>
+</RunSettings>
