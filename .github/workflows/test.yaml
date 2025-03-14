@@ -33,6 +33,10 @@ on:
         description: |
           The token to use for making authenticated requests to the GitHub API.
         required: true
+      reportgenerator-license:
+        description: |
+          The license key to use when calling the report generator tool.
+        required: false
 jobs:
   test:
     name: Test
