@@ -49,6 +49,61 @@ public class LibGLFWTests {
 
     [TestMethod]
     [TestCategory("Core")]
+    [Description("Test whether the 'Initialize' static method sets the error callback before initializing the native library.")]
+    public void Test_Initialize_SetsErrorCallbackBeforeInit() {
+        //-- Given
+        this.MoqNativeAPIProvider.Setup((it) => it.Init()).Returns(true);
+        this.MoqNativeAPIProvider.Setup((it) => it.SetErrorCallback(It.IsAny<INativeAPIProvider.ErrorCallback?>()));
+
+        //-- When
+        var result = FluentActions.Invoking(() =>
+                    LibGLFW.Initialize(this.MoqNativeAPIProvider.Object));
+
+        //-- Then
+        result.Should().NotThrow();
+        this.MoqNativeAPIProvider.Verify((it) => it.SetErrorCallback(It.IsAny<INativeAPIProvider.ErrorCallback?>()), Times.Once);
+    }
+
+    [TestMethod]
+    [TestCategory("Core")]
+    [Description("Test whether the 'Initialize' static method resets the error callback on an error.")]
+    public void Test_Initialize_ResetsErrorCallbackOnError() {
+        //-- Given
+        this.MoqNativeAPIProvider.Setup((it) => it.Init()).Returns(false);
+        this.MoqNativeAPIProvider.Setup((it) => it.SetErrorCallback(It.IsAny<INativeAPIProvider.ErrorCallback?>()));
+
+        //-- When
+        var result = FluentActions.Invoking(() =>
+                    LibGLFW.Initialize(this.MoqNativeAPIProvider.Object));
+
+        //-- Then
+        result.Should().Throw<GLFWException>();
+        this.MoqNativeAPIProvider.Verify((it) => it.SetErrorCallback(null), Times.Once());
+    }
+
+    [TestMethod]
+    [TestCategory("Core")]
+    [Description("Test whether the 'Initialize' static method throws a 'GLFWException' with the right property values on an error.")]
+    public void Test_Initialize_ThrowsAppropriately() {
+        //-- Given
+        this.MoqNativeAPIProvider.Setup((it) => it.Init()).Returns(false);
+        this.MoqNativeAPIProvider.Setup((it) => it.SetErrorCallback(It.IsNotNull<INativeAPIProvider.ErrorCallback>())).Callback((INativeAPIProvider.ErrorCallback callback) => {
+            callback.Invoke(ErrorCode.OutOfMemory, "Failed to allocate memory");
+        });
+
+        //-- When
+        var result = FluentActions.Invoking(() =>
+                    LibGLFW.Initialize(this.MoqNativeAPIProvider.Object));
+
+        //-- Then
+        result.Should().Throw<GLFWException>().Which.Should().Satisfy((GLFWException ex) => {
+            ex.ErrorCode.Should().Be(ErrorCode.OutOfMemory);
+            ex.ErrorDescription.Should().Be("Failed to allocate memory");
+        });
+    }
+
+    [TestMethod]
+    [TestCategory("Core")]
     [Description("Test whether the 'IsInitialized' static property is 'false' when the library is not initialized.")]
     public void Test_IsInitialized_IsFalseWhenLibraryIsNotInitialized() {
         //-- Given
