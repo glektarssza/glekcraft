@@ -41,6 +41,7 @@ jobs:
       contents: read
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
+      reportgenerator-license: ${{secrets.REPORTGENERATOR_LICENSE}}
     uses: ./.github/workflows/test.yaml
     with:
       build-os: ${{inputs.build-os}}

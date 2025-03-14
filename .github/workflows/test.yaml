@@ -33,6 +33,10 @@ on:
         description: |
           The token to use for making authenticated requests to the GitHub API.
         required: true
+      reportgenerator-license:
+        description: |
+          The license key to use when calling the report generator tool.
+        required: false
 jobs:
   test:
     name: Test
@@ -69,9 +73,15 @@ jobs:
         run: dotnet test --no-build --configuration ${{inputs.build-config}} --settings xplat_coverage.runsettings
       - id: generate-html-report
         name: Generate HTML report
+        shell: bash
+        env:
+          REPORTGENERATOR_LICENSE: ${{secrets.reportgenerator-license}}
         run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html" "-reporttypes:Html" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
       - id: generate-dark-html-report
         name: Generate dark HTML report
+        shell: bash
+        env:
+          REPORTGENERATOR_LICENSE: ${{secrets.reportgenerator-license}}
         run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html_dark" "-reporttypes:Html_Dark" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
       - id: upload-coverage-reports
         name: Upload coverage reports
