@@ -2,6 +2,7 @@
 accessibilities
 armv
 assemblyfilters
+atlmfc
 autobuild
 chdir
 dylib
@@ -13,8 +14,10 @@ glfw
 globaltool
 libdecor
 loong
+newtonsoft
 reportgenerator
 reporttypes
 runsettings
 targetdir
+vctools
 xplat
