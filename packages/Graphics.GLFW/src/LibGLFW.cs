@@ -29,6 +29,32 @@ public sealed class LibGLFW : IDisposable {
     #region Public Static Methods
 
     /// <summary>
+    /// Get the version of the native library being used.
+    /// </summary>
+    /// <param name="provider">
+    /// The object which will provide access to the native library. If not
+    /// provided a default API provider will be used.
+    /// </param>
+    /// <returns>
+    /// The version of the native library being used.
+    /// </returns>
+    public static Version GetNativeVersion(INativeAPIProvider? provider = null) =>
+        (provider ?? new DefaultNativeAPIProvider()).GetVersion();
+
+    /// <summary>
+    /// Get the version string of the native library being used.
+    /// </summary>
+    /// <param name="provider">
+    /// The object which will provide access to the native library. If not
+    /// provided a default API provider will be used.
+    /// </param>
+    /// <returns>
+    /// The version string of the native library being used.
+    /// </returns>
+    public static string GetNativeVersionString(INativeAPIProvider? provider = null) =>
+        (provider ?? new DefaultNativeAPIProvider()).GetVersionString();
+
+    /// <summary>
     /// Initialize the library if it is not already initialized.
     /// </summary>
     /// <param name="provider">
