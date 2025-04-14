@@ -17,10 +17,10 @@
     </ItemGroup>
     <ItemGroup Label="Dependencies">
         <ProjectReference Include="../../packages/Graphics.GLFW/Glekcraft.Graphics.GLFW.csproj" />
-        <PackageReference Include="MSTest" Version="3.8.2" />
+        <PackageReference Include="MSTest" Version="3.8.3" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
         <PackageReference Include="coverlet.collector" Version="6.0.4" />
-        <PackageReference Include="FluentAssertions" Version="8.1.1" />
+        <PackageReference Include="FluentAssertions" Version="8.2.0" />
         <PackageReference Include="Moq" Version="4.20.72" />
     </ItemGroup>
 </Project>
