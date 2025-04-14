@@ -161,4 +161,32 @@ public class LibGLFWTests {
         //-- Then
         result.Should().BeTrue();
     }
+
+    [TestMethod]
+    [TestCategory("Core")]
+    [Description("Test whether the 'GetNativeVersion' static method returns the correct value.")]
+    public void Test_GetNativeVersion_ReturnsCorrectValue() {
+        //-- Given
+        this.MoqNativeAPIProvider.Setup((it) => it.GetVersion()).Returns(new Version(3, 4, 0));
+
+        //-- When
+        var result = LibGLFW.GetNativeVersion(this.MoqNativeAPIProvider.Object);
+
+        //-- Then
+        result.Should().Be(new(3, 4, 0));
+    }
+
+    [TestMethod]
+    [TestCategory("Core")]
+    [Description("Test whether the 'GetNativeVersionString' static method returns the correct value.")]
+    public void Test_GetNativeVersionString_ReturnsCorrectValue() {
+        //-- Given
+        this.MoqNativeAPIProvider.Setup((it) => it.GetVersionString()).Returns("3.4.0 dummy version");
+
+        //-- When
+        var result = LibGLFW.GetNativeVersionString(this.MoqNativeAPIProvider.Object);
+
+        //-- Then
+        result.Should().Be("3.4.0 dummy version");
+    }
 }
