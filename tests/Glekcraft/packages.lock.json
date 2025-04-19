@@ -247,6 +247,12 @@
                 }
             },
             "glekcraft": {
+                "type": "Project",
+                "dependencies": {
+                    "Glekcraft.Graphics.GLFW": "[1.0.0, )"
+                }
+            },
+            "glekcraft.graphics.glfw": {
                 "type": "Project"
             }
         }
