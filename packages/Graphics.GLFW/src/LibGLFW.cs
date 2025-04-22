@@ -207,7 +207,7 @@ public sealed class LibGLFW : IDisposable {
             return;
         }
         if (managed && this.IsCurrentInstance) {
-            // TODO: Any other tear down
+            this.APIProvider.SetErrorCallback(null);
             this.APIProvider.Terminate();
             Instance = null;
         }
