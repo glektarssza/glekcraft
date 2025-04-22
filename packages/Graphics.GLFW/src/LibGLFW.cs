@@ -4,6 +4,21 @@ namespace Glekcraft.Graphics.GLFW;
 /// The main entry point into the library.
 /// </summary>
 public sealed class LibGLFW : IDisposable {
+    #region Public Delegates
+
+    /// <summary>
+    /// A delegate for handling errors being surfaced from the native library.
+    /// </summary>
+    /// <param name="code">
+    /// The error code raised by the native library.
+    /// </param>
+    /// <param name="description">
+    /// An optional, human-readable description of the error that occurred.
+    /// </param>
+    public delegate void HandleNativeError(ErrorCode code, string? description);
+
+    #endregion
+
     #region Internal Static Properties
 
     /// <summary>
