@@ -103,6 +103,15 @@ public sealed class LibGLFW : IDisposable {
 
     #endregion
 
+    #region Public Events
+
+    /// <summary>
+    /// An event that is emitted when an error occurs in the native library.
+    /// </summary>
+    public event HandleNativeError? NativeErrorOccurred;
+
+    #endregion
+
     #region Internal Properties
 
     /// <summary>
