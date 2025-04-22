@@ -97,7 +97,7 @@ public sealed class LibGLFW : IDisposable {
             throw new GLFWException(errorCode, errorDesc, "Failed to initialize native library");
         }
         Instance = new(apiProvider);
-        // TODO: Instance post-construction initialization
+        Instance.PostInitialize();
         return Instance;
     }
 
@@ -187,6 +187,13 @@ public sealed class LibGLFW : IDisposable {
     /// </param>
     private void OnNativeError(ErrorCode errorCode, string? errorDescription) =>
         NativeErrorOccurred?.Invoke(errorCode, errorDescription);
+
+    /// <summary>
+    /// Perform any initialization required after the native library is
+    /// initialized.
+    /// </summary>
+    private void PostInitialize() =>
+        this.APIProvider.SetErrorCallback(this.OnNativeError);
 
     /// <summary>
     /// Dispose of this instance.
