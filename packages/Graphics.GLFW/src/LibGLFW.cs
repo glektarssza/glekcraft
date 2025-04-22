@@ -176,6 +176,19 @@ public sealed class LibGLFW : IDisposable {
     #region Private Methods
 
     /// <summary>
+    /// Handle an error being raised by the native library.
+    /// </summary>
+    /// <param name="errorCode">
+    /// The error code raised by the native library.
+    /// </param>
+    /// <param name="errorDescription">
+    /// An optional, human-readable description of the error raised by the
+    /// native library.
+    /// </param>
+    private void OnNativeError(ErrorCode errorCode, string? errorDescription) =>
+        NativeErrorOccurred?.Invoke(errorCode, errorDescription);
+
+    /// <summary>
     /// Dispose of this instance.
     /// </summary>
     /// <param name="managed">
