@@ -70,6 +70,20 @@ public sealed class LibGLFW : IDisposable {
         (provider ?? new DefaultNativeAPIProvider()).GetVersionString();
 
     /// <summary>
+    /// Get the last error encountered by the native library.
+    /// </summary>
+    /// <param name="provider">
+    /// The object which will provide access to the native library. If not
+    /// provided a default API provider will be used.
+    /// </param>
+    /// <returns>
+    /// The tuple containing the last error code encountered by the native
+    /// library and a human-readable string describing the nature of the error.
+    /// </returns>
+    public static (ErrorCode Code, string? Description) GetLastNativeError(INativeAPIProvider? provider = null) =>
+        (provider ?? new DefaultNativeAPIProvider()).GetError();
+
+    /// <summary>
     /// Initialize the library if it is not already initialized.
     /// </summary>
     /// <param name="provider">
