@@ -189,4 +189,18 @@ public class LibGLFWTests {
         //-- Then
         result.Should().Be("3.4.0 dummy version");
     }
+
+    [TestMethod]
+    [TestCategory("Core")]
+    [Description("Test whether the 'GetLastNativeError' static method returns the correct value.")]
+    public void Test_GetLastNativeError_ReturnsCorrectValue() {
+        //-- Given
+        this.MoqNativeAPIProvider.Setup((it) => it.GetError()).Returns((ErrorCode.OutOfMemory, "Dummy Error"));
+
+        //-- When
+        var result = LibGLFW.GetLastNativeError(this.MoqNativeAPIProvider.Object);
+
+        //-- Then
+        result.Should().Be((ErrorCode.OutOfMemory, "Dummy Error"));
+    }
 }
