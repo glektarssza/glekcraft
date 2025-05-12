@@ -1,5 +1,7 @@
 namespace Glekcraft.Graphics.GLFW.Tests;
 
+using System.Linq;
+
 [TestClass]
 public class LibGLFWTests {
     #region Private Fields
@@ -61,7 +63,7 @@ public class LibGLFWTests {
 
         //-- Then
         result.Should().NotThrow();
-        this.MoqNativeAPIProvider.Verify((it) => it.SetErrorCallback(It.IsAny<INativeAPIProvider.ErrorCallback?>()), Times.Once);
+        this.MoqNativeAPIProvider.Verify((it) => it.SetErrorCallback(It.IsAny<INativeAPIProvider.ErrorCallback?>()), Times.Exactly(2));
     }
 
     [TestMethod]
@@ -202,5 +204,36 @@ public class LibGLFWTests {
 
         //-- Then
         result.Should().Be((ErrorCode.OutOfMemory, "Dummy Error"));
+    }
+
+    [TestMethod]
+    [TestCategory("Core")]
+    [Description("Test whether the 'NativeErrorOccured' event fires correctly.")]
+    public void Test_EventNativeErrorOccurred_Fires() {
+        //-- Given
+        INativeAPIProvider.ErrorCallback? callback = null;
+        this.MoqNativeAPIProvider.Setup((it) => it.Init()).Returns(true);
+        this.MoqNativeAPIProvider
+            .When(() => (from invoc in this.MoqNativeAPIProvider.Invocations let methodName = invoc.Method.Name where methodName == "Init" select invoc).Any())
+            .Setup((it) => it.SetErrorCallback(It.IsNotNull<INativeAPIProvider.ErrorCallback?>()))
+            .Callback((INativeAPIProvider.ErrorCallback cb) => {
+                callback = cb;
+            });
+        using var instance = LibGLFW.Initialize(this.MoqNativeAPIProvider.Object);
+        if (callback == null) {
+            throw new InvalidOperationException("Expected a callback delegate to be available but one was not");
+        }
+        using var monitor = instance.Monitor();
+
+        //-- When
+        callback?.Invoke(ErrorCode.OutOfMemory, "Ooops");
+
+        //-- Then
+        monitor.Should()
+            .Raise(nameof(instance.NativeErrorOccurred));
+        foreach (var ev in monitor.OccurredEvents) {
+            ev.Parameters.Should()
+                .SatisfyRespectively((code) => code.Should().BeOfType<ErrorCode>().And.Be(ErrorCode.OutOfMemory), (desc) => desc.Should().BeOfType<string>().And.Be("Ooops"));
+        }
     }
 }
