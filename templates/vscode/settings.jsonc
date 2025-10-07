@@ -1,0 +1,16 @@
+{
+    // -- Insert doc comments automatically
+    "dotnet.autoInsert.enableAutoInsert": true,
+
+    // -- Organize imports automatically on format
+    "dotnet.formatting.organizeImportsOnFormat": true,
+
+    // -- Do not auto-restore project, we have tasks for that
+    "dotnet.projects.enableAutomaticRestore": false,
+
+    // -- Filter out tests from .NET extension coverage reports
+    "dotnet.unitTests.runSettingsPath": "${workspaceFolder}/coverage.runsettings",
+
+    // -- Stop the XML extension from formatting .csproj files weirdly
+    "xml.format.maxLineWidth": 200
+}
