@@ -8,6 +8,12 @@
                 "resolved": "9.2.0",
                 "contentHash": "RCkuFyKmesmZR74XLOzYvTpG/IbHfBeFapFTMvFskPzEK4z3YrVmHB2FIFJ0DhwjuIDdPL/hc8zS40IwMAN0BA=="
             },
+            "Bogus": {
+                "type": "Direct",
+                "requested": "[35.6.4, )",
+                "resolved": "35.6.4",
+                "contentHash": "9ruy4agpXZ2L3B29IypUZJh61/lq+7Tbs03KyS0Uxrkx7c20JuWB1vMtZ0xBqwnekZGphjBhX7MkhM1nb5BA5g=="
+            },
             "coverlet.collector": {
                 "type": "Direct",
                 "requested": "[6.0.4, )",

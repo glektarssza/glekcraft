@@ -14,6 +14,7 @@
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
         <Using Include="AwesomeAssertions" />
         <Using Include="Moq" />
+        <Using Include="Bogus" />
     </ItemGroup>
     <ItemGroup Label="Dependencies">
         <ProjectReference Include="../../Glekcraft/Glekcraft.csproj" />
@@ -22,5 +23,6 @@
         <PackageReference Include="coverlet.collector" Version="6.0.4" />
         <PackageReference Include="AwesomeAssertions" Version="9.2.0" />
         <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="Bogus" Version="35.6.4" />
     </ItemGroup>
 </Project>
