@@ -8,13 +8,9 @@
                 "id": "cloud-download",
                 "color": "terminal.ansiWhite"
             },
-            "group": {
-                "kind": "none",
-                "isDefault": true
-            },
             "dependsOrder": "sequence",
             "dependsOn": [],
-            "hide": false,
+            "hide": true,
             "isBackground": false,
             "promptOnClose": false,
             "type": "shell",
@@ -219,18 +215,118 @@
                 "id": "search-fuzzy",
                 "color": "terminal.ansiYellow"
             },
-            "group": {
-                "kind": "none",
-                "isDefault": false
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                "dotnet:lint:whitespace",
+                "dotnet:lint:style",
+                "dotnet:lint:analyzers"
+            ],
+            "hide": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "options": {},
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "dotnet:lint:whitespace",
+            "detail": "Lint the project in whitespace mode.",
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiYellow"
             },
             "dependsOrder": "sequence",
             "dependsOn": ["dotnet:restore"],
-            "hide": false,
+            "hide": true,
             "isBackground": false,
             "promptOnClose": false,
             "type": "shell",
             "command": "dotnet",
-            "args": ["format", "--no-restore", "--verify-no-changes"],
+            "args": [
+                "format",
+                "--no-restore",
+                "--verify-no-changes",
+                "whitespace"
+            ],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "options": {},
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "dotnet:lint:style",
+            "detail": "Lint the project in style mode.",
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiYellow"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": ["dotnet:restore"],
+            "hide": true,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": ["format", "--no-restore", "--verify-no-changes", "style"],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "options": {},
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "dotnet:lint:analyzers",
+            "detail": "Lint the project in analyzers mode.",
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiYellow"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": ["dotnet:restore"],
+            "hide": true,
+            "isBackground": false,
+            "promptOnClose": false,
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "format",
+                "--no-restore",
+                "--verify-no-changes",
+                "analyzers"
+            ],
             "runOptions": {
                 "instanceLimit": 1,
                 "reevaluateOnRerun": true,
