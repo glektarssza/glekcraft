@@ -55,7 +55,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v5
         with:
-          token: ${{secrets.GITHUB_TOKEN || secrets.github-token}}
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
       - id: setup-dotnet
         name: Setup .NET
         uses: actions/setup-dotnet@v5
