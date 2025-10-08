@@ -1,0 +1,271 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build GLFW
+on:
+  workflow_dispatch:
+    inputs:
+      build-os:
+        description: |
+          The operating system to build for.
+
+          Valid options are:
+           * "windows-latest"
+           * "ubuntu-latest"
+           * "macos-latest"
+        type: string
+        required: true
+      build-cpu:
+        description: |
+          The CPU to build for.
+
+          Valid options are:
+           * "x64"
+           * "x86"
+           * "aarch64"
+           * "arm"
+        type: string
+        required: true
+      build-config:
+        description: |
+          The configuration to build.
+
+          Valid options are:
+           * "debug"
+           * "release"
+        type: string
+        required: true
+      build-shared:
+        description: |
+          Whether to build shared or static libraries.
+        type: boolean
+        required: true
+      retention-days:
+        description: |
+          The number of days to retain artifacts for.
+
+          Defaults to "0" which means the repository default value.
+        type: number
+        required: false
+        default: 0
+  workflow_call:
+    inputs:
+      build-os:
+        description: |
+          The operating system to build for.
+
+          Valid options are:
+           * "windows-latest"
+           * "ubuntu-latest"
+           * "macos-latest"
+        type: string
+        required: true
+      build-cpu:
+        description: |
+          The CPU to build for.
+
+          Valid options are:
+           * "x64"
+           * "x86"
+           * "aarch64"
+           * "arm"
+        type: string
+        required: true
+      build-config:
+        description: |
+          The configuration to build.
+
+          Valid options are:
+           * "debug"
+           * "release"
+        type: string
+        required: true
+      build-shared:
+        description: |
+          Whether to build shared or static libraries.
+        type: boolean
+        required: true
+      retention-days:
+        description: |
+          The number of days to retain artifacts for.
+
+          Defaults to "0" which means the repository default value.
+        type: number
+        required: false
+        default: 0
+    outputs:
+      artifact-name:
+        description: |
+          The name of the artifact that was created.
+        value: ${{jobs.build.outputs.artifact-name}}
+      artifact-id:
+        description: |
+          The ID of the artifact that was created.
+        value: ${{jobs.build.outputs.artifact-id}}
+      artifact-url:
+        description: |
+          The download URL of the artifact that was created.
+        value: ${{jobs.build.outputs.artifact-url}}
+      artifact-digest:
+        description: |
+          The digest of the artifact that was created.
+        value: ${{jobs.build.outputs.artifact-url}}
+    secrets:
+      github-token:
+        required: true
+        description: |
+          The token to use for making authenticated requests to the GitHub API.
+jobs:
+  build:
+    name: Build
+    runs-on: ${{inputs.build-os}}
+    permissions:
+      # -- Needed to check out the repository
+      contents: read
+    outputs:
+      artifact-name: dist-glfw-${{inputs.build-shared && 'shared' || 'static'}}-${{inputs.build-os}}-${{inputs.build-config}}
+      artifact-id: ${{steps.upload-artifacts.outputs.artifact-id}}
+      artifact-url: ${{steps.upload-artifacts.outputs.artifact-url}}
+      artifact-digest: ${{steps.upload-artifacts.outputs.artifact-digest}}
+    steps:
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          repository: glfw/glfw
+          lfs: true
+          submodules: recursive
+          token: ${{secrets.GITHUB_TOKEN || secrets.github-token}}
+      - id: install-dependencies
+        name: Install dependencies (Linux)
+        if: inputs.build-os == 'ubuntu-latest'
+        run: |
+          sudo apt update;
+          sudo apt install -assume-yes --no-install-recommends libwayland-dev libxkbcommon-dev xorg-dev;
+      - id: generate-cmake-toolchain
+        name: Generate CMake toolchain file (Linux)
+        env:
+          BUILD_CONFIG: ${{inputs.build-config}}
+          BUILD_OS: ${{inputs.build-os}}
+          BUILD_CPU: ${{inputs.build-cpu}}
+          BUILD_SHARED: ${{inputs.build-shared}}
+        run: |
+          case "${BUILD_OS}" in
+            windows-latest)
+              echo "set(CMAKE_SYSTEM_NAME Windows)" > toolchain.cmake;
+            ;;
+            ubuntu-latest)
+              echo "set(CMAKE_SYSTEM_NAME Linux)" > toolchain.cmake;
+            ;;
+            macos-latest)
+              echo "set(CMAKE_SYSTEM_NAME Darwin)" > toolchain.cmake;
+            ;;
+          esac
+          case "${BUILD_CPU}" in
+            x64)
+              echo "set(CMAKE_SYSTEM_PROCESSOR x86_64)" >> toolchain.cmake;
+            ;;
+            x86)
+              echo "set(CMAKE_SYSTEM_PROCESSOR i686)" >> toolchain.cmake;
+            ;;
+            aarch64)
+              echo "set(CMAKE_SYSTEM_PROCESSOR aarch64)" >> toolchain.cmake;
+            ;;
+            arm)
+              echo "set(CMAKE_SYSTEM_PROCESSOR arm)" >> toolchain.cmake;
+            ;;
+          esac
+          case "${BUILD_OS}-${BUILD_CPU}" in
+            windows-latest-x64)
+              echo "set(COMPILER_TRIPLET x86_64-pc-windows-gnullvm)" >> toolchain.cmake;
+            ;;
+            windows-latest-x86)
+              echo "set(COMPILER_TRIPLET i686-pc-windows-gnullvm)" >> toolchain.cmake;
+            ;;
+            windows-latest-aarch64)
+              echo "set(COMPILER_TRIPLET aarch64-pc-windows-gnullvm)" >> toolchain.cmake;
+            ;;
+            windows-latest-arm)
+              echo "::error::Windows cannot build on ARM systems!";
+              exit 1;
+            ;;
+            ubuntu-latest-x64)
+              echo "set(COMPILER_TRIPLET x86_64-unknown-linux-gnu)" >> toolchain.cmake;
+            ;;
+            ubuntu-latest-x86)
+              echo "set(COMPILER_TRIPLET i686-unknown-linux-gnu)" >> toolchain.cmake;
+            ;;
+            ubuntu-latest-aarch64)
+              echo "set(COMPILER_TRIPLET aarch64-unknown-linux-gnu)" >> toolchain.cmake;
+            ;;
+            ubuntu-latest-arm)
+              echo "set(COMPILER_TRIPLET arm-unknown-linux-gnu)" >> toolchain.cmake;
+            ;;
+            macos-latest-x64)
+              echo "set(COMPILER_TRIPLET x86_64-unknown-apple-darwin)" >> toolchain.cmake;
+            ;;
+            macos-latest-x86)
+              echo "::error::macOS cannot build on 32-bit systems!";
+              exit 1;
+            ;;
+            macos-latest-aarch64)
+              echo "set(COMPILER_TRIPLET aarch64-unknown-apple-darwin)" >> toolchain.cmake;
+            ;;
+            macos-latest-arm)
+              echo "::error::macOS cannot build on ARM systems!";
+              exit 1;
+            ;;
+          esac
+          echo "set(CMAKE_BUILD_TYPE ${BUILD_CONFIG})" >> toolchain.cmake;
+          if [[ "${BUILD_SHARED,,}" =~ true\|1 ]]; then
+            echo "set(BUILD_SHARED_LIBS ON)" >> toolchain.cmake;
+          else
+            echo "set(BUILD_SHARED_LIBS OFF)" >> toolchain.cmake;
+          fi
+          echo "set(CMAKE_C_COMPILER_TARGET ${COMPILER_TRIPLET})" >> toolchain.cmake;
+          echo "set(CMAKE_C_COMPILER clang)" >> toolchain.cmake;
+          echo "set(CMAKE_CXX_COMPILER clang++)" >> toolchain.cmake;
+          echo "set(CMAKE_CXX_COMPILER_TARGET ${COMPILER_TRIPLET})" >> toolchain.cmake;
+          if [[ "${BUILD_OS}" == "windows-latest" ]]; then
+            echo "set(CMAKE_RC_COMPILER llvm-windres)" >> toolchain.cmake;
+            echo "set(CMAKE_RC_COMPILER_TARGET ${COMPILER_TRIPLET})" >> toolchain.cmake;
+            echo "set(CMAKE_RC_FLAGS --target=${CMAKE_RC_COMPILER_TARGET})" >> toolchain.cmake;
+          fi
+          echo "set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)" >> toolchain.cmake;
+          echo "set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)" >> toolchain.cmake;
+          echo "set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)" >> toolchain.cmake;
+      - id: cmake-configure
+        name: Configure with CMake
+        env:
+          BUILD_CONFIG: ${{inputs.build-config}}
+          BUILD_OS: ${{inputs.build-os}}
+          BUILD_CPU: ${{inputs.build-cpu}}
+          BUILD_SHARED: ${{inputs.build-shared}}
+        run: |
+          cmake -S . -B ./build/ --toolchain toolchain.cmake -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_SAMPLES=OFF -DGLFW_BUILD_TESTS=OFF;
+      - id: build
+        name: Build
+        env:
+          BUILD_CONFIG: ${{inputs.build-config}}
+          BUILD_OS: ${{inputs.build-os}}
+          BUILD_CPU: ${{inputs.build-cpu}}
+          BUILD_SHARED: ${{inputs.build-shared}}
+        run: |
+          cmake --build ./build/ --config ${BUILD_CONFIG}
+      - id: install-to-dist
+        name: Install to distribution directory
+        env:
+          BUILD_CONFIG: ${{inputs.build-config}}
+          BUILD_OS: ${{inputs.build-os}}
+          BUILD_CPU: ${{inputs.build-cpu}}
+          BUILD_SHARED: ${{inputs.build-shared}}
+        run: |
+          cmake --install ./build/ --config ${BUILD_CONFIG} --install-prefix ./dist/
+      - id: upload-artifacts
+        name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist/
+          name: dist-glfw-${{inputs.build-shared && 'shared' || 'static'}}-${{inputs.build-os}}-${{inputs.build-config}}
+          if-no-files-found: error
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: ${{inputs.retention-days}}
