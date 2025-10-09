@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Update Native Libraries
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      github-token:
+        required: true
+        description: |
+          The token to use for making authenticated requests to the GitHub API.
+jobs:
+  update-libraries:
+    name: Update Libraries
+    runs-on: ${{matrix.build-os}}
+    permissions:
+      # -- Needed to checkout and write back to the repository
+      contents: write
+    strategy:
+      fail-fast: true
+      matrix:
+        build-os:
+          - windows-latest
+          - macos-latest
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v5
+        with:
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+      - id: update-libraries
+        name: Update libraries
+        shell: bash
+        run: ./packages/Graphics.GLFW.Native/scripts/build-native-libs.sh
+      # - id: commit-updated-libs
+      #   name: Commit updated libraries
+      #   run: |
+      #     git add ./packages/Graphics.GLFW.Native/runtimes;
+      #     git commit --message "Updated GLFW native libraries for ${{runner.os}}" --gpg-sign;
+      #     if [[ $? -ne 0 ]]; then
+      #       echo ":info:No GLFW library updates to commit!"
+      #       exit 0;
+      #     fi
+      #     git push origin chore/update-natives-libs/$(uuidgen);
