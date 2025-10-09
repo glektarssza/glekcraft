@@ -45,6 +45,9 @@ tags
 .envrc
 
 # Artifacts #
+## Temporary ##
+.temp/
+
 ## dotnet ##
 [Bb]in/
 [Oo]bj/
