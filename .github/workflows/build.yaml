@@ -74,7 +74,7 @@ jobs:
         run: dotnet publish --no-restore --configuration ${{inputs.build-config}} --output dist-${{inputs.project}} --self-contained --use-current-runtime ${{inputs.project}}
       - id: upload-artifacts
         name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dist-${{inputs.project}}-${{inputs.build-os}}-${{inputs.build-config}}
           path: dist-${{inputs.project}}
