@@ -1,4 +1,3 @@
-# Custom Dictionary Words
 accessibilities
 Armv
 assemblyfilters
@@ -6,8 +5,8 @@ atlmfc
 autobuild
 dylib
 esults
-g'lekcraft
 glekcraft
+glektarssza
 glfw
 globaltool
 Loong
