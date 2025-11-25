@@ -2,11 +2,15 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "dotnet:restore",
-            "detail": "Restore project dependencies.",
+            "label": "restore:dotnet",
+            "detail": "Restore project dependencies using dotnet.",
             "icon": {
                 "id": "cloud-download",
                 "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
             },
             "dependsOrder": "sequence",
             "dependsOn": [],
@@ -33,8 +37,8 @@
             "problemMatcher": ["$msCompile"]
         },
         {
-            "label": "dotnet:build:debug",
-            "detail": "Build the project in the debug configuration.",
+            "label": "build:dotnet:debug",
+            "detail": "Build the project using dotnet in the debug configuration.",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiMagenta"
@@ -68,8 +72,8 @@
             "problemMatcher": ["$msCompile"]
         },
         {
-            "label": "dotnet:build:release",
-            "detail": "Build the project in the release configuration.",
+            "label": "build:dotnet:release",
+            "detail": "Build the project using dotnet in the release configuration.",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiGreen"
@@ -103,8 +107,8 @@
             "problemMatcher": ["$msCompile"]
         },
         {
-            "label": "dotnet:build:all",
-            "detail": "Build the project in the all configurations.",
+            "label": "build:dotnet:all",
+            "detail": "Build the project using dotnet in all configurations.",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiCyan"
@@ -114,7 +118,39 @@
                 "isDefault": false
             },
             "dependsOrder": "parallel",
-            "dependsOn": ["dotnet:build:debug", "dotnet:build:release"],
+            "dependsOn": ["build:dotnet:debug", "build:dotnet:release"],
+            "hide": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "options": {},
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "build:dotnet",
+            "detail": "Build the project using dotnet in the default configuration.",
+            "icon": {
+                "id": "tools",
+                "color": "terminal.ansiWhite"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "dependsOrder": "parallel",
+            "dependsOn": ["build:dotnet:debug"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
@@ -135,8 +171,8 @@
             "problemMatcher": ["$msCompile"]
         },
         {
-            "label": "dotnet:build",
-            "detail": "Build the project in the default configuration.",
+            "label": "build",
+            "detail": "Build the project.",
             "icon": {
                 "id": "tools",
                 "color": "terminal.ansiWhite"
@@ -145,8 +181,8 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOrder": "sequence",
-            "dependsOn": ["dotnet:build:debug"],
+            "dependsOrder": "parallel",
+            "dependsOn": ["build:dotnet"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
@@ -164,21 +200,21 @@
                 "showReuseMessage": false,
                 "clear": false
             },
-            "problemMatcher": ["$msCompile"]
+            "problemMatcher": []
         },
         {
-            "label": "dotnet:test",
-            "detail": "Run the project unit tests.",
+            "label": "test:dotnet",
+            "detail": "Run the project unit tests using dotnet.",
             "icon": {
                 "id": "beaker",
                 "color": "terminal.ansiYellow"
             },
             "group": {
                 "kind": "test",
-                "isDefault": true
+                "isDefault": false
             },
             "dependsOrder": "sequence",
-            "dependsOn": ["dotnet:build:debug"],
+            "dependsOn": ["build:dotnet:debug"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
@@ -209,18 +245,18 @@
             "problemMatcher": ["$msCompile"]
         },
         {
-            "label": "dotnet:lint",
-            "detail": "Lint the project.",
+            "label": "test",
+            "detail": "Run the project unit tests.",
             "icon": {
-                "id": "search-fuzzy",
+                "id": "beaker",
                 "color": "terminal.ansiYellow"
             },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
             "dependsOrder": "parallel",
-            "dependsOn": [
-                "dotnet:lint:whitespace",
-                "dotnet:lint:style",
-                "dotnet:lint:analyzers"
-            ],
+            "dependsOn": ["test:dotnet"],
             "hide": false,
             "isBackground": false,
             "promptOnClose": false,
@@ -238,14 +274,18 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "problemMatcher": ["$msCompile"]
+            "problemMatcher": []
         },
         {
-            "label": "dotnet:lint:whitespace",
-            "detail": "Lint the project in whitespace mode.",
+            "label": "lint:dotnet:whitespace",
+            "detail": "Lint the project using dotnet in whitespace mode.",
             "icon": {
                 "id": "search-fuzzy",
                 "color": "terminal.ansiYellow"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
             },
             "dependsOrder": "sequence",
             "dependsOn": ["dotnet:restore"],
@@ -277,11 +317,15 @@
             "problemMatcher": ["$msCompile"]
         },
         {
-            "label": "dotnet:lint:style",
-            "detail": "Lint the project in style mode.",
+            "label": "lint:dotnet:style",
+            "detail": "Lint the project using dotnet in style mode.",
             "icon": {
                 "id": "search-fuzzy",
                 "color": "terminal.ansiYellow"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
             },
             "dependsOrder": "sequence",
             "dependsOn": ["dotnet:restore"],
@@ -308,11 +352,15 @@
             "problemMatcher": ["$msCompile"]
         },
         {
-            "label": "dotnet:lint:analyzers",
-            "detail": "Lint the project in analyzers mode.",
+            "label": "lint:dotnet:analyzers",
+            "detail": "Lint the project using dotnet in analyzers mode.",
             "icon": {
                 "id": "search-fuzzy",
                 "color": "terminal.ansiYellow"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
             },
             "dependsOrder": "sequence",
             "dependsOn": ["dotnet:restore"],
@@ -342,6 +390,108 @@
                 "clear": true
             },
             "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "lint:dotnet",
+            "detail": "Lint the project using dotnet.",
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiYellow"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                "dotnet:lint:whitespace",
+                "dotnet:lint:style",
+                "dotnet:lint:analyzers"
+            ],
+            "hide": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "options": {},
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "lint:cspell",
+            "detail": "Lint the project using CSpell.",
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiYellow"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "hide": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "command": "npx",
+            "args": ["cspell", "lint", "."],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "options": {},
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "lint",
+            "detail": "Lint the project.",
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiYellow"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "dependsOrder": "parallel",
+            "dependsOn": ["dotnet:lint"],
+            "hide": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "options": {},
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": []
         }
     ]
 }

@@ -11,6 +11,7 @@ dylib
 ensurepath
 envrc
 esults
+exsd
 g'lekcraft
 glek
 glekcraft
