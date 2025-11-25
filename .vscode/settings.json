@@ -9,5 +9,8 @@
     "dotnet.formatting.organizeImportsOnFormat": true,
     "dotnet.projects.enableAutomaticRestore": false,
     "dotnet.unitTests.runSettingsPath": "${workspaceFolder}/coverage.runsettings",
+    "files.associations": {
+        "*.csproj": "xml"
+    },
     "xml.format.maxLineWidth": 200
 }
