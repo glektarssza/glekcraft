@@ -6,7 +6,9 @@ jobs:
   codeql:
     name: CodeQL
     permissions:
+      # -- To clone repository
       contents: read
+      # -- To write security events
       security-events: write
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}

@@ -3,19 +3,34 @@ name: Build
 on:
   workflow_call:
     inputs:
+      ref:
+        description: |
+          The Git reference from which to clone the project.
+
+          This can be any valid Git commit-ish (e.g. a SHA, a ref, a tag, and so
+          on).
+
+          Defaults to the SHA that caused the workflow to be triggered. If that
+          is unavailable the fully formed reference of the branch or tag that
+          triggered the workflow is used. If that is unavailable the repository
+          default branch is used.
+        type: string
+        required: false
+        default: ${{github.sha || github.ref || github.event.repository.default_branch}}
       project:
         description: |
           The project to build.
-        required: true
+        default: Glekcraft
+        required: false
         type: string
       build-os:
         description: |
           The operating system to build for.
 
           Valid options are:
-           * `windows-latest`
-           * `ubuntu-latest`
-           * `macos-latest`
+           * "windows"
+           * "linux"
+           * "macos"
         required: true
         type: string
       build-config:
@@ -23,10 +38,27 @@ on:
           The configuration to build.
 
           Valid options are:
-           * `debug`
-           * `release`
+           * "debug"
+           * "release"
         required: true
         type: string
+      upload-artifacts:
+        description: |
+          Whether to upload artifacts.
+
+          Defaults to `true`.
+        type: boolean
+        required: false
+        default: true
+      artifact-retention-days:
+        description: |
+          The duration, in days, to retain artifacts for.
+
+          Defaults to `0` which defaults to the value configured for the
+          repository.
+        type: number
+        required: false
+        default: 0
     outputs:
       artifact-name:
         description: |
@@ -36,25 +68,40 @@ on:
         description: |
           The ID of the artifact that was created.
         value: ${{jobs.build.outputs.artifact-id}}
+      artifact-digest:
+        description: |
+          The digest of the artifact that was created.
+        value: ${{jobs.build.outputs.artifact-digest}}
+      artifact-url:
+        description: |
+          The download URL of the artifact that was created.
+        value: ${{jobs.build.outputs.artifact-url}}
     secrets:
       github-token:
-        required: true
         description: |
           The token to use for making authenticated requests to the GitHub API.
+        required: true
+env:
+  GH_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
 jobs:
   build:
     name: Build
-    runs-on: ${{inputs.build-os}}
+    runs-on: ${{(inputs.build-os == 'windows' && 'windows-latest') || (inputs.build-os == 'linux' && 'ubuntu-latest') || (inputs.build-os == 'macos' && 'macos-latest') || ''}}
     permissions:
+      # -- To clone repository
       contents: read
     outputs:
       artifact-name: dist-${{inputs.project}}-${{inputs.build-os}}-${{inputs.build-config}}
       artifact-id: ${{steps.upload-artifacts.outputs.artifact-id}}
+      artifact-digest: ${{steps.upload-artifacts.outputs.artifact-digest}}
+      artifact-url: ${{steps.upload-artifacts.outputs.artifact-url}}
     steps:
       - id: checkout
         name: Checkout
         uses: actions/checkout@v6
         with:
+          ref: ${{inputs.ref}}
+          lfs: true
           token: ${{secrets.GITHUB_TOKEN || secrets.github-token}}
       - id: setup-dotnet
         name: Setup .NET
@@ -74,9 +121,12 @@ jobs:
         run: dotnet publish --no-restore --configuration ${{inputs.build-config}} --output dist-${{inputs.project}} --self-contained --use-current-runtime ${{inputs.project}}
       - id: upload-artifacts
         name: Upload artifacts
+        if: inputs.upload-artifacts
         uses: actions/upload-artifact@v5
         with:
           name: dist-${{inputs.project}}-${{inputs.build-os}}-${{inputs.build-config}}
           path: dist-${{inputs.project}}
           compression-level: 0
           if-no-files-found: error
+          include-hidden-files: true
+          retention-days: ${{inputs.artifact-retention-days}}

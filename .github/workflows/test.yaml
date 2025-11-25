@@ -3,9 +3,23 @@ name: Test
 on:
   workflow_call:
     inputs:
-      upload-coverage-report:
+      ref:
         description: |
-          Whether to upload the coverage report.
+          The Git reference from which to clone the project.
+
+          This can be any valid Git commit-ish (e.g. a SHA, a ref, a tag, and so
+          on).
+
+          Defaults to the SHA that caused the workflow to be triggered. If that
+          is unavailable the fully formed reference of the branch or tag that
+          triggered the workflow is used. If that is unavailable the repository
+          default branch is used.
+        type: string
+        required: false
+        default: ${{github.sha || github.ref || github.event.repository.default_branch}}
+      upload-artifacts:
+        description: |
+          Whether to upload the coverage reports.
         type: boolean
         required: false
         default: false
@@ -14,9 +28,9 @@ on:
           The operating system to build for.
 
           Valid options are:
-           * `windows-latest`
-           * `ubuntu-latest`
-           * `macos-latest`
+           * "windows"
+           * "linux"
+           * "macos"
         type: string
         required: true
       build-config:
@@ -24,10 +38,19 @@ on:
           The configuration to build.
 
           Valid options are:
-           * `debug`
-           * `release`
+           * "debug"
+           * "release"
         type: string
         required: true
+      artifact-retention-days:
+        description: |
+          The duration, in days, to retain artifacts for.
+
+          Defaults to `0` which defaults to the value configured for the
+          repository.
+        type: number
+        required: false
+        default: 0
     secrets:
       github-token:
         description: |
@@ -40,14 +63,17 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: ${{inputs.build-os}}
+    runs-on: ${{(inputs.build-os == 'windows' && 'windows-latest') || (inputs.build-os == 'linux' && 'ubuntu-latest') || (inputs.build-os == 'macos' && 'macos-latest') || ''}}
     permissions:
+      # -- To clone repository
       contents: read
     steps:
       - id: checkout
         name: Checkout
         uses: actions/checkout@v6
         with:
+          ref: ${{inputs.ref}}
+          lfs: true
           token: ${{secrets.GITHUB_TOKEN || secrets.github-token}}
       - id: setup-dotnet
         name: Setup .NET
@@ -73,21 +99,18 @@ jobs:
         run: dotnet test --no-build --configuration ${{inputs.build-config}} --settings xplat_coverage.runsettings
       - id: generate-html-report
         name: Generate HTML report
-        shell: bash
-        env:
-          REPORTGENERATOR_LICENSE: ${{secrets.reportgenerator-license}}
-        run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html" "-reporttypes:Html" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
+        run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html" "-reporttypes:Html" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:${{secrets.reportgenerator-license}}"
       - id: generate-dark-html-report
         name: Generate dark HTML report
-        shell: bash
-        env:
-          REPORTGENERATOR_LICENSE: ${{secrets.reportgenerator-license}}
-        run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html_dark" "-reporttypes:Html_Dark" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:$REPORTGENERATOR_LICENSE"
+        run: reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/html_dark" "-reporttypes:Html_Dark" "-title:G'lekcraft Code Coverage Report" "-assemblyfilters:-*Tests" "-license:${{secrets.reportgenerator-license}}"
       - id: upload-coverage-reports
         name: Upload coverage reports
-        if: ${{inputs.upload-coverage-report}}
+        if: ${{inputs.upload-artifacts}}
         uses: actions/upload-artifact@v5
         with:
           name: coverage-reports
           path: coverage
           if-no-files-found: warn
+          include-hidden-files: true
+          compression-level: 9
+          retention-days: ${{inputs.artifact-retention-days}}

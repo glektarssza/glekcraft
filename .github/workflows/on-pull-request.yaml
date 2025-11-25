@@ -6,6 +6,7 @@ jobs:
   lint:
     name: Lint
     permissions:
+      # -- To clone repository
       contents: read
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
@@ -13,14 +14,15 @@ jobs:
   build:
     name: Build
     permissions:
+      # -- To clone repository
       contents: read
     strategy:
       fail-fast: false
       matrix:
         build-os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - windows
+          - linux
+          - macos
         build-config:
           - debug
           - release
@@ -34,14 +36,15 @@ jobs:
   test:
     name: Test
     permissions:
+      # -- To clone repository
       contents: read
     strategy:
       fail-fast: false
       matrix:
         build-os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - windows
+          - linux
+          - macos
         build-config:
           - debug
           - release
@@ -52,4 +55,4 @@ jobs:
     with:
       build-os: ${{matrix.build-os}}
       build-config: ${{matrix.build-config}}
-      upload-coverage-report: ${{matrix.build-config == 'debug' && matrix.build-os == 'windows-latest'}}
+      upload-artifacts: ${{matrix.build-config == 'debug' && matrix.build-os == 'windows'}}

@@ -14,22 +14,22 @@ on:
           The operating system to build for.
 
           Valid options are:
-           * `windows-latest`
-           * `ubuntu-latest`
-           * `macos-latest`
+           * "windows"
+           * "linux"
+           * "macos"
         required: true
         type: choice
         options:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - windows
+          - linux
+          - macos
       build-config:
         description: |
           The configuration to build.
 
           Valid options are:
-           * `debug`
-           * `release`
+           * "debug"
+           * "release"
         required: true
         type: choice
         options:
