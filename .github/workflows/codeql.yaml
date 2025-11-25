@@ -6,7 +6,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 12 * * 3"
+    - cron: '0 12 * * 3'
   workflow_call:
 jobs:
   codeql-analyze:
@@ -18,7 +18,7 @@ jobs:
     steps:
       - id: checkout-repository
         name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           lfs: true
       - id: setup-dotnet
