@@ -1,0 +1,7 @@
+{
+    "dotnet.autoInsert.enableAutoInsert": true,
+    "dotnet.formatting.organizeImportsOnFormat": true,
+    "dotnet.projects.enableAutomaticRestore": false,
+    "dotnet.unitTests.runSettingsPath": "${workspaceFolder}/coverage.runsettings",
+    "xml.format.maxLineWidth": 200
+}
