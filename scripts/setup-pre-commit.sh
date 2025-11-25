@@ -1,162 +1,219 @@
 #!/usr/bin/env bash
 
-# Forward declare some variables
-declare -a PRE_COMMIT_PATHS;
-declare SCRIPT_PATH PROJECT_ROOT DISTRO PRE_COMMIT_INDEX;
+# Get the directory the script is running from.
+# === Outputs ===
+# The path to the directory the script is running from.
+# === Returns ===
+# `0` - the function succeeded.
+# `1` - a `cd` call failed.
+# `2` - a `popd` call failed.
+function get_script_dir() {
+    pushd . >/dev/null
+    local SCRIPT_PATH="${BASH_SOURCE[0]:-$0}"
+    while [[ -L "${SCRIPT_PATH}" ]]; do
+        cd "$(dirname -- "${SCRIPT_PATH}")" || return 1
+        SCRIPT_PATH="$(readlink -f -- "$SCRIPT_PATH")"
+    done
+    cd "$(dirname -- "$SCRIPT_PATH")" >/dev/null || return 1
+    SCRIPT_PATH="$(pwd)"
+    popd >/dev/null || return 2
+    echo "${SCRIPT_PATH}"
+    return 0
+}
 
-# Our cleanup function
+# Set up script variables.
+function setup_variables() {
+    declare SCRIPT_DIR PROJECT_ROOT DISTRO PRE_COMMIT_PATHS
+    declare DEFAULT_PRE_COMMIT_INDEX PRE_COMMIT_INDEX
+}
+
+# Set up the script.
+function setup() {
+    setup_variables
+}
+setup
+
+function cleanup_variables() {
+    unset SCRIPT_DIR PROJECT_ROOT DISTRO PRE_COMMIT_PATHS
+    unset DEFAULT_PRE_COMMIT_INDEX PRE_COMMIT_INDEX
+}
+
+# Clean up as the script exits.
 # shellcheck disable=SC2329
 function cleanup() {
-    unset SCRIPT_PATH PROJECT_ROOT DISTRO PRE_COMMIT_PATHS PRE_COMMIT_INDEX;
+    cleanup_variables
 }
 
 # Run our cleanup routine on exit
-trap cleanup EXIT;
+trap cleanup EXIT
 
-# Log an error message to the standard error stream.
-function log_error() {
-  printf "\x1b[38;5;196m[ERROR]\x1b[0m %s\n" "$*" >&2;
-}
+if [[ -z "${SCRIPT_DIR}" ]] && ! SCRIPT_DIR="$(get_script_dir)"; then
+    return 1
+fi
 
-# Log a warning message to the standard output stream.
-function log_warning() {
-  printf "\x1b[38;5;214m[WARN]\x1b[0m %s\n" "$*";
-}
+_LIB_PATH="$(realpath -e -- "${SCRIPT_DIR}/lib/")"
 
-# Log an information message to the standard output stream.
-function log_info() {
-  printf "\x1b[38;5;111m[INFO]\x1b[0m %s\n" "$*";
-}
+# shellcheck source=./lib/logging.sh
+source "${_LIB_PATH}/logging.sh"
+# shellcheck source=./lib/strings.sh
+source "${_LIB_PATH}/strings.sh"
+# shellcheck source=./lib/os.sh
+source "${_LIB_PATH}/os.sh"
 
-# Log a verbose message to the standard output stream.
-function log_verbose() {
-  if [[ ! -n "${VERBOSE}" || ! "${VERBOSE,,}" =~ 1|true ]]; then
-    return 0;
-  fi
-  printf "\x1b[38;5;171m[VERBOSE]\x1b[0m %s\n" "$*";
-}
-
-# Get the directory this script is running from.
-function get_script_dir() {
-    local SOURCE_PATH="${BASH_SOURCE[0]}";
-    local SYMLINK_DIR;
-    local SCRIPT_DIR;
-    while [ -L "${SOURCE_PATH}" ]; do
-        SYMLINK_DIR="$(cd -P "$(dirname "${SOURCE_PATH}")" > /dev/null 2>&1 && pwd)";
-        SOURCE_PATH="$(readlink "${SOURCE_PATH}")";
-        if [[ "${SOURCE_PATH}" != /* ]]; then
-            SOURCE_PATH="${SYMLINK_DIR}/${SOURCE_PATH}";
-        fi
+# Prompt the user if it's okay to continue.
+# === Inputs ===
+# `$1` - The prompt to display.
+# `$2` - The default response. Defaults to `y`.
+# === Returns ===
+# `0` - Okay to continue.
+# `1` - Not okay to continue.
+# `2` - Some other error.
+function prompt_to_continue() {
+    local PROMPT="$1"
+    local DEFAULT_RESP="${2:-y}"
+    local RESP=""
+    if [[ -z "${PROMPT}" ]]; then
+        lib::logging::error "No prompt provided to 'prompt_to_continue'!"
+        return 2
+    fi
+    while true; do
+        read -p "${PROMPT}" -r RESP
+        case "$(lib::strings::to_lower_case "${RESP:-${DEFAULT_RESP}}")" in
+            y) return 0 ;;
+            n) return 1 ;;
+            *)
+                RESP=""
+                lib::logging::error "Invalid response \"${RESP}\"! Please try again!"
+                ;;
+        esac
     done
-    SCRIPT_DIR="$(cd -P "$(dirname "${SOURCE_PATH}")" > /dev/null 2>&1 && pwd)";
-    echo "${SCRIPT_DIR}";
 }
-
-# The path to the directory this script is living in
-SCRIPT_PATH="$(get_script_dir)";
 
 # The path to the project root directory
-PROJECT_ROOT="$(readlink -f "${SCRIPT_PATH}/..")";
+PROJECT_ROOT="$(realpath -e -- "${SCRIPT_DIR}/..")"
 
 # Determine our distribution
-DISTRO="$(cat /etc/os-release | grep '^ID' | awk -F'=' '{print $2;}')";
+DISTRO="$(lib::os::get_distro_id)"
 
-log_verbose "Determined OS distro to be \"${DISTRO}\"";
+lib::logging::verbose "Determined OS distro to be \"${DISTRO}\""
 
 if [[ -n "${CI}" ]]; then
-    log_warning "Running in a CI environment, not setting up pre-commit!";
-    exit 0;
+    lib::logging::warning "Running in a CI environment, not setting up pre-commit!"
+    exit 0
 fi
 
 # Locate pre-commit
-PRE_COMMIT="$(which pre-commit 2> /dev/null)";
+PRE_COMMIT="$(command -v pre-commit 2>/dev/null)"
 if [[ -z "${PRE_COMMIT}" ]]; then
-    log_warning "\"pre-commit\" is not installed, attempting to install!";
-    if ! which pipx > /dev/null 2>&1; then
-        log_warning "\"pipx\" is not installed, attempting to install!";
+    lib::logging::warning "\"pre-commit\" is not installed, attempting to install!"
+    PIPX="$(command -v pipx 2>/dev/null)"
+    if [[ -z "${PIPX}" ]]; then
+        lib::logging::warning "\"pipx\" is not installed, attempting to install!"
         case "${DISTRO}" in
             arch)
-                PACMAN="pacman";
-                PACMAN_FLAGS=(-S --noconfirm --needed --asexplicit);
-                PACKAGE_NAME="python-pipx";
-            ;;
-            debian|ubuntu)
-                PACMAN=apt;
-                PACMAN_FLAGS=(install --assume-yes --no-install-recommends);
-                PACKAGE_NAME="pipx";
-            ;;
+                PACMAN="pacman"
+                PACMAN_FLAGS=(-S --noconfirm --needed --asexplicit)
+                PACKAGE_NAME="python-pipx"
+                ;;
+            ubuntu)
+                PACMAN="apt"
+                PACMAN_FLAGS=(install --assume-yes --no-install-recommends)
+                PACKAGE_NAME="python-pipx"
+                ;;
+            debian)
+                PACMAN="apt"
+                PACMAN_FLAGS=(install --assume-yes --no-install-recommends)
+                PACKAGE_NAME="pipx"
+                ;;
         esac
-        log_info "We're going to attempt to install \"pipx\", this will require admin permissions!";
+        lib::logging::info "We're going to attempt to install \"pipx\", this will require admin permissions!"
         if [[ ! -x "${PACMAN}" ]]; then
-            log_warning "Unable to execute \"${PACMAN}\" as we are, trying to elevate...";
-            if which sudo; then
-                log_verbose "Trying to elevate via \"sudo\"...";
-                sudo --login eval "${PACMAN} ${PACMAN_FLAGS[*]} ${PACKAGE_NAME}";
-                STATUS_CODE=$?;
-            elif which su; then
-                log_verbose "Trying to elevate via \"su\"...";
-                su --login --command="${PACMAN} ${PACMAN_FLAGS[*]} ${PACKAGE_NAME}";
-                STATUS_CODE=$?;
+            lib::logging::warning "Unable to execute \"${PACMAN}\" as we are, trying to elevate..."
+            if command -v sudo >/dev/null 2>&1; then
+                lib::logging::verbose "Trying to elevate via \"sudo\"..."
+                if ! prompt_to_continue "We're about to run 'sudo \"${SHELL}\" -i -c \"${PACMAN} ${PACMAN_FLAGS[*]} ${PACKAGE_NAME}\"'. Is this okay? [y/N] " "n"; then
+                    lib::logging::error "Aborting!"
+                    exit 1
+                fi
+                lib::logging::info "Proceeding!"
+                sudo "${SHELL}" -i -c "${PACMAN} ${PACMAN_FLAGS[*]} ${PACKAGE_NAME}"
+                STATUS_CODE=$?
+            elif command -v su >/dev/null 2>&1; then
+                lib::logging::verbose "Trying to elevate via \"su\"..."
+                if ! prompt_to_continue "We're about to run 'su --login --command=\n\"${PACMAN} ${PACMAN_FLAGS[*]} ${PACKAGE_NAME}\"'.\nIs this okay? [y/N] " "n"; then
+                    lib::logging::error "Aborting!"
+                    exit 1
+                fi
+                lib::logging::info "Proceeding!"
+                su --login --command="${PACMAN} ${PACMAN_FLAGS[*]} ${PACKAGE_NAME}"
+                STATUS_CODE=$?
             else
-                log_error "Failed to elevate!";
-                exit 1;
+                lib::logging::error "Failed to elevate!"
+                exit 1
             fi
         else
-            exec "${PACMAN}" "${PACMAN_FLAGS[*]}" pipx;
-            STATUS_CODE=$?;
+            # shellcheck disable=SC2048,SC2086
+            "${PACMAN}" ${PACMAN_FLAGS[*]} ${PACKAGE_NAME}
+            STATUS_CODE=$?
         fi
         if [[ "${STATUS_CODE}" != "0" ]]; then
-            log_verbose "\"${PACMAN}\" exited with code \"${STATUS_CODE}\"!";
-            log_error "Failed to install \"pipx\"!";
-            exit $STATUS_CODE;
+            lib::logging::verbose "\"${PACMAN}\" exited with code \"${STATUS_CODE}\"!"
+            lib::logging::error "Failed to install \"pipx\"!"
+            exit $STATUS_CODE
         fi
-        log_info "\"pipx\" was installed successfully!";
+        lib::logging::info "\"pipx\" was installed successfully!"
+        PIPX="$(command -v pipx 2>/dev/null)"
     fi
-    pipx install pre-commit;
-    STATUS_CODE=$?;
+    "${PIPX}" install pre-commit
+    STATUS_CODE=$?
     if [[ "${STATUS_CODE}" != "0" ]]; then
-        log_verbose "\"pipx\" exited with code \"${STATUS_CODE}\"!";
-        log_error "Failed to install \"pre-commit\"!";
-        exit $STATUS_CODE;
+        lib::logging::verbose "\"pipx\" exited with code \"${STATUS_CODE}\"!"
+        lib::logging::error "Failed to install \"pre-commit\"!"
+        exit $STATUS_CODE
     fi
-    log_info "\"pre-commit\" was installed successfully!";
-    PRE_COMMIT="$(which pre-commit 2> /dev/null)";
+    lib::logging::info "\"pre-commit\" was installed successfully!"
+    PRE_COMMIT="$(command -v pre-commit 2>/dev/null)"
     if [[ -z "${PRE_COMMIT}" ]]; then
-        log_warning "Still cannot find \"pre-commit\", trying some well-known locations...";
-        mapfile -t PRE_COMMIT_PATHS < <(find ~ -maxdepth 4 \( -type f -or -type l \) -name pre-commit -printf '%p\n');
+        lib::logging::warning "Still cannot find \"pre-commit\", trying some well-known locations..."
+        mapfile -t PRE_COMMIT_PATHS < <(find ~ -maxdepth 4 \( -type f -or -type l \) -name pre-commit -printf '%p\n')
         if [[ "${#PRE_COMMIT_PATHS[@]}" -le 0 ]]; then
-            log_error "Failed to locate \"pre-commit\"!";
-            exit 1;
+            lib::logging::error "Failed to locate \"pre-commit\"!"
+            exit 1
         fi
+        DEFAULT_PRE_COMMIT_INDEX="${#PRE_COMMIT_PATHS[*]}"
         echo -e "Found the following \"pre-commit\" executables:\n$(echo "${PRE_COMMIT_PATHS[*]}" | awk -F' ' '{for(i=1;i<=NF;i+=1){print i": "$i;}}')"
-        read -rep "Which one do you want to use? [index] " PRE_COMMIT_INDEX;
-        while [[ ! "${PRE_COMMIT_INDEX}" =~ [[:digit:]]+ || "${PRE_COMMIT_INDEX}" -lt 0 || "${PRE_COMMIT_INDEX}" -gt "${#PRE_COMMIT_PATHS[@]}" ]]; do
+        if [[ -t 0 ]]; then
+            read -rep "Which one do you want to use? [index (default (${DEFAULT_PRE_COMMIT_INDEX})] " PRE_COMMIT_INDEX
             if [[ -z "${PRE_COMMIT_INDEX}" ]]; then
-                PRE_COMMIT_INDEX="1";
-                break;
+                PRE_COMMIT_INDEX="$((DEFAULT_PRE_COMMIT_INDEX - 1))"
             fi
-            log_error "Value ${PRE_COMMIT_INDEX} is not valid, try again!";
-            echo -e "Found the following \"pre-commit\" executables:\n$(echo "${PRE_COMMIT_PATHS[*]}" | awk -F' ' '{for(i=1;i<=NF;i+=1){print i": "$i;}}')"
-            read -rep "Which one do you want to use? [index (default 1)] " PRE_COMMIT_INDEX;
-        done
-        log_verbose "\"pre-commit\" option index \"${PRE_COMMIT_INDEX}\" picked";
-        PRE_COMMIT="${PRE_COMMIT_PATHS[(${PRE_COMMIT_INDEX}-1)]}";
-        log_verbose "Selected \"pre-commit\" executable \"${PRE_COMMIT}\"";
+            while [[ ! "${PRE_COMMIT_INDEX}" =~ [[:digit:]]+ || "${PRE_COMMIT_INDEX}" -lt 0 || "${PRE_COMMIT_INDEX}" -ge "${#PRE_COMMIT_PATHS[@]}" ]]; do
+                lib::logging::error "Value ${PRE_COMMIT_INDEX} is not valid, try again!"
+                echo -e "Found the following \"pre-commit\" executables:\n$(echo "${PRE_COMMIT_PATHS[*]}" | awk -F' ' '{for(i=1;i<=NF;i+=1){print i": "$i;}}')"
+                read -rep "Which one do you want to use? [index (default ${DEFAULT_PRE_COMMIT_INDEX})]" PRE_COMMIT_INDEX
+            done
+        else
+            PRE_COMMIT_INDEX="${DEFAULT_PRE_COMMIT_INDEX}"
+            lib::logging::warning "Standard input not available, pre-selecting index $((PRE_COMMIT_INDEX + 1))!"
+        fi
+        lib::logging::verbose "\"pre-commit\" option \"$((PRE_COMMIT_INDEX + 1))\" picked"
+        PRE_COMMIT="${PRE_COMMIT_PATHS[PRE_COMMIT_INDEX]}"
+        lib::logging::verbose "Selected \"pre-commit\" executable \"${PRE_COMMIT}\""
     fi
 fi
 
-pushd "${PROJECT_ROOT}" > /dev/null 2>&1 || ( log_error "Failed to enter project root directory!" && exit 1; ) || exit 1;
+pushd "${PROJECT_ROOT}" >/dev/null 2>&1 || (lib::logging::error "Failed to enter project root directory!" && exit 1) || exit 1
 
-log_info "Installing pre-commit hooks...";
-"${PRE_COMMIT}" install --overwrite --hook-type pre-commit --hook-type pre-push;
-STATUS_CODE=$?;
+lib::logging::info "Installing pre-commit hooks..."
+"${PRE_COMMIT}" install --overwrite --hook-type pre-commit --hook-type pre-push
+STATUS_CODE=$?
 if [[ "${STATUS_CODE}" != "0" ]]; then
-    log_verbose "\"pre-commit\" exited with code \"${STATUS_CODE}\"!";
-    log_error "Failed to install pre-commit hooks!";
-    exit $STATUS_CODE;
+    lib::logging::verbose "\"pre-commit\" exited with code \"${STATUS_CODE}\"!"
+    lib::logging::error "Failed to install pre-commit hooks!"
+    exit $STATUS_CODE
 fi
 
-popd > /dev/null 2>&1 || ( log_error "Failed to exit project root directory!" && exit 1; ) || exit 1;
+popd >/dev/null 2>&1 || (lib::logging::error "Failed to exit project root directory!" && exit 1) || exit 1
 
 # On success, exit
-exit 0;
+exit 0
