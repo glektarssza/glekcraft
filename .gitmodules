@@ -1,0 +1,3 @@
+[submodule "packages/Graphics.GLFW.Native/deps/glfw"]
+	path = packages/Graphics.GLFW.Native/deps/glfw
+	url = https://github.com/glfw/glfw.git
