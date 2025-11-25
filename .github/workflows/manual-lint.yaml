@@ -6,6 +6,7 @@ jobs:
   lint:
     name: Lint
     permissions:
+      # -- To clone repository
       contents: read
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}

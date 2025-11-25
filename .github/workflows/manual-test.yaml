@@ -3,7 +3,7 @@ name: Manual Test
 on:
   workflow_dispatch:
     inputs:
-      upload-coverage-report:
+      upload-artifacts:
         description: |
           Whether to upload the coverage report.
         type: boolean
@@ -46,4 +46,4 @@ jobs:
     with:
       build-os: ${{inputs.build-os}}
       build-config: ${{inputs.build-config}}
-      upload-coverage-report: ${{inputs.upload-coverage-report}}
+      upload-coverage-report: ${{inputs.upload-artifacts}}
