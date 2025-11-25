@@ -428,6 +428,40 @@
             "problemMatcher": []
         },
         {
+            "label": "lint:cspell",
+            "detail": "Lint the project using CSpell.",
+            "icon": {
+                "id": "search-fuzzy",
+                "color": "terminal.ansiYellow"
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "hide": false,
+            "isBackground": false,
+            "promptOnClose": false,
+            "command": "npx",
+            "args": ["cspell", "lint", "."],
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            "options": {},
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "lint",
             "detail": "Lint the project.",
             "icon": {
