@@ -1,4 +1,10 @@
 {
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp"
+    },
+    "[xml]": {
+        "editor.defaultFormatter": "redhat.vscode-xml"
+    },
     "dotnet.autoInsert.enableAutoInsert": true,
     "dotnet.formatting.organizeImportsOnFormat": true,
     "dotnet.projects.enableAutomaticRestore": false,
