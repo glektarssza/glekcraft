@@ -22,15 +22,15 @@
             "options": [
                 {
                     "label": "Glekcraft",
-                    "value": "${workspaceFolder}/Glekcraft/Glekcraaft.csproj"
+                    "value": "${workspaceFolder}/Glekcraft/Glekcraft.csproj"
                 },
                 {
                     "label": "Glekcraft.Tests",
-                    "value": "${workspaceFolder}/tests/Glekcraft/Glekcraaft.Tests.csproj"
+                    "value": "${workspaceFolder}/tests/Glekcraft/Glekcraft.Tests.csproj"
                 },
                 {
                     "label": "Glekcraft.Graphics.GLFW.Tests",
-                    "value": "${workspaceFolder}/tests/Graphics.GLFW/Glekcraaft.Graphics.GLFW.Tests.csproj"
+                    "value": "${workspaceFolder}/tests/Graphics.GLFW/Glekcraft.Graphics.GLFW.Tests.csproj"
                 }
             ],
             "default": "Glekcraft"
