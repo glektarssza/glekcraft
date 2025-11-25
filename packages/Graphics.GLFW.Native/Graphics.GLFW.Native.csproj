@@ -17,7 +17,7 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <RootNamespace>Glekcraft.Graphics.GLFW.Native</RootNamespace>
         <ProjectDir>$(MSBuildProjectDirectory)/src/</ProjectDir>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <RuntimeIdentifiers>win-x64;win-x86;linux-x64;linux-x86</RuntimeIdentifiers>
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
@@ -56,7 +56,7 @@
     </PropertyGroup>
     <PropertyGroup Label="Native Paths">
         <_GlekcraftGLFW_NativePrefix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'linux' OR '$(_GlekcraftGLFW_RuntimePlatform)' == 'osx'">lib</_GlekcraftGLFW_NativePrefix>
-        <_GlekcraftGLFW_NativePrefix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'win'"></_GlekcraftGLFW_NativePrefix>
+        <_GlekcraftGLFW_NativePrefix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'win'" />
         <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'linux'">.so</_GlekcraftGLFW_NativeSuffix>
         <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'win'">.dll</_GlekcraftGLFW_NativeSuffix>
         <_GlekcraftGLFW_NativeSuffix Condition="'$(_GlekcraftGLFW_RuntimePlatform)' == 'osx'">.dylib</_GlekcraftGLFW_NativeSuffix>
