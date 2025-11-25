@@ -10,7 +10,8 @@
     "dotnet.projects.enableAutomaticRestore": false,
     "dotnet.unitTests.runSettingsPath": "${workspaceFolder}/coverage.runsettings",
     "files.associations": {
-        "*.csproj": "xml"
+        "*.csproj": "xml",
+        "*.runsettings": "xml"
     },
     "xml.format.maxLineWidth": 200
 }
