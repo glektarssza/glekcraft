@@ -122,7 +122,7 @@ jobs:
       - id: upload-artifacts
         name: Upload artifacts
         if: inputs.upload-artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: dist-${{inputs.project}}-${{inputs.build-os}}-${{inputs.build-config}}
           path: dist-${{inputs.project}}
