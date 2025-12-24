@@ -1,5 +1,15 @@
 # Editors #
 ## Visual Studio Code ##
+### Workspace Folder ###
+.vscode/*
+
+### Exceptions ###
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/*.code-snippets
+!.vscode/*.code-workspace
+
 ### Local History ###
 .history/
 
