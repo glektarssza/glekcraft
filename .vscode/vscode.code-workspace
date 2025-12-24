@@ -1,0 +1,48 @@
+{
+    "folders": [
+        {
+            "name": "G'lekcraft",
+            "path": ".."
+        }
+    ],
+    "settings": {
+        "[csharp]": {
+            "editor.defaultFormatter": "ms-dotnettools.csharp"
+        },
+        "[xml]": {
+            "editor.defaultFormatter": "redhat.vscode-xml"
+        },
+        "dotnet.autoInsert.enableAutoInsert": true,
+        "dotnet.formatting.organizeImportsOnFormat": true,
+        "dotnet.projects.enableAutomaticRestore": false,
+        "dotnet.unitTests.runSettingsPath": "${workspaceFolder}/coverage.runsettings",
+        "files.associations": {
+            "*.csproj": "xml",
+            "*.runsettings": "xml"
+        },
+        "xml.validation.filters": [
+            {
+                "pattern": "**.exsd",
+                "noGrammar": "ignore",
+                "schema": {
+                    "enabled": "never"
+                }
+            },
+            {
+                "pattern": "**{.project,.classpath,plugin.xml,feature.xml,category.xml,.target,.product}",
+                "noGrammar": "ignore"
+            },
+            {
+                "pattern": "**.csproj",
+                "schema": {
+                    "enabled": "never"
+                }
+            },
+            {
+                "noGrammar": "ignore",
+                "pattern": "**.runsettings"
+            }
+        ],
+        "xml.format.maxLineWidth": 200
+    }
+}
