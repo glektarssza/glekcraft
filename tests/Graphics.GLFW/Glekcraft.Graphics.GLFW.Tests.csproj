@@ -12,7 +12,7 @@
     <ItemGroup Label="Implicit Usings">
         <Using Include="System" />
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-        <Using Include="FluentAssertions" />
+        <Using Include="AwesomeAssertions" />
         <Using Include="Moq" />
     </ItemGroup>
     <ItemGroup Label="Dependencies">
