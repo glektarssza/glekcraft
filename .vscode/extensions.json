@@ -8,6 +8,8 @@
         "ms-dotnettools.csharp",
         "ms-dotnettools.csdevkit",
         "josephwoodward.vscodeilviewer",
-        "tintoy.msbuild-project-tools"
+        "tintoy.msbuild-project-tools",
+        "josetr.cmake-language-support-vscode",
+        "twxs.cmake"
     ]
 }
