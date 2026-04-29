@@ -51,3 +51,7 @@ tags
 [Oo]bj/
 [Tt]est[Rr]esults/
 [Cc]overage/
+
+# Cache #
+## dotnet ##
+*.lscache
