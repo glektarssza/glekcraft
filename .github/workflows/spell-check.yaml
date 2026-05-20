@@ -94,7 +94,6 @@ jobs:
       - id: check-spelling
         name: Check Spelling
         run: |
-          cspell lint --no-issues --root ${{github.workspace}} --no-color \
-            --stop-config-search-at ${{github.workspace}}  \
-            --no-must-find-files --no-progress --no-cache \
-            --gitignore-root ${{github.workspace}} .
+          cspell lint --no-color --no-progress --no-cache --no-must-find-files \
+            --root ${{github.workspace}} --gitignore-root ${{github.workspace}} \
+            --stop-config-search-at ${{github.workspace}} .
