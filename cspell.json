@@ -7,7 +7,7 @@
     "enabled": true,
     "import": ["./.cspell/configs/project-dictionary.json"],
     "enableGlobDot": true,
-    "ignorePaths": [".git"],
+    "ignorePaths": [".git", "packages/Graphics.GLFW.Native/deps/"],
     "useGitignore": true,
     "gitignoreRoot": ["."],
     "caseSensitive": false,

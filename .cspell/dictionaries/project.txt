@@ -19,10 +19,12 @@ glektarssza
 glfw
 globaltool
 hookspath
+iregex
 josephwoodward
 loong
 lscache
 mapfile
+mpre
 msbuild
 netrwhist
 newtonsoft
@@ -36,12 +38,12 @@ reportgenerator
 reporttypes
 runsettings
 safecrlf
+scriptdir
 sessionx
+shellcheck
 targetdir
 tarssza
 tintoy
 vctools
 vscodeilviewer
 xplat
-iregex
-mpre
