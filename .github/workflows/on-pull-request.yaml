@@ -11,6 +11,14 @@ jobs:
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
     uses: ./.github/workflows/lint.yaml
+  spell-check:
+    name: Spell Check
+    permissions:
+      # -- To clone repository
+      contents: read
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}
+    uses: ./.github/workflows/spell-check.yaml
   build:
     name: Build
     permissions:

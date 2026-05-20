@@ -1,7 +1,45 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: On Push
+name: Manual Workflow
 on:
-  push:
+  workflow_dispatch:
+    inputs:
+      node-version:
+        description: |
+          The NodeJS version to use.
+
+          Defaults to "latest".
+        type: string
+        required: false
+        default: latest
+      package-manager:
+        description: |
+          The NodeJS package manager to use.
+
+          Defaults to "pnpm".
+        type: choice
+        required: false
+        options:
+          - pnpm
+          - npm
+          - yarn
+        default: pnpm
+      package-manager-version:
+        description: |
+          The NodeJS package manager version to use.
+
+          Defaults to "latest".
+        type: string
+        required: false
+        default: latest
+      artifact-retention-days:
+        description: |
+          The duration, in days, to retain artifacts for.
+
+          Defaults to '0' which defaults to the value configured for the
+          repository.
+        type: number
+        required: false
+        default: 0
 jobs:
   lint:
     name: Lint
@@ -16,6 +54,10 @@ jobs:
     permissions:
       # -- To clone repository
       contents: read
+    with:
+      node-version: ${{inputs.node-version}}
+      package-manager: ${{inputs.package-manager}}
+      package-manager-version: ${{inputs.package-manager-version}}
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
     uses: ./.github/workflows/spell-check.yaml
