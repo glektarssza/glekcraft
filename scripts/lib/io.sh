@@ -39,37 +39,47 @@ if [[ -z "${_LIB_PATH}" ]]; then
     fi
 fi
 
-if [[ -n "${_LIB_STRINGS_GUARD+x}" ]]; then
+if [[ -n "${_LIB_IO_GUARD+x}" ]]; then
     return 0
 fi
-declare _LIB_STRINGS_GUARD
+declare _LIB_IO_GUARD
 
-# Convert a string to all lower case.
-# === Inputs ===
-# `$1` - The string to convert.
-# === Outputs ===
-# The converted string.
-# === Returns ===
-# `0` - The operation succeeded.
-# `*` - The operation failed.
-function lib::strings::to_lower_case() {
-    if ! echo "$1" | tr '[:upper:]' '[:lower:]'; then
-        return 1
-    fi
-    return 0
-}
+# shellcheck source=./logging.sh
+source "${_LIB_PATH}/logging.sh"
+# shellcheck source=./strings.sh
+source "${_LIB_PATH}/strings.sh"
 
-# Convert a string to all upper case.
+# Prompt the user if it's okay to continue.
 # === Inputs ===
-# `$1` - The string to convert.
-# === Outputs ===
-# The converted string.
+# `$1` - The prompt to display.
+# `$2` - The default response. Defaults to `y`.
 # === Returns ===
-# `0` - The operation succeeded.
-# `*` - The operation failed.
-function lib::strings::to_upper_case() {
-    if ! echo "$1" | tr '[:lower:]' '[:upper:]'; then
-        return 1
+# `0` - Okay to continue.
+# `1` - Not okay to continue.
+# `2` - Some other error.
+function lib::io::prompt_to_continue() {
+    local PROMPT="$1"
+    local DEFAULT_RESP="${2:-y}"
+    local RESP=""
+    if [[ -z "${PROMPT}" ]]; then
+        lib::logging::error "No prompt provided to 'prompt_to_continue'!"
+        return 2
     fi
-    return 0
+    if [[ "$(lib::strings::to_lower_case "${DEFAULT_RESP}")" == "y" ]]; then
+        PROMPT="${PROMPT}\nIs this okay? [Y/n] "
+    else
+        PROMPT="${PROMPT}\nIs this okay? [y/N] "
+    fi
+    while true; do
+        printf "%b" "${PROMPT}"
+        read -r RESP
+        case "$(lib::strings::to_lower_case "${RESP:-${DEFAULT_RESP}}")" in
+            y) return 0 ;;
+            n) return 1 ;;
+            *)
+                RESP=""
+                lib::logging::error "Invalid response \"${RESP}\"! Please try again!"
+                ;;
+        esac
+    done
 }

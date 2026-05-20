@@ -1,38 +1,48 @@
-# shellcheck shell=bash
-
-# Get the directory the script is running from.
-# === Outputs ===
-# The path to the directory the script is running from.
-# === Returns ===
-# `0` - the function succeeded.
-# `1` - a `cd` call failed.
-# `2` - a `popd` call failed.
-function get_script_dir() {
-    pushd . >/dev/null
-    local SCRIPT_PATH="${BASH_SOURCE[0]:-$0}"
-    while [[ -L "${SCRIPT_PATH}" ]]; do
-        cd "$(dirname -- "${SCRIPT_PATH}")" || return 1
-        SCRIPT_PATH="$(readlink -f -- "$SCRIPT_PATH")"
-    done
-    cd "$(dirname -- "$SCRIPT_PATH")" >/dev/null || return 1
-    SCRIPT_PATH="$(pwd)"
-    # shellcheck disable=SC2164
-    popd >/dev/null 2>&1
-    echo "${SCRIPT_PATH}"
-    return 0
-}
-
-if [[ -z "${SCRIPT_DIR}" ]] && ! SCRIPT_DIR="$(get_script_dir)"; then
-    return 1
-fi
 if [[ -z "${_LIB_PATH}" ]]; then
-    _LIB_PATH="${SCRIPT_DIR}"
+    if ! SCRIPT_DIR="$( (
+        # Get the directory the script is running from.
+        # === Outputs ===
+        # The path to the directory the script is running from.
+        # === Returns ===
+        # `0` - the function succeeded.
+        # `1` - a `cd` call failed.
+        # `2` - a `popd` call failed.
+        function get_script_dir() {
+            pushd . 2>&1 > /dev/null || return 1
+            local SCRIPT_PATH="$0"
+            if [[ -n "${ZSH_NAME}" ]]; then
+                # shellcheck disable=SC2296
+                SCRIPT_PATH="${(%):-%x}"
+            elif [[ -n "${BASH}" ]]; then
+                SCRIPT_PATH="${BASH_SOURCE[0]}"
+            elif [[ -n "${TMOUT}" ]]; then
+                # shellcheck disable=SC2296
+                SCRIPT_PATH="${.sh.file}"
+            fi
+            while [[ -L "${SCRIPT_PATH}" ]]; do
+                cd "$(dirname -- "${SCRIPT_PATH}")" || return 2
+                SCRIPT_PATH="$(readlink -f -- "$SCRIPT_PATH")"
+            done
+            cd "$(dirname -- "$SCRIPT_PATH")" > /dev/null || return 2
+            SCRIPT_PATH="$(pwd)"
+            popd 2>&1 > /dev/null || return 3
+            echo "${SCRIPT_PATH}"
+            return 0
+        }
+        get_script_dir
+    ))"; then
+        return 1
+    fi
+
+    if [[ -z "${_LIB_PATH}" ]]; then
+        _LIB_PATH="$(readlink -f -- "${SCRIPT_DIR}")"
+    fi
 fi
 
-if [[ -n "${_LIB_SGR}" ]]; then
+if [[ -n "${_LIB_SGR_GUARD+x}" ]]; then
     return 0
 fi
-declare _LIB_SGR="loaded"
+declare _LIB_SGR_GUARD
 
 # Output the SGR reset ANSI code.
 # === Outputs ===

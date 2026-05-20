@@ -12,7 +12,7 @@ indent_style = space
 [*.{yaml,yml}]
 indent_size = 2
 
-[*.{bat,cmd}]
+[*.{bat,cmd,ini}]
 end_of_line = crlf
 
 [*.sln]

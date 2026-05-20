@@ -1,26 +1,20 @@
-# Treat all files as text files with Unix-style line endings by default
-* text eol=lf
+# Treat all files as text files with Unix-style line endings and UTF-8 encoding by default.
+* text eol=lf encoding=utf-8
 
-# Treat .bat files as text files with Windows-style line endings
-*.bat text eol=crlf
+# Treat .bat files as text files with Windows-style line endings and UTF-8 encoding.
+*.bat text eol=crlf encoding=utf-8
 
-# Treat .cmd files as text files with Windows-style line endings
-*.cmd text eol=crlf
+# Treat .cmd files as text files with Windows-style line endings and UTF-8 encoding.
+*.cmd text eol=crlf encoding=utf-8
 
-# Treat .so files as binary
-*.so binary
+# Treat .cmd files as text files with Windows-style line endings and UTF-8 encoding.
+*.ini text eol=crlf encoding=utf-8
 
-# Handle .so files with Git LFS
+# Handle .so files with Git LFS.
 *.so filter=lfs diff=lfs merge=lfs -text
 
-# Treat .dll files as binary
-*.dll binary
-
-# Handle .dll files with Git LFS
+# Handle .dll files with Git LFS.
 *.dll filter=lfs diff=lfs merge=lfs -text
 
-# Treat .dylib files as binary
-*.dylib binary
-
-# Handle .dylib files with Git LFS
+# Handle .dylib files with Git LFS.
 *.dylib filter=lfs diff=lfs merge=lfs -text
