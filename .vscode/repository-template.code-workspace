@@ -1,0 +1,12 @@
+{
+    "folders": [
+        {
+            "name": "Repository Template",
+            "path": ".."
+        }
+    ],
+    "settings": {
+        "prettier.configPath": ".prettierrc.mjs",
+        "prettier.ignorePath": ".prettierignore"
+    }
+}
