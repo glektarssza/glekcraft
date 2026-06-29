@@ -2,6 +2,7 @@ asexplicit
 ensurepath
 generis
 glek
+glekcraft
 glektarssza
 hookspath
 hotfixes
