@@ -3,6 +3,8 @@
         "EditorConfig.EditorConfig",
         "github.remotehub",
         "github.vscode-pull-request-github",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "task.vscode-task",
+        "DanielGavin.ols"
     ]
 }
