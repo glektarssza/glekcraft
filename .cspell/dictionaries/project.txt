@@ -18,3 +18,4 @@ remotehub
 safecrlf
 sessionx
 tarssza
+vadimcn

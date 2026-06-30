@@ -5,6 +5,7 @@
         "github.vscode-pull-request-github",
         "github.vscode-github-actions",
         "task.vscode-task",
-        "DanielGavin.ols"
+        "DanielGavin.ols",
+        "vadimcn.vscode-lldb"
     ]
 }
