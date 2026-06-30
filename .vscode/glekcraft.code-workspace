@@ -1,11 +1,15 @@
 {
     "folders": [
         {
-            "name": "Repository Template",
+            "name": "Glekcraft",
             "path": ".."
         }
     ],
     "settings": {
+        "ols.debug.engine": "vadimcn.vscode-lldb",
+        "ols.prompt.AskCreateOLS": false,
+        "ols.server.path": "PATH_TO_OLS_BINARY",
+        "ols.updates.askBeforeDownload": true,
         "prettier.configPath": ".prettierrc.mjs",
         "prettier.ignorePath": ".prettierignore"
     }
