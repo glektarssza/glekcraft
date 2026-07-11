@@ -18,4 +18,5 @@ remotehub
 safecrlf
 sessionx
 tarssza
+taskfile
 vadimcn

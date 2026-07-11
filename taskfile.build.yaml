@@ -1,0 +1,233 @@
+version: '3'
+output: prefixed
+vars:
+  ODIN_COMPILER: 'odin{{exeExt}}'
+  ODIN_DEFINES: ''
+  ODIN_COMPILE_FLAGS:
+    '-error-pos-style:unix -reloc-mode:pic -vet-cast -vet-semicolon
+    -vet-shadowing -vet-style -vet-unused -vet-unused-imports -vet-using-param
+    -vet-using-stmt'
+  ODIN_COMPILE_WINDOWS_FLAGS: '-subsystem:console'
+  ODIN_COMPILE_LINUX_FLAGS: ''
+  ODIN_COMPILE_MACOS_FLAGS: ''
+  ODIN_COMPILE_WINDOWS_X64_FLAGS: '-target:windows_amd64'
+  ODIN_COMPILE_LINUX_X64_FLAGS: '-target:linux_amd64'
+  ODIN_COMPILE_MACOS_X64_FLAGS: '-target:darwin_amd64'
+  ODIN_COMPILE_WINDOWS_X86_FLAGS: '-target:windows_i386'
+  ODIN_COMPILE_LINUX_X86_FLAGS: '-target:linux_i386'
+  ODIN_COMPILE_LINUX_ARM64_FLAGS: '-target:linux_arm64'
+  ODIN_COMPILE_MACOS_ARM64_FLAGS: '-target:darwin_arm64'
+  ODIN_COMPILE_DEBUG_FLAGS: '-debug -o:none -source-code-locations:normal'
+  ODIN_COMPILE_RELEASE_FLAGS: '-o:minimal -source-code-locations:none'
+tasks:
+  build:
+    desc: 'Build the application.'
+    deps:
+      - 'build:release'
+  build:default:
+    desc: 'Build the application.'
+    deps:
+      - 'build:release'
+  build:all:
+    desc: 'Build the application.'
+    deps:
+      - 'build:debug'
+      - 'build:release'
+  build:release:
+    desc: 'Build the application in release mode.'
+    deps:
+      - 'build:release:windows'
+      - 'build:release:linux'
+      - 'build:release:macos'
+  build:debug:
+    desc: 'Build the application in debug mode.'
+    deps:
+      - 'build:debug:windows'
+      - 'build:debug:linux'
+      - 'build:debug:macos'
+  build:release:windows:
+    desc: 'Build the application in release mode for Windows.'
+    deps:
+      - 'build:release:windows:x64'
+      - 'build:release:windows:x86'
+  build:release:linux:
+    desc: 'Build the application in release mode for Linux.'
+    deps:
+      - 'build:release:linux:x64'
+      - 'build:release:linux:arm64'
+      - 'build:release:linux:x86'
+  build:release:macos:
+    desc: 'Build the application in release mode for macOS.'
+    deps:
+      - 'build:release:macos:x64'
+      - 'build:release:macos:arm64'
+  build:release:windows:x64:
+    desc: 'Build the application in release mode for Windows x64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/release/windows/x64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_RELEASE_FLAGS}} {{.ODIN_COMPILE_WINDOWS_FLAGS}}
+          {{.ODIN_COMPILE_WINDOWS_X64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/release/windows/x64/{{.APP_NAME}}{{exeExt}}'
+  build:release:windows:x86:
+    desc: 'Build the application in release mode for Windows x86.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/release/windows/x86/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_RELEASE_FLAGS}} {{.ODIN_COMPILE_WINDOWS_FLAGS}}
+          {{.ODIN_COMPILE_WINDOWS_X86_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/release/windows/x86/{{.APP_NAME}}{{exeExt}}'
+  build:release:linux:x64:
+    desc: 'Build the application in release mode for Linux x64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/release/linux/x64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_RELEASE_FLAGS}} {{.ODIN_COMPILE_LINUX_FLAGS}}
+          {{.ODIN_COMPILE_LINUX_X64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/release/linux/x64/{{.APP_NAME}}{{exeExt}}'
+  build:release:linux:arm64:
+    desc: 'Build the application in release mode for Linux ARM64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/release/linux/arm64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_RELEASE_FLAGS}} {{.ODIN_COMPILE_LINUX_FLAGS}}
+          {{.ODIN_COMPILE_LINUX_ARM64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/release/linux/arm64/{{.APP_NAME}}{{exeExt}}'
+  build:release:linux:x86:
+    desc: 'Build the application in release mode for Linux x86.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/release/linux/x86/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_RELEASE_FLAGS}} {{.ODIN_COMPILE_LINUX_FLAGS}}
+          {{.ODIN_COMPILE_LINUX_X86_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/release/linux/x86/{{.APP_NAME}}{{exeExt}}'
+  build:release:macos:x64:
+    desc: 'Build the application in release mode for macOS x64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/release/macos/x64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_RELEASE_FLAGS}} {{.ODIN_COMPILE_MACOS_FLAGS}}
+          {{.ODIN_COMPILE_MACOS_X64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/release/macos/x64/{{.APP_NAME}}{{exeExt}}'
+  build:release:macos:arm64:
+    desc: 'Build the application in release mode for macOS ARM64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/release/macos/arm64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_RELEASE_FLAGS}} {{.ODIN_COMPILE_MACOS_FLAGS}}
+          {{.ODIN_COMPILE_MACOS_ARM64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/release/macos/arm64/{{.APP_NAME}}{{exeExt}}'
+  build:debug:windows:
+    desc: 'Build the application in debug mode for Windows.'
+    deps:
+      - 'build:debug:windows:x64'
+      - 'build:debug:windows:x86'
+  build:debug:linux:
+    desc: 'Build the application in debug mode for Linux.'
+    deps:
+      - 'build:debug:linux:x64'
+      - 'build:debug:linux:arm64'
+      - 'build:debug:linux:x86'
+  build:debug:macos:
+    desc: 'Build the application in debug mode for macOS.'
+    deps:
+      - 'build:debug:macos:x64'
+      - 'build:debug:macos:arm64'
+  build:debug:windows:x64:
+    desc: 'Build the application in debug mode for Windows x64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/debug/windows/x64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_DEBUG_FLAGS}} {{.ODIN_COMPILE_WINDOWS_FLAGS}}
+          {{.ODIN_COMPILE_WINDOWS_X64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/debug/windows/x64/{{.APP_NAME}}{{exeExt}}'
+  build:debug:windows:x86:
+    desc: 'Build the application in debug mode for Windows x86.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/debug/windows/x86/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_DEBUG_FLAGS}} {{.ODIN_COMPILE_WINDOWS_FLAGS}}
+          {{.ODIN_COMPILE_WINDOWS_X86_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/debug/windows/x86/{{.APP_NAME}}{{exeExt}}'
+  build:debug:linux:x64:
+    desc: 'Build the application in debug mode for Linux x64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/debug/linux/x64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_DEBUG_FLAGS}} {{.ODIN_COMPILE_LINUX_FLAGS}}
+          {{.ODIN_COMPILE_LINUX_X64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/debug/linux/x64/{{.APP_NAME}}{{exeExt}}'
+  build:debug:linux:arm64:
+    desc: 'Build the application in debug mode for Linux ARM64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/debug/linux/arm64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_DEBUG_FLAGS}} {{.ODIN_COMPILE_LINUX_FLAGS}}
+          {{.ODIN_COMPILE_LINUX_ARM64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/debug/linux/arm64/{{.APP_NAME}}{{exeExt}}'
+  build:debug:linux:x86:
+    desc: 'Build the application in debug mode for Linux x86.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/debug/linux/x86/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_DEBUG_FLAGS}} {{.ODIN_COMPILE_LINUX_FLAGS}}
+          {{.ODIN_COMPILE_LINUX_X86_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/debug/linux/x86/{{.APP_NAME}}{{exeExt}}'
+  build:debug:macos:x64:
+    desc: 'Build the application in debug mode for macOS x64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/debug/linux/x64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_DEBUG_FLAGS}} {{.ODIN_COMPILE_MACOS_FLAGS}}
+          {{.ODIN_COMPILE_MACOS_X64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/debug/macos/x64/{{.APP_NAME}}{{exeExt}}'
+  build:debug:macos:arm64:
+    desc: 'Build the application in debug mode for macOS ARM64.'
+    if: |
+      test -d "{{.ROOT_DIR}}/app/"
+    cmds:
+      - cmd: 'mkdir -p {{.ROOT_DIR}}/dist/debug/linux/arm64/'
+      - cmd:
+          '{{.ODIN_COMPILER}} build {{.ROOT_DIR}}/app/ {{.ODIN_COMPILE_FLAGS}}
+          {{.ODIN_COMPILE_DEBUG_FLAGS}} {{.ODIN_COMPILE_MACOS_FLAGS}}
+          {{.ODIN_COMPILE_MACOS_ARM64_FLAGS}}
+          -out:{{.ROOT_DIR}}/dist/debug/macos/arm64/{{.APP_NAME}}{{exeExt}}'

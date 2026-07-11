@@ -43,3 +43,7 @@ ctags
 # Cache #
 ## CSpell ##
 .cspellcache
+
+# Artifacts #
+## Odin ##
+dist/

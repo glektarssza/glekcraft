@@ -11,6 +11,14 @@
         "ols.server.path": "PATH_TO_OLS_BINARY",
         "ols.updates.askBeforeDownload": true,
         "prettier.configPath": ".prettierrc.mjs",
-        "prettier.ignorePath": ".prettierignore"
+        "prettier.ignorePath": ".prettierignore",
+        "yaml.schemas": {
+            "https://taskfile.dev/schema.json": [
+                "taskfile.*.yaml",
+                "taskfile.*.yml",
+                "taskfile.yaml",
+                "taskfile.yml"
+            ]
+        }
     }
 }

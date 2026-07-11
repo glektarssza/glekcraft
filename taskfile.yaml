@@ -1,0 +1,16 @@
+version: '3'
+output: prefixed
+vars:
+  APP_NAME: 'glekcraft'
+includes:
+  build:
+    taskfile: '{{.ROOT_DIR}}/taskfile.build.yaml'
+    flatten: true
+    vars:
+      APP_NAME:
+        ref: .APP_NAME
+tasks:
+  default:
+    desc: 'The default task.'
+    cmd:
+      task: 'build'
