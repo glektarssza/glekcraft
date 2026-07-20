@@ -1,16 +1,21 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 output: prefixed
 vars:
   APP_NAME: 'glekcraft'
-includes:
-  build:
-    taskfile: '{{.ROOT_DIR}}/taskfile.build.yaml'
-    flatten: true
-    vars:
-      APP_NAME:
-        ref: .APP_NAME
+  ROOT_APP_SRC_DIR: '{{joinPath .ROOT_DIR "app"}}'
+  ROOT_BUILD_DIR: '{{joinPath .ROOT_DIR "build"}}'
+  ROOT_DIST_DIR: '{{joinPath .ROOT_DIR "dist"}}'
 tasks:
-  default:
-    desc: 'The default task.'
-    cmd:
-      task: 'build'
+  build:*:*:*:
+    desc: 'Build the application.'
+    vars:
+      BUILD_CONFIG: '{{index .MATCH 0}}'
+      BUILD_PLATFORM: '{{index .MATCH 1}}'
+      BUILD_ARCH: '{{index .MATCH 2}}'
+      BUILD_DIR:
+    sources:
+      - '{{joinPath .ROOT_APP_SRC_DIR "*.odin"}}'
+      - '{{.ROOT_APP_SRC_DIR}}/**/*.odin'
+    generates:
+      - '{{.BUILD_DIR}}/bin/{{.APP_NAME}}{{exeExt}}'
