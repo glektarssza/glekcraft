@@ -176,7 +176,7 @@
             "displayName": "Release (Ninja + Clang)",
             "description": "Package the application in release mode with Ninja + Clang.",
             "inherits": ["base"],
-            "configurations": ["debug-ninja-clang"],
+            "configurations": ["release-ninja-clang"],
             "configurePreset": "release-ninja-clang"
         },
         {
@@ -184,20 +184,13 @@
             "displayName": "Release (Ninja + MSVC)",
             "description": "Package the application in release mode with Ninja + MSVC.",
             "inherits": ["base"],
-            "configurations": ["debug-ninja-msvc"],
+            "configurations": ["release-ninja-msvc"],
             "configurePreset": "release-ninja-msvc"
-        },
-        {
-            "name": "test",
-            "description": "",
-            "displayName": "Test",
-            "inherits": ["base"],
-            "configurePreset": "debug-ninja-clang"
         }
     ],
     "workflowPresets": [
         {
-            "name": "build-debug-ninja-clang",
+            "name": "debug-ninja-clang",
             "displayName": "Build (Debug - Ninja + Clang)",
             "description": "Build the application in debug mode with Ninja + Clang.",
             "steps": [
@@ -216,7 +209,7 @@
             ]
         },
         {
-            "name": "build-debug-ninja-msvc",
+            "name": "debug-ninja-msvc",
             "displayName": "Build (Debug - Ninja + MSVC)",
             "description": "Build the application in debug mode with Ninja + MSVC.",
             "steps": [
@@ -229,13 +222,13 @@
                     "type": "build"
                 },
                 {
-                    "name": "release-ninja-clang",
+                    "name": "debug-ninja-msvc",
                     "type": "package"
                 }
             ]
         },
         {
-            "name": "build-release-ninja-clang",
+            "name": "release-ninja-clang",
             "displayName": "Build (Release - Ninja + Clang)",
             "description": "Build the application in release mode with Ninja + Clang.",
             "steps": [
@@ -246,11 +239,15 @@
                 {
                     "name": "release-ninja-clang",
                     "type": "build"
+                },
+                {
+                    "name": "release-ninja-clang",
+                    "type": "package"
                 }
             ]
         },
         {
-            "name": "build-release-ninja-msvc",
+            "name": "release-ninja-msvc",
             "displayName": "Build (Release - Ninja + MSVC)",
             "description": "Build the application in release mode with Ninja + MSVC.",
             "steps": [
@@ -261,6 +258,10 @@
                 {
                     "name": "release-ninja-msvc",
                     "type": "build"
+                },
+                {
+                    "name": "release-ninja-msvc",
+                    "type": "package"
                 }
             ]
         }
