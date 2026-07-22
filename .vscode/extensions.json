@@ -4,8 +4,8 @@
         "github.remotehub",
         "github.vscode-pull-request-github",
         "github.vscode-github-actions",
-        "task.vscode-task",
-        "DanielGavin.ols",
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
         "vadimcn.vscode-lldb"
     ]
 }
