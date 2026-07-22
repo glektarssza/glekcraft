@@ -101,7 +101,7 @@ jobs:
       - id: prepare-cmake
         name: Prepare CMake
         run: |
-          echo "deb http://deb.debian.org/debian trixie-backports main" > /etc/apt/sources.list.d/cmake.list
+          echo "deb http://deb.debian.org/debian trixie-backports main" | sudo tee /etc/apt/sources.list.d/cmake.list
           sudo apt update && sudo apt install 'cmake=4.3.*'
       - id: run-cmake
         name: Run CMake
