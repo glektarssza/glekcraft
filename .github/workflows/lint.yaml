@@ -42,7 +42,7 @@ jobs:
       - id: prepare-llvm
         name: Prepare LLVM
         run: |
-          bash -c "$(curl -LSso - https://apt.llvm.org/llvm.sh)" -- 22 all
+          sudo bash -c "$(curl -LSso - https://apt.llvm.org/llvm.sh)" -- 22 all
       - id: prepare-python
         name: Prepare Python
         uses: actions/setup-python@v6
