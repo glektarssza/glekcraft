@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.4)
+cmake_minimum_required(VERSION 4.3)
 project(glekcraft
     VERSION 0.1.0
     DESCRIPTION "A simple Minecraft clone written from scratch in Odin using OpenGL."
