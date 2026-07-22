@@ -22,3 +22,15 @@ repos:
       - id: mixed-line-ending
         args: [--fix=crlf]
         types: [batch]
+  - repo: local
+    hooks:
+      - id: clang-format
+        name: clang-format
+        description: 'Run `clang-format` on C, C++, and header files.'
+        stages:
+          - pre-commit
+          - pre-push
+        types_or: [c, c++, header]
+        language: system
+        entry: clang-format --dry-run -Werror
+        pass_filenames: true
