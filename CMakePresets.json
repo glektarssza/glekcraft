@@ -1,0 +1,177 @@
+{
+    "version": 8,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 4
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "displayName": "Base",
+            "description": "Base configuration preset.",
+            "hidden": true,
+            "installDir": "${sourceDir}/dist/${presetName}",
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "clang",
+            "displayName": "Clang",
+            "description": "Compile with Clang.",
+            "hidden": true,
+            "inherits": ["base"],
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "msvc",
+            "displayName": "MSVC",
+            "description": "Compile with MSVC.",
+            "hidden": true,
+            "inherits": ["base"],
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl"
+            }
+        },
+        {
+            "name": "ninja",
+            "displayName": "Ninja",
+            "description": "Generate with the Ninja generator.",
+            "hidden": true,
+            "inherits": ["base"],
+            "generator": "Ninja"
+        },
+        {
+            "name": "ninja-clang",
+            "displayName": "Ninja + Clang",
+            "description": "Compile with Clang and use the Ninja generator.",
+            "inherits": ["ninja", "clang"]
+        },
+        {
+            "name": "ninja-msvc",
+            "displayName": "Ninja + MSVC",
+            "description": "Compile with MSVC and use the Ninja generator.",
+            "inherits": ["ninja", "msvc"]
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "base",
+            "displayName": "Base",
+            "description": "The base build preset.",
+            "hidden": true
+        },
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "description": "Build the application in debug mode.",
+            "hidden": true,
+            "inherits": ["base"],
+            "configuration": "Debug",
+            "cleanFirst": true,
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "description": "Build the application in release mode.",
+            "hidden": true,
+            "inherits": ["base"],
+            "configuration": "Release",
+            "cleanFirst": true,
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "debug-ninja-clang",
+            "displayName": "Debug (Ninja + Clang)",
+            "description": "Build the application in debug mode with Ninja + Clang.",
+            "inherits": ["debug"],
+            "configurePreset": "ninja-clang"
+        },
+        {
+            "name": "debug-ninja-msvc",
+            "displayName": "Debug (Ninja + MSVC)",
+            "description": "Build the application in debug mode with Ninja + MSVC.",
+            "inherits": ["debug"],
+            "configurePreset": "ninja-msvc"
+        },
+        {
+            "name": "release-ninja-clang",
+            "displayName": "Release (Ninja + Clang)",
+            "description": "Build the application in release mode with Ninja + Clang.",
+            "inherits": ["release"],
+            "configurePreset": "ninja-clang"
+        },
+        {
+            "name": "release-ninja-msvc",
+            "displayName": "Release (Ninja + MSVC)",
+            "description": "Build the application in release mode with Ninja + MSVC.",
+            "inherits": ["release"],
+            "configurePreset": "ninja-msvc"
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "build-debug-ninja-clang",
+            "displayName": "Build (Debug - Ninja + Clang)",
+            "description": "Build the application in debug mode with Ninja + Clang.",
+            "steps": [
+                {
+                    "name": "ninja-clang",
+                    "type": "configure"
+                },
+                {
+                    "name": "debug-ninja-clang",
+                    "type": "build"
+                }
+            ]
+        },
+        {
+            "name": "build-debug-ninja-msvc",
+            "displayName": "Build (Debug - Ninja + MSVC)",
+            "description": "Build the application in debug mode with Ninja + MSVC.",
+            "steps": [
+                {
+                    "name": "ninja-msvc",
+                    "type": "configure"
+                },
+                {
+                    "name": "debug-ninja-msvc",
+                    "type": "build"
+                }
+            ]
+        },
+        {
+            "name": "build-release-ninja-clang",
+            "displayName": "Build (Release - Ninja + Clang)",
+            "description": "Build the application in release mode with Ninja + Clang.",
+            "steps": [
+                {
+                    "name": "ninja-clang",
+                    "type": "configure"
+                },
+                {
+                    "name": "release-ninja-clang",
+                    "type": "build"
+                }
+            ]
+        },
+        {
+            "name": "build-release-ninja-msvc",
+            "displayName": "Build (Release - Ninja + MSVC)",
+            "description": "Build the application in release mode with Ninja + MSVC.",
+            "steps": [
+                {
+                    "name": "ninja-msvc",
+                    "type": "configure"
+                },
+                {
+                    "name": "release-ninja-msvc",
+                    "type": "build"
+                }
+            ]
+        }
+    ]
+}

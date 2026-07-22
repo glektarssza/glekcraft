@@ -43,3 +43,10 @@ ctags
 # Cache #
 ## CSpell ##
 .cspellcache
+
+## Compile Commands ##
+/compile_commands.json
+
+# Artifacts #
+## CMake ##
+build/
