@@ -50,6 +50,7 @@ ctags
 # Artifacts #
 ## CMake ##
 build/
+dist/
 
 # User Preferences #
 ## CMake ##
