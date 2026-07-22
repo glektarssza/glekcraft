@@ -101,8 +101,15 @@ jobs:
       - id: prepare-cmake
         name: Prepare CMake
         run: |
-          echo "deb http://deb.debian.org/debian trixie-backports main" | sudo tee /etc/apt/sources.list.d/cmake.list
-          sudo apt update && sudo apt install 'cmake=4.3.*'
+          curl -LSso ${{github.workspace}}/cmake-4.4.0-linux-x86_64.tar.gz https://github.com/Kitware/CMake/releases/download/v4.4.0/cmake-4.4.0-linux-x86_64.tar.gz
+          sudo mkdir -p /opt/cmake/
+          sudo tar --strip-components=1 --directory=/opt/cmake/ --auto-compress --extract --file=${{github.workspace}}/cmake-4.4.0-linux-x86_64.tar.gz
+          rm -rf ${{github.workspace}}/cmake-4.4.0-linux-x86_64.tar.gz
+          sudo update-alternatives --install /usr/bin/cmake cmake /opt/cmake/bin/cmake 1000
+          sudo update-alternatives --install /usr/bin/ctest ctest /opt/cmake/bin/ctest 1000
+          sudo update-alternatives --install /usr/bin/cpack cpack /opt/cmake/bin/cpack 1000
+          sudo update-alternatives --install /usr/bin/ccmake ccmake /opt/cmake/bin/ccmake 1000
+          sudo update-alternatives --install /usr/bin/cmake-gui cmake-gui /opt/cmake/bin/cmake-gui 1000
       - id: run-cmake
         name: Run CMake
         run: |
