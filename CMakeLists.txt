@@ -8,3 +8,5 @@ project(glekcraft
 set(GLEKCRAFT_SOURCES "src/main.cpp")
 
 add_executable(glekcraft ${GLEKCRAFT_SOURCES})
+install(TARGETS glekcraft RUNTIME)
+include(CPack)

@@ -10,7 +10,6 @@
             "displayName": "Base",
             "description": "Base configuration preset.",
             "hidden": true,
-            "installDir": "${sourceDir}/dist/${presetName}",
             "binaryDir": "${sourceDir}/build/${presetName}"
         },
         {
@@ -144,6 +143,58 @@
             "configurePreset": "release-ninja-msvc"
         }
     ],
+    "packagePresets": [
+        {
+            "name": "base",
+            "displayName": "Base",
+            "description": "The base packaging preset.",
+            "hidden": true,
+            "generators": ["TGZ", "ZIP"],
+            "packageDirectory": "dist",
+            "packageName": "Glekcraft",
+            "packageVersion": "0.1.0",
+            "vendorName": "G'lek Tarssza"
+        },
+        {
+            "name": "debug-ninja-clang",
+            "displayName": "Debug (Ninja + Clang)",
+            "description": "Package the application in debug mode with Ninja + Clang.",
+            "inherits": ["base"],
+            "configurations": ["debug-ninja-clang"],
+            "configurePreset": "debug-ninja-clang"
+        },
+        {
+            "name": "debug-ninja-msvc",
+            "displayName": "Debug (Ninja + MSVC)",
+            "description": "Package the application in debug mode with Ninja + MSVC.",
+            "inherits": ["base"],
+            "configurations": ["debug-ninja-msvc"],
+            "configurePreset": "debug-ninja-msvc"
+        },
+        {
+            "name": "release-ninja-clang",
+            "displayName": "Release (Ninja + Clang)",
+            "description": "Package the application in release mode with Ninja + Clang.",
+            "inherits": ["base"],
+            "configurations": ["debug-ninja-clang"],
+            "configurePreset": "release-ninja-clang"
+        },
+        {
+            "name": "release-ninja-msvc",
+            "displayName": "Release (Ninja + MSVC)",
+            "description": "Package the application in release mode with Ninja + MSVC.",
+            "inherits": ["base"],
+            "configurations": ["debug-ninja-msvc"],
+            "configurePreset": "release-ninja-msvc"
+        },
+        {
+            "name": "test",
+            "description": "",
+            "displayName": "Test",
+            "inherits": ["base"],
+            "configurePreset": "debug-ninja-clang"
+        }
+    ],
     "workflowPresets": [
         {
             "name": "build-debug-ninja-clang",
@@ -157,6 +208,10 @@
                 {
                     "name": "debug-ninja-clang",
                     "type": "build"
+                },
+                {
+                    "name": "debug-ninja-clang",
+                    "type": "package"
                 }
             ]
         },
@@ -172,6 +227,10 @@
                 {
                     "name": "debug-ninja-msvc",
                     "type": "build"
+                },
+                {
+                    "name": "release-ninja-clang",
+                    "type": "package"
                 }
             ]
         },
