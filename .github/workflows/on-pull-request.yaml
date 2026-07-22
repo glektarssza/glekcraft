@@ -27,3 +27,22 @@ jobs:
     uses: ./.github/workflows/spell-check.yaml
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
+  build:
+    name: Build
+    permissions:
+      # -- Needed to clone the repository
+      contents: read
+    strategy:
+      fail-fast: true
+      matrix:
+        build-os:
+          - linux
+        build-config:
+          - release
+          - debug
+    uses: ./.github/workflows/build.yaml
+    with:
+      build-config: ${{matrix.build-config}}
+      build-os: ${{matrix.build-os}}
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}

@@ -37,6 +37,7 @@ jobs:
         name: Clone the repository
         uses: actions/checkout@v7
         with:
+          ref: ${{inputs.git-ref}}
           lfs: true
           token: ${{env.GITHUB_TOKEN}}
       - id: prepare-llvm

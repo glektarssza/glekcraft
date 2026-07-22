@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+name: Manual Build
+on:
+  workflow_dispatch:
+    inputs:
+      build-config:
+        description: |
+          The configuration to build for.
+
+          Valid options are:
+          * 'debug'
+          * 'release'
+        type: choice
+        required: true
+        options:
+          - debug
+          - release
+      build-os:
+        description: |
+          The operating system to build for.
+
+          Valid options are:
+          * 'windows'
+          * 'linux'
+          * 'osx'
+        type: choice
+        required: true
+        options:
+          - windows
+          - linux
+          - osx
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+jobs:
+  build:
+    name: Build
+    permissions:
+      # -- Needed to clone the repository
+      contents: read
+    uses: ./.github/workflows/build.yaml
+    with:
+      build-config: ${{inputs.build-config}}
+      build-os: ${{inputs.build-os}}
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}

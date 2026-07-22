@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
-name: Lint
+name: Build
 on:
   workflow_call:
     inputs:
@@ -23,6 +23,17 @@ on:
           * 'debug'
           * 'release'
         type: string
+        required: true
+      build-os:
+        description: |
+          The operating system to build for.
+
+          Valid options are:
+          * 'windows'
+          * 'linux'
+          * 'osx'
+        type: string
+        required: true
     secrets:
       github-token:
         description: |
@@ -34,9 +45,34 @@ on:
 env:
   GITHUB_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
+  map-build-config:
+    name: Map Build Config
+    permissions:
+      # -- To clone repository
+      contents: read
+    uses: ./.github/workflows/map-build-config.yaml
+    with:
+      git-ref: ${{inputs.git-ref}}
+      build-config: ${{inputs.build-config}}
+    secrets:
+      github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+  map-build-os:
+    name: Map Build OS
+    permissions:
+      # -- To clone repository
+      contents: read
+    uses: ./.github/workflows/map-os.yaml
+    with:
+      git-ref: ${{inputs.git-ref}}
+      os: ${{inputs.build-os}}
+    secrets:
+      github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+  build:
+    name: Build
+    needs:
+      - map-build-config
+      - map-build-os
+    runs-on: ${{needs.map-build-os.outputs.mapped-os}}
     permissions:
       # -- Needed to clone the repository
       contents: read
@@ -45,6 +81,7 @@ jobs:
         name: Clone the repository
         uses: actions/checkout@v7
         with:
+          ref: ${{inputs.git-ref}}
           lfs: true
           token: ${{env.GITHUB_TOKEN}}
       - id: prepare-llvm
@@ -61,22 +98,14 @@ jobs:
           sudo update-alternatives --install /usr/bin/lld-link lld-link /usr/lib/llvm-22/bin/lld-link 1000
           sudo update-alternatives --install /usr/bin/lldb lldb /usr/lib/llvm-22/bin/lldb 1000
           sudo update-alternatives --install /usr/bin/lldb-server lldb-server /usr/lib/llvm-22/bin/lldb-server 1000
-      - id: map-build-config
-        name: Map Build Config
-        env:
-          BUILD_CONFIG: ${{inputs.build-config}}
-        run: |
-          echo "mapped-build-config=$(echo "${BUILD_CONFIG}" | tr '[:upper:]' '[:lower:]')" >> "${GITHUB_OUTPUT}"
       - id: run-cmake
         name: Run CMake
-        env:
-          BUILD_CONFIG: ${{steps.map-build-config.outputs.mapped-build-config}}
         run: |
-          cmake -S ${{github.workflow_sha}} --workflow --preset ${BUILD_CONFIG}-ninja-clang
+          cmake -S ${{github.workflow_sha}} --workflow --preset ${{needs.map-build-config.outputs.mapped-build-config}}-ninja-clang
       - id: upload-artifacts
         name: Upload Artifacts
         uses: actions/upload-artifact@v7
         with:
-          path: build/${{steps.map-build-config.outputs.mapped-build-config}}-ninja-clang/dist/glekcraft-*.zip
+          path: build/${{needs.map-build-config.outputs.mapped-build-config}}-ninja-clang/dist/glekcraft-*.zip
           archive: false
           if-no-files-found: error
