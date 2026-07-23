@@ -36,6 +36,7 @@ jobs:
         build-os:
           - linux
           - windows
+          - osx
         build-config:
           - release
           - debug
