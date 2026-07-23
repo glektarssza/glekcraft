@@ -108,8 +108,7 @@ jobs:
       - id: run-cmake
         name: Run CMake
         run: |
-          echo "::debug::Using \"$(command -v cmake)\" for \"cmake\" binary"
-          /opt/cmake/bin/cmake -S ${{github.workspace}} --workflow ${{needs.map-build-config.outputs.mapped-build-config}}-ninja-clang
+          /opt/cmake/bin/cmake --workflow --preset ${{needs.map-build-config.outputs.mapped-build-config}}-ninja-clang
       - id: upload-artifacts
         name: Upload Artifacts
         uses: actions/upload-artifact@v7
