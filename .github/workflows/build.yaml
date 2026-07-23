@@ -126,7 +126,7 @@ jobs:
         run: |
           curl -LSso ${{github.workspace}}/cmake-4.4.0-macos10.10-universal.tar.gz https://github.com/Kitware/CMake/releases/download/v4.4.0/cmake-4.4.0-macos10.10-universal.tar.gz
           mkdir -p ${{github.workspace}}/.temp/tools/cmake/
-          tar --strip-components=1 --directory=${{github.workspace}}/.temp/tools/cmake/ --auto-compress --extract --file=${{github.workspace}}/cmake-4.4.0-macos10.10-universal.tar.gz
+          tar --strip-components=3 --directory=${{github.workspace}}/.temp/tools/cmake/ --auto-compress --extract --file=${{github.workspace}}/cmake-4.4.0-macos10.10-universal.tar.gz
           rm -f ${{github.workspace}}/cmake-4.4.0-macos10.10-universal.tar.gz
       - id: prepare-cmake-windows
         name: Prepare CMake (Windows)
