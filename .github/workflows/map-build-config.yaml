@@ -1,0 +1,79 @@
+name: Map Build Config
+on:
+  workflow_call:
+    inputs:
+      git-ref:
+        description: |
+          The Git reference to run the workflow on.
+
+          Must be a valid commit-ish (a branch, tag, commit, etc.).
+
+          Defaults to the reference that triggered the workflow for push and
+          pull request events ("github.ref") and the head SHA ("github.sha") for
+          all other events.
+        type: string
+        required: false
+        default: ${{github.ref || github.sha || github.event.repository.default_branch}}
+      build-config:
+        description: |
+          The configuration to build for.
+
+          Valid options are:
+          * 'debug'
+          * 'release'
+        type: string
+        required: true
+    outputs:
+      mapped-build-config:
+        description: |
+          The build config the input build config was mapped to.
+        value: ${{jobs.map-build-config.outputs.mapped-build-config}}
+    secrets:
+      github-token:
+        description: |
+          The token to use for authentication when making calls to the GitHub
+          APIs.
+
+          Defaults to the value in "secrets.GITHUB_TOKEN" if not provided.
+        required: false
+env:
+  GITHUB_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+jobs:
+  map-build-config:
+    name: Map Build Config
+    runs-on: ubuntu-latest
+    permissions:
+      # -- Needed to clone the repository
+      contents: read
+    outputs:
+      mapped-build-config: ${{steps.map-build-config.outputs.mapped-build-config}}
+    steps:
+      - id: clone-repository
+        name: Clone the repository
+        uses: actions/checkout@v7
+        with:
+          ref: ${{inputs.git-ref}}
+          lfs: true
+          token: ${{env.GITHUB_TOKEN}}
+      - id: map-build-config
+        name: Map Build Config
+        shell: bash
+        run: |
+          # Don't immediately exit on an error, let us control it
+          set +e
+          # Run the mapping code
+          case "${{inputs.build-config}}" in
+            Debug|debug)
+              MAPPED_BUILD_CONFIG="debug"
+              break
+            ;;
+            Release|release)
+              MAPPED_BUILD_CONFIG="release"
+            ;;
+          esac
+          if [[ -z "${MAPPED_BUILD_CONFIG}" ]]; then
+            echo "::error file=.github/workflows/map-build-os.yaml,line=75,endLine=76,title=Unknown build config::Cannot map build config \"${{inputs.build-config}}\" (not a known/supported build config)."
+            exit 1
+          fi
+          echo "mapped-build-config=${MAPPED_BUILD_CONFIG}" >> "${GITHUB_OUTPUT}"
+          exit 0

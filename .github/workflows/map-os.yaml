@@ -1,0 +1,82 @@
+name: Map OS
+on:
+  workflow_call:
+    inputs:
+      git-ref:
+        description: |
+          The Git reference to run the workflow on.
+
+          Must be a valid commit-ish (a branch, tag, commit, etc.).
+
+          Defaults to the reference that triggered the workflow for push and
+          pull request events ("github.ref") and the head SHA ("github.sha") for
+          all other events.
+        type: string
+        required: false
+        default: ${{github.ref || github.sha || github.event.repository.default_branch}}
+      os:
+        description: |
+          The operating system to run on.
+
+          Valid options are:
+          * 'windows'
+          * 'linux'
+          * 'osx'
+        type: string
+        required: true
+    outputs:
+      mapped-os:
+        description: |
+          The operating system the input operating system was mapped to.
+        value: ${{jobs.map-os.outputs.mapped-os}}
+    secrets:
+      github-token:
+        description: |
+          The token to use for authentication when making calls to the GitHub
+          APIs.
+
+          Defaults to the value in "secrets.GITHUB_TOKEN" if not provided.
+        required: false
+env:
+  GITHUB_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+jobs:
+  map-os:
+    name: Map OS
+    runs-on: ubuntu-latest
+    permissions:
+      # -- Needed to clone the repository
+      contents: read
+    outputs:
+      mapped-os: ${{steps.map-os.outputs.mapped-os}}
+    steps:
+      - id: clone-repository
+        name: Clone the repository
+        uses: actions/checkout@v7
+        with:
+          lfs: true
+          token: ${{env.GITHUB_TOKEN}}
+      - id: map-os
+        name: Map Operating System
+        shell: bash
+        run: |
+          # Don't immediately exit on an error, let us control it
+          set +e
+          # Run the mapping code
+          case "${{inputs.os}}" in
+            windows|win|win32)
+              MAPPED_OS="windows-latest"
+              break
+            ;;
+            linux|ubuntu|debian)
+              MAPPED_OS="ubuntu-latest"
+            ;;
+            osx|macos|darwin)
+              MAPPED_OS="macos-latest"
+            ;;
+          esac
+          if [[ -z "${MAPPED_OS}" ]]; then
+            echo "::error file=.github/workflows/map-build-os.yaml,line=73,endLine=74,title=Unknown operating system::Cannot map operating system \"${{inputs.os}}\" (not a known/supported operating system)."
+            exit 1
+          fi
+          echo "mapped-os=${MAPPED_OS}" >> "${GITHUB_OUTPUT}"
+          exit 0
