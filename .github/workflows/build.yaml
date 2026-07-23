@@ -92,7 +92,7 @@ jobs:
           curl -LSso LLVM-22.1.0-Linux-X64.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0/LLVM-22.1.0-Linux-X64.tar.xz
           mkdir -p ${{github.workspace}}/.temp/tools/llvm/
           tar --strip-components=1 --directory=${{github.workspace}}/.temp/tools/llvm/ --auto-compress --extract --file=${{github.workspace}}/LLVM-22.1.0-Linux-X64.tar.xz
-          rm -rf ${{github.workspace}}/LLVM-22.1.0-Linux-X64.tar.xz
+          rm -f ${{github.workspace}}/LLVM-22.1.0-Linux-X64.tar.xz
       - id: prepare-llvm-osx
         name: Prepare LLVM (macOS)
         if: inputs.build-os == 'osx'
@@ -101,16 +101,15 @@ jobs:
           curl -LSso LLVM-22.1.0-macOS-ARM64.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0/LLVM-22.1.0-macOS-ARM64.tar.xz
           mkdir -p ${{github.workspace}}/.temp/tools/llvm/
           tar --strip-components=1 --directory=${{github.workspace}}/.temp/tools/llvm/ --auto-compress --extract --file=${{github.workspace}}/LLVM-22.1.0-macOS-ARM64.tar.xz
-          rm -rf ${{github.workspace}}/LLVM-22.1.0-macOS-ARM64.tar.xz
+          rm -f ${{github.workspace}}/LLVM-22.1.0-macOS-ARM64.tar.xz
       - id: prepare-llvm-windows
         name: Prepare LLVM (Windows)
         if: inputs.build-os == 'windows'
-        shell: bash
         run: |
-          curl -LSso clang+llvm-22.1.0-x86_64-pc-windows-msvc.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0/clang+llvm-22.1.0-x86_64-pc-windows-msvc.tar.xz
-          mkdir -p ${{github.workspace}}/.temp/tools/llvm/
-          tar --strip-components=1 --directory=${{github.workspace}}/.temp/tools/llvm/ --auto-compress --extract --file=${{github.workspace}}/clang+llvm-22.1.0-x86_64-pc-windows-msvc.tar.xz
-          rm -rf ${{github.workspace}}/clang+llvm-22.1.0-x86_64-pc-windows-msvc.tar.xz
+          Invoke-WebRequest -OutFile "${{github.workspace}}/clang+llvm-22.1.0-x86_64-pc-windows-msvc.tar.xz" -Uri https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.0/clang+llvm-22.1.0-x86_64-pc-windows-msvc.tar.xz
+          New-Item -Type Directory -Path "${{github.workspace}}/.temp/tools/llvm/"
+          C:/Windows/System32/tar.exe --strip-components=1 --directory="${{github.workspace}}/.temp/tools/llvm/" --auto-compress --extract --file="${{github.workspace}}/clang+llvm-22.1.0-x86_64-pc-windows-msvc.tar.xz"
+          Remove-Item -Force -Path "${{github.workspace}}/clang+llvm-22.1.0-x86_64-pc-windows-msvc.tar.xz"
       - id: prepare-cmake-linux
         name: Prepare CMake (Linux)
         if: inputs.build-os == 'linux'
@@ -119,7 +118,7 @@ jobs:
           curl -LSso ${{github.workspace}}/cmake-4.4.0-linux-x86_64.tar.gz https://github.com/Kitware/CMake/releases/download/v4.4.0/cmake-4.4.0-linux-x86_64.tar.gz
           mkdir -p ${{github.workspace}}/.temp/tools/cmake/
           tar --strip-components=1 --directory=${{github.workspace}}/.temp/tools/cmake/ --auto-compress --extract --file=${{github.workspace}}/cmake-4.4.0-linux-x86_64.tar.gz
-          rm -rf ${{github.workspace}}/cmake-4.4.0-linux-x86_64.tar.gz
+          rm -f ${{github.workspace}}/cmake-4.4.0-linux-x86_64.tar.gz
       - id: prepare-cmake-osx
         name: Prepare CMake (macOS)
         if: inputs.build-os == 'osx'
@@ -128,16 +127,15 @@ jobs:
           curl -LSso ${{github.workspace}}/cmake-4.4.0-macos10.10-universal.tar.gz https://github.com/Kitware/CMake/releases/download/v4.4.0/cmake-4.4.0-macos10.10-universal.tar.gz
           mkdir -p ${{github.workspace}}/.temp/tools/cmake/
           tar --strip-components=1 --directory=${{github.workspace}}/.temp/tools/cmake/ --auto-compress --extract --file=${{github.workspace}}/cmake-4.4.0-macos10.10-universal.tar.gz
-          rm -rf ${{github.workspace}}/cmake-4.4.0-macos10.10-universal.tar.gz
+          rm -f ${{github.workspace}}/cmake-4.4.0-macos10.10-universal.tar.gz
       - id: prepare-cmake-windows
         name: Prepare CMake (Windows)
         if: inputs.build-os == 'windows'
-        shell: bash
         run: |
-          curl -LSso ${{github.workspace}}/cmake-4.4.0-windows-x86_64.zip https://github.com/Kitware/CMake/releases/download/v4.4.0/cmake-4.4.0-windows-x86_64.zip
-          mkdir -p ${{github.workspace}}/.temp/tools/cmake/
-          tar --strip-components=1 --directory=${{github.workspace}}/.temp/tools/cmake/ --auto-compress --extract --file=${{github.workspace}}/cmake-4.4.0-windows-x86_64.zip
-          rm -rf ${{github.workspace}}/cmake-4.4.0-windows-x86_64.zip
+          Invoke-WebRequest -OutFile "${{github.workspace}}/cmake-4.4.0-windows-x86_64.zip" -Uri https://github.com/Kitware/CMake/releases/download/v4.4.0/cmake-4.4.0-windows-x86_64.zip
+          New-Item -Type Directory -Path "${{github.workspace}}/.temp/tools/cmake/"
+          C:/Windows/System32/tar.exe --strip-components=1 --directory="${{github.workspace}}/.temp/tools/cmake/" --auto-compress --extract --file="${{github.workspace}}/cmake-4.4.0-windows-x86_64.zip"
+          Remove-Item -Force -Path "${{github.workspace}}/cmake-4.4.0-windows-x86_64.zip"
       - id: run-cmake
         name: Run CMake
         env:
